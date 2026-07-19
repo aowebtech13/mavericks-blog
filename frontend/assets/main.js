@@ -2001,7 +2001,7 @@ const footerTextShuffle = {
       element.style.whiteSpace = "nowrap";
       const spanElement = element.querySelector("span");
       const textNode = spanElement || element;
-      const originalText = ((_a = textNode.textContent) == null ? void 0 : _a.trim()) || "Nexsas";
+      const originalText = ((_a = textNode.textContent) == null ? void 0 : _a.trim()) || "MAVERICKS";
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       const duration = 2e3;
       let startTime = null;
