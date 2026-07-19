@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => 'primusmediacity@gmail.com'],
+            ['email' => 'admin@mavericksai.tech'],
             [
-                'name' => 'Primus Media Admin',
-                'password' => bcrypt('passwordPrimusmedia@1'),
+                'name' => 'Mavericks Ai Admin',
+                'password' => bcrypt('passwAdREmin1'),
                 'is_admin' => true,
             ]
         );

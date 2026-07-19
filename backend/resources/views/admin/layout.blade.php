@@ -32,13 +32,23 @@
             }
         }
     </script>
-    <script src="https://cdn.tiny.cloud/1/bh0wgiwrkcykey62n4m5ht0d2oar14ej40mvb0ff3zyyfr4f/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <script>
-        tinymce.init({
-            selector: 'textarea.rich-text',
-            plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount',
-            toolbar: 'undo redo | blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-            height: 400
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('textarea.rich-text').forEach(function (el) {
+                ClassicEditor
+                    .create(el, {
+                        toolbar: [
+                            'heading', '|',
+                            'bold', 'italic', 'link', 'bulletedList', 'numberedList',
+                            'blockQuote', 'insertTable', 'imageUpload', 'mediaEmbed',
+                            'undo', 'redo'
+                        ]
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
+            });
         });
     </script>
     @stack('scripts')
@@ -47,7 +57,7 @@
     <div class="flex h-screen">
         <aside class="w-64 bg-gradient-to-b from-slate-800 via-slate-900 to-slate-950 shadow-2xl overflow-y-auto">
             <div class="p-6 border-b border-slate-700">
-                <h1 class="text-2xl font-bold text-white">Primus Media</h1>
+                <h1 class="text-2xl font-bold text-white">Mavericks Ai</h1>
                 <p class="text-slate-400 text-sm mt-1">Admin Area </p>
             </div>
 

@@ -1,7 +1,8 @@
 // Blog Dynamic Content Loader
 // Uses axios to fetch data from the Laravel backend API
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = window.APP_CONFIG?.API_BASE_URL || 'http://localhost:8000/api';
+const POSTS_PER_PAGE = window.APP_CONFIG?.POSTS_PER_PAGE || 6;
 
 // Utility: Format date
 function formatDate(dateString) {
@@ -50,7 +51,7 @@ async function loadBlogIndex() {
   try {
     // Fetch posts, categories, and tags in parallel
     const [postsRes, categoriesRes, tagsRes] = await Promise.all([
-      axios.get(`${API_BASE_URL}/posts?per_page=6&all=true`),
+      axios.get(`${API_BASE_URL}/posts?per_page=${POSTS_PER_PAGE}&all=true`),
       axios.get(`${API_BASE_URL}/categories`),
       axios.get(`${API_BASE_URL}/tags/popular`)
     ]);
@@ -76,13 +77,22 @@ async function loadBlogIndex() {
     
   } catch (error) {
     console.error('Error loading blog index:', error);
+    const grid = document.getElementById('blog-posts-grid');
+    if (grid) {
+      grid.innerHTML = '<p class="text-tagline-2 col-span-12 text-center text-white/60">Unable to load articles. Please try again later.</p>';
+    }
   }
 }
 
 function renderBlogPosts(posts) {
   // Find the blog posts grid container
-  const container = document.querySelector('div.w-full.flex-auto > div:first-child > div:last-child > div');
-  if (!container || !posts.length) return;
+  const container = document.getElementById('blog-posts-grid');
+  if (!container) return;
+
+  if (!posts.length) {
+    container.innerHTML = '<p class="text-tagline-2 col-span-12 text-center text-white/60">No articles found.</p>';
+    return;
+  }
   
   container.innerHTML = posts.map((post, index) => {
     const delay = index % 2 === 0 ? '0.1' : '0.2';
@@ -271,7 +281,7 @@ async function loadBlogDetails() {
       axios.get(`${API_BASE_URL}/posts/${slug}`),
       axios.get(`${API_BASE_URL}/categories`),
       axios.get(`${API_BASE_URL}/tags/popular`),
-      axios.get(`${API_BASE_URL}/posts?per_page=3&all=true`)
+      axios.get(`${API_BASE_URL}/posts?per_page=${POSTS_PER_PAGE}&all=true`)
     ]);
     
     const post = postRes.data.data || postRes.data;

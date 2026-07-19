@@ -40,6 +40,18 @@ class BlogSeeder extends Seeder
 
         $users = User::factory()->count(3)->create();
 
+        // Pool of featured images (distinct, real images) for seeded posts
+        $featuredImages = [
+            'https://picsum.photos/seed/mavericks-1/800/600',
+            'https://picsum.photos/seed/mavericks-2/800/600',
+            'https://picsum.photos/seed/mavericks-3/800/600',
+            'https://picsum.photos/seed/mavericks-4/800/600',
+            'https://picsum.photos/seed/mavericks-5/800/600',
+            'https://picsum.photos/seed/mavericks-6/800/600',
+            'https://picsum.photos/seed/mavericks-7/800/600',
+            'https://picsum.photos/seed/mavericks-8/800/600',
+        ];
+
         foreach (range(1, 20) as $i) {
             $post = Post::updateOrCreate(
                 ['slug' => "blog-post-{$i}"],
@@ -49,6 +61,7 @@ class BlogSeeder extends Seeder
                     'title' => "Blog Post {$i}",
                     'excerpt' => "This is a brief excerpt for blog post {$i}",
                     'content' => "This is the full content for blog post {$i}. " . str_repeat("Lorem ipsum dolor sit amet. ", 10),
+                    'featured_image' => $featuredImages[($i - 1) % count($featuredImages)],
                     'status' => $i % 3 === 0 ? 'published' : 'draft',
                     'visibility' => 'public',
                     'published_at' => $i % 3 === 0 ? now()->subDays(rand(1, 30)) : null,
