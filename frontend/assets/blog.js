@@ -42,12 +42,11 @@ function truncateText(text, maxLength) {
 // ============================================
 
 async function loadBlogIndex() {
-  const isIndexPage = window.location.pathname.endsWith('index.html') || 
-                      window.location.pathname.endsWith('/') ||
-                      window.location.pathname === '';
-  
-  if (!isIndexPage) return;
-  
+  // Run whenever the blog posts grid exists on the page, regardless of how the
+  // URL is formatted (trailing slash, no extension, MAMP subfolder, etc.)
+  const grid = document.getElementById('blog-posts-grid');
+  if (!grid) return;
+
   try {
     // Fetch posts, categories, and tags in parallel
     const [postsRes, categoriesRes, tagsRes] = await Promise.all([
@@ -55,34 +54,48 @@ async function loadBlogIndex() {
       axios.get(`${API_BASE_URL}/categories`),
       axios.get(`${API_BASE_URL}/tags/popular`)
     ]);
-    
+
     const posts = postsRes.data.data || postsRes.data;
     const categories = categoriesRes.data.data || categoriesRes.data;
     const tags = tagsRes.data.data || tagsRes.data;
-    
+
     // Render blog posts grid
     renderBlogPosts(posts);
-    
+
     // Render categories sidebar
     renderCategories(categories);
-    
+
     // Render trending tags
     renderTrendingTags(tags);
-    
+
     // Render recent articles
     renderRecentArticles(posts);
-    
+
     // Render past records (archive dates)
     renderPastRecords(posts);
-    
+
   } catch (error) {
+    // Surface the real axios/network issue in both console and UI
     console.error('Error loading blog index:', error);
-    const grid = document.getElementById('blog-posts-grid');
-    if (grid) {
-      grid.innerHTML = '<p class="text-tagline-2 col-span-12 text-center text-white/60">Unable to load articles. Please try again later.</p>';
-    }
+
+    const status = error?.response?.status;
+    const serverMessage = error?.response?.data?.message || error?.response?.data?.error;
+    const axiosMessage = error?.message;
+
+    const debugText = [
+      status ? `HTTP ${status}` : null,
+      serverMessage ? `Server: ${serverMessage}` : null,
+      axiosMessage ? `Client: ${axiosMessage}` : null
+    ].filter(Boolean).join(' • ');
+
+    grid.innerHTML = `
+      <p class="text-tagline-2 col-span-12 text-center text-white/60">
+        Unable to load articles.\n${debugText ? `<br><span class="text-white/50">${debugText}</span>` : ''}
+      </p>
+    `;
   }
 }
+
 
 function renderBlogPosts(posts) {
   // Find the blog posts grid container
@@ -193,7 +206,7 @@ function renderRecentArticles(posts) {
   const recentPosts = posts.slice(0, 3);
   
   recentContainer.innerHTML = recentPosts.map(post => {
-    const imageUrl = post.featured_image || './images/opai-img-489.jpg';
+    const imageUrl = post.featured_image || './images/opai-img-95.png';
     const date = formatDate(post.published_at);
     
     return `

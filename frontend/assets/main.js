@@ -1165,21 +1165,56 @@ const button = {
     });
   }
 };
+const waitForFontsAndThen = (fn, { timeoutMs = 2000 } = {}) => {
+  const safeFn = () => {
+    try {
+      fn();
+    } catch (e) {
+      console.error("SplitText init after fonts failed:", e);
+    }
+  };
+
+  // If Font Loading API is available, prefer it.
+  if (document.fonts && typeof document.fonts.ready === "object" && typeof document.fonts.ready.then === "function") {
+    Promise.race([
+      document.fonts.ready,
+      new Promise((resolve) => setTimeout(resolve, timeoutMs))
+    ]).then(safeFn);
+    return;
+  }
+
+  // Fallback: give the browser a moment to swap in webfonts.
+  setTimeout(safeFn, 300);
+};
+
 document.addEventListener("DOMContentLoaded", () => {
-  button.init();
+  waitForFontsAndThen(() => {
+    button.init();
+  });
 });
 function dividerExpand(divider) {
-  gsap.to(divider, {
-    scrollTrigger: {
-      trigger: divider,
-      start: "top 100%",
-      end: "top 50%",
-      toggleActions: "play none none none"
-    },
-    width: "50%",
-    duration: 1,
-    delay: 0.7,
-    ease: "power2.out"
+  // GSAP throws: "GSAP target [object NodeList] not found" when a NodeList is passed as the target.
+  // Some callers provide querySelectorAll() results, so normalize defensively.
+  const targets = (divider && typeof divider !== "string" && !Array.isArray(divider) && divider instanceof NodeList)
+    ? gsap.utils.toArray(divider)
+    : (divider && divider.length && typeof divider !== "string" && !(divider instanceof Element))
+      ? gsap.utils.toArray(divider)
+      : [divider];
+
+  targets.forEach((target) => {
+    if (!target) return;
+    gsap.to(target, {
+      scrollTrigger: {
+        trigger: target,
+        start: "top 100%",
+        end: "top 50%",
+        toggleActions: "play none none none"
+      },
+      width: "50%",
+      duration: 1,
+      delay: 0.7,
+      ease: "power2.out"
+    });
   });
 }
 const commonAnimation = {
@@ -2699,7 +2734,9 @@ const splitTextReveal = {
   }
 };
 document.addEventListener("DOMContentLoaded", () => {
-  splitTextReveal.init();
+  waitForFontsAndThen(() => {
+    splitTextReveal.init();
+  });
 });
 const tabSlider = {
   // Default configuration
