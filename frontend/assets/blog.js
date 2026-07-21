@@ -17,9 +17,10 @@ function formatDate(dateString) {
 
 // Utility: Get post slug from URL
 function getPostSlug() {
-  const path = window.location.pathname;
-  const match = path.match(/blog-details\.html\?slug=([^&]+)/);
-  if (match) return match[1];
+  // Use URLSearchParams to extract query string parameters
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('slug');
+  if (slug) return slug;
   
   // Also check hash-based routing
   const hash = window.location.hash;
@@ -109,7 +110,7 @@ function renderBlogPosts(posts) {
   
   container.innerHTML = posts.map((post, index) => {
     const delay = index % 2 === 0 ? '0.1' : '0.2';
-    const imageUrl = post.featured_image || './images/opai-img-492.jpg';
+    const imageUrl = post.featured_image || 'https://res.cloudinary.com/djme9spdc/image/upload/v1783650331/pexels-pavel-danilyuk-8112173_ykescn.jpg';
     const date = formatDate(post.published_at);
     const categoryName = post.category?.name || 'Blog';
     const tagName = post.tags?.[0]?.name || 'Blog';
@@ -128,21 +129,21 @@ function renderBlogPosts(posts) {
           />
         </figure>
         <div class="pt-4 pl-3">
-          <p class="text-tagline-4 font-normal text-white/80">${date}</p>
+          <p class="text-tagline-4 font-normal text-white/60">${date}</p>
           <div class="mt-4 mb-2 flex items-center gap-x-2">
             <span
-              class="text-tagline-3 inline-flex items-center rounded-full bg-white/5 px-3 py-1 text-white/50"
+              class="text-tagline-3 inline-flex items-center rounded-full bg-white/5 px-3 py-1 text-white/60"
             >
               ${categoryName}
             </span>
             <span
-              class="text-tagline-3 inline-flex items-center rounded-full bg-white/5 px-3 py-1 text-white/50"
+              class="text-tagline-3 inline-flex items-center rounded-full bg-white/5 px-3 py-1 text-white/60"
             >
               ${tagName}
             </span>
           </div>
           <a href="./blog-details.html?slug=${post.slug}" class="blog-title block">
-            <h3 class="text-sora-heading-6 block font-normal text-white/90">
+            <h3 class="text-sora-heading-6 block font-normal text-white/60">
               ${post.title}
             </h3>
           </a>
@@ -153,16 +154,15 @@ function renderBlogPosts(posts) {
 }
 
 function renderCategories(categories) {
-  // Find the categories list in the sidebar (2nd space-y-[70px] div)
-  const aside = document.querySelector('div.w-full.flex-auto > div:first-child > aside');
+  // Find the categories list in the aside sidebar (exclude mobile menu sidebar)
+  const aside = document.querySelector('aside:not(.sidebar)');
   if (!aside) return;
   
   const categoryLists = aside.querySelectorAll('ul');
-  if (!categoryLists.length) return;
+  if (!categoryLists.length || !categories.length) return;
   
-  // The categories list is typically the first ul after a "Categories" heading
+  // The first ul in the aside is the categories list
   const categoryList = categoryLists[0];
-  if (!categoryList || !categories.length) return;
   
   categoryList.innerHTML = categories.map(cat => `
     <li>
@@ -178,8 +178,8 @@ function renderCategories(categories) {
 }
 
 function renderTrendingTags(tags) {
-  // Find the trending tags container in the sidebar
-  const aside = document.querySelector('div.w-full.flex-auto > div:first-child > aside');
+  // Find the trending tags container in the sidebar (exclude mobile menu sidebar)
+  const aside = document.querySelector('aside:not(.sidebar)');
   if (!aside) return;
   
   // Look for the flex-wrap container (trending tags)
@@ -195,8 +195,8 @@ function renderTrendingTags(tags) {
 }
 
 function renderRecentArticles(posts) {
-  // Find the recent articles container in the sidebar
-  const aside = document.querySelector('div.w-full.flex-auto > div:first-child > aside');
+  // Find the recent articles container in the sidebar (exclude mobile menu sidebar)
+  const aside = document.querySelector('aside:not(.sidebar)');
   if (!aside) return;
   
   // Look for the space-y-4 container (recent articles)
@@ -223,10 +223,10 @@ function renderRecentArticles(posts) {
             />
           </figure>
           <div class="space-y-1">
-            <p class="text-tagline-3 font-normal text-white/80">
+            <p class="text-tagline-3 font-normal text-white/60">
               ${truncateText(post.title, 50)}
             </p>
-            <p class="text-tagline-4 font-normal text-white/50">${date}</p>
+            <p class="text-tagline-4 font-normal text-white/60">${date}</p>
           </div>
         </a>
       </article>
@@ -236,12 +236,12 @@ function renderRecentArticles(posts) {
 
 function renderPastRecords(posts) {
   // Find the past records container in the sidebar
-  const aside = document.querySelector('div.w-full.flex-auto > div:first-child > aside');
+  const aside = document.querySelector('aside:not(.sidebar)');
   if (!aside) return;
   
-  // Look for the last ul in the aside (past records)
+  // Look for all ul elements in the aside; the last one is the past records archive list
   const allLists = aside.querySelectorAll('ul');
-  if (!allLists.length) return;
+  if (allLists.length < 2 || !posts.length) return;
   
   const pastRecordsList = allLists[allLists.length - 1];
   if (!pastRecordsList || !posts.length) return;
@@ -506,21 +506,21 @@ function renderRelatedArticles(posts) {
           />
         </figure>
         <div class="pt-4 pl-3">
-          <p class="text-tagline-4 font-normal text-white/80">${date}</p>
+          <p class="text-tagline-4 font-normal text-white/60">${date}</p>
           <div class="mt-4 mb-2 flex items-center gap-x-2">
             <span
-              class="text-tagline-3 inline-flex items-center rounded-full bg-white/5 px-3 py-1 text-white/50"
+              class="text-tagline-3 inline-flex items-center rounded-full bg-white/5 px-3 py-1 text-white/60"
             >
               ${categoryName}
             </span>
             <span
-              class="text-tagline-3 inline-flex items-center rounded-full bg-white/5 px-3 py-1 text-white/50"
+              class="text-tagline-3 inline-flex items-center rounded-full bg-white/5 px-3 py-1 text-white/60"
             >
               Blog
             </span>
           </div>
           <a href="./blog-details.html?slug=${post.slug}" class="blog-title block">
-            <h3 class="text-sora-heading-6 block font-normal text-white/90">
+            <h3 class="text-sora-heading-6 block font-normal text-white/60">
               ${post.title}
             </h3>
           </a>
