@@ -1,0 +1,171 @@
+/* =========== GLOBAL STYLES ========== */
+
+body {
+  @apply font-inter-tight antialiased;
+}
+
+[data-ns-animate] {
+  @apply opacity-0;
+}
+
+[data-ns-split-text] {
+  @apply opacity-0;
+}
+
+[data-opai-avatar] {
+  @apply opacity-0;
+}
+.globe-image {
+  @apply opacity-0;
+}
+
+/* ========== CONTAINER ========== */
+
+@utility main-container {
+  @apply lp:px-0 mx-auto max-w-[1290px] px-5;
+}
+
+@utility nav-link {
+  @apply relative overflow-hidden before:absolute before:bottom-0 before:left-0 before:h-px before:w-full before:origin-right before:scale-x-0 before:bg-white before:transition-transform before:duration-500 before:content-[''] group-hover/nav-item:before:origin-left group-hover/nav-item:before:scale-x-100;
+}
+
+@utility footer-link {
+  @apply relative overflow-hidden before:absolute before:bottom-0 before:left-0 before:h-px before:w-full before:origin-right before:scale-x-0 before:bg-white before:transition-transform before:duration-500 before:content-[''] hover:before:origin-left hover:before:scale-x-100;
+}
+
+/*  =========================== Blog title underline hover effect =========================== */
+.underline-hover-effect .blog-title h3 {
+  @apply inline w-full cursor-pointer pb-px transition-all duration-500 ease-[cubic-bezier(0.645,0.045,0.355,1.000)];
+  background-image: linear-gradient(transparent calc(100% - 1px), white 1px);
+  @apply bg-size-[0%_100%] bg-no-repeat;
+}
+
+.underline-hover-effect:hover .blog-title h3 {
+  @apply bg-size-[100%_100%];
+}
+
+/* =========================== MODAL =========================== */
+
+.modal-open {
+  @apply grid;
+}
+
+.modal-close {
+  @apply hidden;
+}
+
+/* Dialog element styling */
+dialog.modal-overlay {
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+dialog.modal-overlay::backdrop {
+  background: rgba(0, 0, 0, 0.95);
+}
+
+dialog.modal-overlay.modal-close {
+  display: none;
+}
+
+/* =========================== Blog Card Active Width transition =========================== */
+.blog-card {
+  @apply w-full transition-[width] duration-800 ease-in-out md:w-[318px];
+}
+.blog-card.active-card {
+  @apply md:w-[590px];
+}
+
+/* =========================== Ai Consulting industries blog tabs =========================== */
+.is-tab-active {
+  @apply text-black;
+}
+
+.is-tab-hidden {
+  @apply hidden;
+}
+
+/* =========================== ai-kw-generator =========================== */
+
+@utility ai-kw-generator-border-animation {
+  offset-path: rect(0% auto 100% auto);
+  animation: ai-kw-generator-border-animation 10s linear infinite;
+  @apply absolute z-10 before:absolute before:inset-0 before:origin-center before:rotate-45 before:bg-radial-[circle_at_center] before:from-[#FF6B51] before:from-0% before:to-[#FF6B5100] before:to-100% before:content-[''];
+}
+
+@keyframes ai-kw-generator-border-animation {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+/* team details markdown style  */
+.team-details {
+  @apply mx-auto w-full max-w-[850px];
+
+  h3 {
+    @apply font-sora text-sora-heading-5 mt-10 font-normal text-white/90 md:mt-18;
+  }
+
+  p {
+    @apply font-inter-tight text-tagline-2 font-normal text-white/60;
+  }
+
+  h3 + p {
+    @apply mt-1;
+  }
+
+  h4 {
+    @apply font-sora text-sora-heading-6 mt-8 font-normal text-white/90;
+  }
+
+  h4 + p {
+    @apply mt-2;
+  }
+
+  h3 + ul {
+    @apply mt-2 space-y-1;
+  }
+
+  ul > li {
+    @apply font-inter-tight text-tagline-2 flex items-center gap-x-2 font-normal text-white/60 before:block before:size-1.5 before:rounded-full before:bg-white before:content-[''];
+  }
+}
+
+/* blog post markdown (detail page) */
+.blog-details-markdown {
+  @apply w-full max-w-full;
+
+  h2 {
+    @apply font-sora lg:text-sora-heading-5 text-sora-heading-6 mt-10 mb-1 font-normal text-white/90 md:mt-14;
+  }
+
+  h3 {
+    @apply font-sora lg:text-sora-heading-5 text-sora-heading-6 mt-10 mb-1 font-normal text-white/90;
+  }
+
+  p {
+    @apply font-inter-tight text-tagline-2 font-normal text-white/60;
+  }
+
+  h2 + p,
+  h3 + p {
+    @apply mb-4;
+  }
+
+  ul {
+    @apply text-tagline-2 mt-2 list-inside list-disc space-y-2 font-normal text-white/80;
+  }
+
+  blockquote {
+    @apply font-inter-tight text-it-heading-6 border-l-opai-purple mt-6 mb-6 border-l-2 pl-6 leading-[30px] font-normal text-white/90;
+  }
+
+  > *:first-child {
+    @apply mt-0;
+  }
+}
