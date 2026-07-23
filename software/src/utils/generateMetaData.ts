@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 
 export const DEFAULT_URL = 'https://next-saas-next.vercel.app/';
-export const DEFAULT_TITLE = 'Nexsas - Software, SaaS & Startup Tailwind Template';
+export const DEFAULT_TITLE = 'Mavericks - Software, SaaS & Startup Tailwind Template';
 export const DEFAULT_DESCRIPTION =
-  'Nexsas - the ultimate collection of 42+ premium Nextjs templates for SaaS businesses and startups. Built with Tailwind CSS, featuring responsive design, authentication flows, pricing pages, and modern UI components. Perfect for web applications and digital products.';
+  'Mavericks - the ultimate collection of 42+ premium Nextjs templates for SaaS businesses and startups. Built with Tailwind CSS, featuring responsive design, authentication flows, pricing pages, and modern UI components. Perfect for web applications and digital products.';
 export const DEFAULT_IMAGE_URL =
   'https://images.prismic.io/staticmania/aPD-K55xUNkB2D2X_og-image.jpg';
 
@@ -13,7 +13,7 @@ const defaultMetadata: Metadata = {
   description: DEFAULT_DESCRIPTION,
   openGraph: {
     type: 'website',
-    siteName: 'Nexsas',
+    siteName: 'Mavericks',
     url: DEFAULT_URL,
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,

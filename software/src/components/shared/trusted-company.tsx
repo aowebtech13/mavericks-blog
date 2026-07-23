@@ -55,7 +55,7 @@ const TrustedCompany = () => {
             </TextReveal>
             <TextReveal delay={0.2}>
               <p className="text-tagline-2 w-full text-center text-white/60">
-                Join the growing list of companies transforming their operations with Nexsas.
+                Join the growing list of companies transforming their operations with Mavericks.
               </p>
             </TextReveal>
           </div>

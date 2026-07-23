@@ -23,7 +23,7 @@ Worked as a Data Analyst within cross-functional product teams, analyzing large-
 
 **2021 – Present**
 
-#### Nexsas
+#### Mavericks
 Leading data initiatives focused on business intelligence and operational insights. Collaborating with engineering and product teams to design scalable data pipelines, implement analytics frameworks, and support strategic decision-making.
 
 ### Key responsibilities

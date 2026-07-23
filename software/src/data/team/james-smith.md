@@ -23,7 +23,7 @@ Senior PM for content and SEO tooling; shipped features used by thousands of mar
 
 **2021 – Present**
 
-#### Nexsas
+#### Mavericks
 Owns roadmap and prioritization for the keyword generator: discovery, clustering, exports, and integrations with common content workflows.
 
 ### Key responsibilities

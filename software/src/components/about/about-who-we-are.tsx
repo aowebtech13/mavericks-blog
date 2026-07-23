@@ -26,7 +26,7 @@ const AboutWhoWeAre = () => {
             </TextReveal>
             <TextReveal delay={0.2}>
               <p className="font-inter-tight text-tagline-3 md:text-tagline-2 mx-auto max-w-[450px] font-normal text-white/60">
-                At Nexsas, we believe AI should be accessible, intuitive, and impactful.
+                At Mavericks, we believe AI should be accessible, intuitive, and impactful.
               </p>
             </TextReveal>
           </div>

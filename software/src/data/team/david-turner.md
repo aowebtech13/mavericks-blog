@@ -23,11 +23,11 @@ Product roles across search and ads, working with research and engineering to sh
 
 **2019 – Present**
 
-#### Nexsas
+#### Mavericks
 Sets overall direction for the AI keyword generator, partners with design and engineering on roadmap priorities, and ensures the product stays useful for marketers and SEO teams.
 
 ### Key responsibilities
 
 - Define company strategy and long-term product bets  
 - Align executive, product, and go-to-market teams  
-- Represent Nexsas in key partner and customer conversations  
+- Represent Mavericks in key partner and customer conversations  

@@ -23,7 +23,7 @@ Engineering lead for high-throughput data services; deep experience in observabi
 
 **2020 – Present**
 
-#### Nexsas
+#### Mavericks
 Leads engineering, platform security, and technical hiring. Ensures AI pipelines and APIs meet performance and privacy expectations.
 
 ### Key responsibilities

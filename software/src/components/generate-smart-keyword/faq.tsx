@@ -12,9 +12,9 @@ import Image from 'next/image';
 const faqItems = [
   {
     value: '1',
-    question: 'What is Nexsas?',
+    question: 'What is Mavericks?',
     answer:
-      'Nexsas is an AI-powered keyword research tool that helps you discover high-impact keywords for your business or content. Enter a short description of your product or topic and get research-backed keyword clusters and SEO opportunities in minutes—no keyword expertise required.',
+      'Mavericks is an AI-powered keyword research tool that helps you discover high-impact keywords for your business or content. Enter a short description of your product or topic and get research-backed keyword clusters and SEO opportunities in minutes—no keyword expertise required.',
   },
   {
     value: '2',
@@ -24,9 +24,9 @@ const faqItems = [
   },
   {
     value: '3',
-    question: 'Do I need SEO experience to use Nexsas?',
+    question: 'Do I need SEO experience to use Mavericks?',
     answer:
-      'No. Nexsas is built for everyone—content marketers, founders, and teams with or without SEO background. You describe what you do, and the tool surfaces keywords and themes you can use right away. Results are organized so you can apply them to pages, ads, or content without prior keyword knowledge.',
+      'No. Mavericks is built for everyone—content marketers, founders, and teams with or without SEO background. You describe what you do, and the tool surfaces keywords and themes you can use right away. Results are organized so you can apply them to pages, ads, or content without prior keyword knowledge.',
   },
   {
     value: '4',
@@ -38,7 +38,7 @@ const faqItems = [
     value: '5',
     question: 'How accurate are the keyword suggestions?',
     answer:
-      'Suggestions combine search-intent signals, topical relevance to your description, and competitive context. No tool can guarantee rankings, but Nexsas is tuned to surface phrases real searchers use so you can prioritize opportunities that match your goals and update lists as trends shift.',
+      'Suggestions combine search-intent signals, topical relevance to your description, and competitive context. No tool can guarantee rankings, but Mavericks is tuned to surface phrases real searchers use so you can prioritize opportunities that match your goals and update lists as trends shift.',
   },
   {
     value: '6',

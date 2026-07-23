@@ -23,9 +23,9 @@ export async function generateMetadata({
     const blog = getMarkDownContent('src/data/blog', slug);
     const title = (blog?.data?.title as string) ?? 'Blog';
     const description = (blog?.data?.description as string) ?? undefined;
-    return buildMetadata(`${title} - AI Keyword Generator | Nexsas`, description, `/blog/${slug}`);
+    return buildMetadata(`${title} - AI Keyword Generator | Mavericks`, description, `/blog/${slug}`);
   } catch {
-    return buildMetadata('Blog - AI Keyword Generator | Nexsas', undefined, `/blog/${slug}`);
+    return buildMetadata('Blog - AI Keyword Generator | Mavericks', undefined, `/blog/${slug}`);
   }
 }
 

@@ -15,9 +15,9 @@ import getMarkDownData from '@/src/utils/getMarkDownData';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Blog - AI Keyword Generator | Nexsas',
+  title: 'Blog - AI Keyword Generator | Mavericks',
   description:
-    'Insights, tips, and trends from Nexsas on SEO, keyword research, and AI-powered content.',
+    'Insights, tips, and trends from Mavericks on SEO, keyword research, and AI-powered content.',
 };
 
 interface BlogPageProps {

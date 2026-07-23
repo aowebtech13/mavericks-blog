@@ -25,14 +25,14 @@ export async function generateMetadata({
     const description = typeof data?.position === 'string' ? data.position : undefined;
     const imageUrl = typeof data?.image === 'string' ? data.image : undefined;
     return buildMetadata(
-      `${title} - AI Keyword Generator || Nexsas`,
+      `${title} - AI Keyword Generator || Mavericks`,
       description,
       `/team/${slug}`,
       imageUrl
     );
   } catch {
     return buildMetadata(
-      'Team Details - AI Keyword Generator || Nexsas',
+      'Team Details - AI Keyword Generator || Mavericks',
       undefined,
       `/team/${slug}`
     );

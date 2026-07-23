@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   ...generateMetadata(),
-  title: 'Pricing - AI Keyword Generator || Nexsas',
+  title: 'Pricing - AI Keyword Generator || Mavericks',
 };
 
 const Page = () => {

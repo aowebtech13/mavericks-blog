@@ -23,7 +23,7 @@ Product designer on collaboration and design-system initiatives; contributed to 
 
 **2021 – Present**
 
-#### Nexsas
+#### Mavericks
 Leads UX/UI, design system, and user research for the keyword generator. Partners with PM and engineering on end-to-end flows.
 
 ### Key responsibilities

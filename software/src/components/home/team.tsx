@@ -22,7 +22,7 @@ const Team = ({ members }: HomeTeamProps) => (
                 id="team-heading"
                 className="font-sora lg:text-sora-heading-2 md:text-sora-heading-3 text-sora-heading-4 font-normal text-white"
               >
-                Meet the people behind Nexsas
+                Meet the people behind Mavericks
               </h2>
             </TextReveal>
             <TextReveal delay={0.2}>

@@ -8,7 +8,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   ...generateMetadata(),
-  title: 'Team - AI Keyword Generator || Nexsas',
+  title: 'Team - AI Keyword Generator || Mavericks',
 };
 
 const TeamPage = () => {

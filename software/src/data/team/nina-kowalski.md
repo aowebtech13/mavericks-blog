@@ -23,7 +23,7 @@ Customer success manager for mid-market SaaS; owned renewals, expansions, and ex
 
 **2021 – Present**
 
-#### Nexsas
+#### Mavericks
 Leads CS strategy, playbooks, and the support-to-product feedback loop. Builds training and resources for scalable onboarding.
 
 ### Key responsibilities

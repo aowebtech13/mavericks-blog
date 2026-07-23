@@ -40,10 +40,10 @@ const Navbar = () => {
               <Link href="/">
                 <span className="sr-only">Home</span>
                 <figure className="hidden lg:block lg:max-w-[198px]">
-                  <Image src={mainLogo} alt="Nexsas" className="h-auto w-full" priority />
+                  <Image src={mainLogo} alt="Mavericks" className="h-auto w-full" priority />
                 </figure>
                 <figure className="block max-w-[44px] lg:hidden">
-                  <Image src={logo} alt="Nexsas" className="block w-full" priority />
+                  <Image src={logo} alt="Mavericks" className="block w-full" priority />
                 </figure>
               </Link>
             </div>

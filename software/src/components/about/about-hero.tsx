@@ -36,7 +36,7 @@ const AboutHero = () => {
           <div className="space-y-0 md:max-w-[609px] md:space-y-1">
             <TextReveal>
               <h1 className="lg:text-sora-heading-2 md:text-sora-heading-3 text-sora-heading-4 text-white lg:tracking-[-2.4px]">
-                Driving Smarter Futures with Nexsas
+                Driving Smarter Futures with Mavericks
               </h1>
             </TextReveal>
             <TextReveal delay={0.2}>
@@ -97,7 +97,7 @@ const AboutHero = () => {
         <div>
           <RevealAnimation delay={0.2} instant>
             <p className="text-tagline-1 mt-12 font-normal text-white/60">
-              Nexsas partners with startups, enterprises, and global brands to unlock AI-driven
+              Mavericks partners with startups, enterprises, and global brands to unlock AI-driven
               growth across industries. From advanced automation to creative generation tools, our
               technology accelerates workflows and transforms how teams build, operate, and
               innovate.

@@ -23,7 +23,7 @@ Full-stack engineer on dashboard and API tooling; experience with TypeScript, Re
 
 **2022 – Present**
 
-#### Nexsas
+#### Mavericks
 Tech lead for the keyword app surface: search, results, and collaboration features. Mentors engineers and drives code quality.
 
 ### Key responsibilities

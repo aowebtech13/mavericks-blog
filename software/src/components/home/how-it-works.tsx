@@ -20,7 +20,7 @@ const HowItWorks = () => (
       <div className="space-y-15 md:space-y-25">
         <div className="space-y-5 text-center">
           <RevealAnimation delay={0.1}>
-            <Badge aria-label="Section subtitle: How Nexsas works">How Nexsas works</Badge>
+            <Badge aria-label="Section subtitle: How Mavericks works">How Mavericks works</Badge>
           </RevealAnimation>
           <div className="space-y-4">
             <TextReveal>
@@ -45,7 +45,7 @@ const HowItWorks = () => (
         <StackCardWrapper
           className="space-y-8"
           stackStyle="rotate"
-          aria-label="How Nexsas works feature cards"
+          aria-label="How Mavericks works feature cards"
         >
           <StackCardItem
             className="bg-background-5 border-stroke-1/11 relative mx-auto h-[300px] w-full max-w-[300px] overflow-hidden rounded-2xl border p-px sm:max-w-[350px] md:h-[400px] md:max-w-[600px] lg:h-[457px] lg:max-w-[650px]"

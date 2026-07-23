@@ -11,7 +11,7 @@ const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const DURATION_MS = 2000;
 
 interface ShuffledTitleProps {
-  /** Text to animate (shuffle then reveal). Default: "Nexsas" */
+  /** Text to animate (shuffle then reveal). Default: "Mavericks" */
   text?: string;
   /** Optional className for the wrapper div */
   className?: string;
@@ -20,7 +20,7 @@ interface ShuffledTitleProps {
 }
 
 const ShuffledTitle = ({
-  text = ' Nexsas ',
+  text = ' Mavericks ',
   className,
   headingClassName,
 }: ShuffledTitleProps) => {

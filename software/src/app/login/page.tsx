@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   ...generateMetadata(),
-  title: 'Login - AI KW Generator || Nexsas',
+  title: 'Login - AI KW Generator || Mavericks',
 };
 
 const page = () => {
