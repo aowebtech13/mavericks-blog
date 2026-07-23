@@ -1,68 +1,59 @@
+import fs from 'fs';
+import path from 'path';
 import matter from 'gray-matter';
-import fs from 'node:fs';
-import path from 'node:path';
 
-interface MarkdownData {
-  slug: string;
-  content: string;
-  [key: string]: unknown;
+/**
+ * Read all markdown files from a directory and return parsed frontmatter + content.
+ *
+ * @param folder - Relative path from project root (e.g. 'src/data/blog')
+ * @param recursive - Whether to search subdirectories recursively
+ * @param sortBy - (Optional) A frontmatter field to sort by (ascending)
+ */
+export function getMarkDownData<T extends { slug: string; content: string }>(
+  folder: string,
+  recursive: boolean = false,
+  sortBy?: string,
+): T[] {
+  const dirPath = path.join(process.cwd(), folder);
+
+  if (!fs.existsSync(dirPath)) {
+    return [];
+  }
+
+  const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+  const items: T[] = [];
+
+  for (const entry of entries) {
+    const fullPath = path.join(dirPath, entry.name);
+
+    if (entry.isDirectory() && recursive) {
+      const subfolder = path.join(folder, entry.name);
+      items.push(...getMarkDownData<T>(subfolder, recursive, sortBy));
+    } else if (entry.isFile() && entry.name.endsWith('.md')) {
+      const content = fs.readFileSync(fullPath, 'utf8');
+      const { data, content: body } = matter(content);
+      const slug = entry.name.replace(/\.md$/, '');
+      items.push({ ...data, slug, content: body } as unknown as T);
+    }
+  }
+
+  if (sortBy && items.length > 0) {
+    const key = sortBy as keyof T;
+    items.sort((a, b) => {
+      const aVal = a[key];
+      const bVal = b[key];
+      if (typeof aVal === 'string' && typeof bVal === 'string') {
+        return aVal.localeCompare(bVal);
+      }
+      if (typeof aVal === 'number' && typeof bVal === 'number') {
+        return aVal - bVal;
+      }
+      return 0;
+    });
+  }
+
+  return items;
 }
 
-const getMarkDownData = <T extends MarkdownData = MarkdownData>(
-  folder: string,
-  reversedSort?: boolean,
-  sortBy?: string,
-): T[] => {
-  if (!sortBy) {
-    sortBy = 'title';
-  }
-  const dir = path.join(process.cwd(), folder);
-  const files = fs.readdirSync(dir);
-  const markdownPosts = files.filter((file) => file.endsWith('.md'));
-
-  const postsData = markdownPosts
-    .map((file) => {
-      const filePath = path.join(dir, file);
-      try {
-        const content = fs.readFileSync(filePath, 'utf8');
-        const data = matter(content);
-        return {
-          ...data.data,
-          slug: file.replace('.md', ''),
-          content: data.content,
-        } as T;
-      } catch (error) {
-        if (process.env.NODE_ENV === 'development') {
-          // eslint-disable-next-line no-console
-          console.error(`Error parsing markdown file: ${filePath}`, error);
-        }
-        return null;
-      }
-    })
-    .filter((post): post is T => post !== null);
-
-  const sortedPosts = postsData.toSorted((a, b) => {
-    const getFieldValue = (obj: T, key: string): string => {
-      const value = (obj as MarkdownData)[key];
-      if (typeof value === 'string') {
-        return value;
-      }
-      if (value === null || value === undefined) {
-        return '';
-      }
-      if (typeof value === 'number' || typeof value === 'boolean') {
-        return String(value);
-      }
-      return '';
-    };
-    const fieldA = getFieldValue(a, sortBy);
-    const fieldB = getFieldValue(b, sortBy);
-    return fieldA.localeCompare(fieldB);
-  });
-  if (reversedSort) {
-    return sortedPosts.reverse();
-  }
-  return sortedPosts;
-};
-
 export default getMarkDownData;
+

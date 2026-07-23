@@ -1,6 +1,3 @@
-import FeaturedArticles from '@/src/components/blog/featured-articles';
-import BlogHero from '@/src/components/blog/blog-hero';
-import CTA from '@/src/components/shared/cta';
 import type { BlogPost } from '@/src/interface';
 import {
   filterPosts,
@@ -44,19 +41,7 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
 
   return (
     <>
-      <BlogHero />
-      <FeaturedArticles
-        posts={posts}
-        allPosts={allPosts}
-        totalPages={totalPages}
-        currentPage={pageToUse}
-        categories={categories}
-        dateRecords={dateRecords}
-        currentCategory={filterType === 'category' ? filterValue : null}
-        currentSearch={filterType === 'search' ? filterValue : null}
-        currentDate={filterType === 'date' ? filterValue : null}
-      />
-      <CTA />
+     
     </>
   );
 };

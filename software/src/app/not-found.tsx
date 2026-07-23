@@ -1,4 +1,3 @@
-import NotFoundContent from '@/src/components/not-found/not-found-content';
 import { generateMetadata } from '@/src/utils/generateMetaData';
 import { Metadata } from 'next';
 
@@ -8,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const page = () => {
-  return <NotFoundContent />;
+  return ;
 };
 
 export default page;
