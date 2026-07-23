@@ -15,9 +15,6 @@ body {
 [data-opai-avatar] {
   @apply opacity-0;
 }
-.globe-image {
-  @apply opacity-0;
-}
 
 /* ========== CONTAINER ========== */
 

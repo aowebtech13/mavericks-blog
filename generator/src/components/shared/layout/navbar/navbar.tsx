@@ -6,15 +6,11 @@ import RevealAnimation from '@/src/components/animation/reveal-animation';
 import MobileMenu from '@/src/components/shared/layout/mobile-menu/mobile-menu';
 import PrimaryLinkButton from '@/src/components/shared/ui/button/primary-link-button';
 import { MobileMenuProvider } from '@/src/context/MobileMenuContext';
-import { mobileMenuData } from '@/src/data/mobile-meu';
 import { useNavbarScroll } from '@/src/hooks/useScrollHeader';
 import { cn } from '@/src/utils/cn';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import EngageMenu from './engage-menu';
-import ExploreMenu from './explore-menu';
-import InsightsMenu from './insights-menu';
 import MobileMenuButton from './mobile-menu-button';
 
 const Navbar = () => {
@@ -37,8 +33,8 @@ const Navbar = () => {
         <RevealAnimation direction="up" offset={100} delay={0.1} instant>
           <div className="bg-background-13/60 flex items-center justify-between rounded-[20px] px-1.5 py-2.5 backdrop-blur-[25px] xl:py-0">
             <div>
-              <Link href="/">
-                <span className="sr-only">Home</span>
+              <Link href="/blog">
+                <span className="sr-only">Blog</span>
                 <figure className="hidden lg:block lg:max-w-[198px]">
                   <Image src={mainLogo} alt="Nexsas" className="h-auto w-full" priority />
                 </figure>
@@ -49,105 +45,6 @@ const Navbar = () => {
             </div>
             <nav className="hidden items-center xl:flex">
               <ul className="flex items-center">
-                <li
-                  onMouseEnter={() => handleMenuHover('explore-mega-menu')}
-                  data-menu="explore-mega-menu"
-                  className="group/nav-item relative cursor-pointer py-2.5"
-                >
-                  <Link
-                    href="#"
-                    onClick={(event) => event.preventDefault()}
-                    className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
-                  >
-                    <span>Explore</span>
-                    <span className="block origin-center translate-y-px transition-all duration-300 group-hover/nav-item:rotate-180">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="size-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                        />
-                      </svg>
-                    </span>
-                  </Link>
-                  <ExploreMenu
-                    menuDropdownId={menuDropdownId}
-                    setMenuDropdownId={setMenuDropdownId}
-                  />
-                </li>
-                <li
-                  onMouseEnter={() => handleMenuHover('engage-mega-menu')}
-                  data-menu="engage-mega-menu"
-                  className="group/nav-item relative cursor-pointer py-2.5"
-                >
-                  <Link
-                    href="#"
-                    onClick={(event) => event.preventDefault()}
-                    className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
-                  >
-                    <span>Engage</span>
-                    <span className="block origin-center translate-y-px transition-all duration-300 group-hover/nav-item:rotate-180">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="size-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                        />
-                      </svg>
-                    </span>
-                  </Link>
-                  <EngageMenu
-                    menuDropdownId={menuDropdownId}
-                    setMenuDropdownId={setMenuDropdownId}
-                  />
-                </li>
-                <li
-                  onMouseEnter={() => handleMenuHover('insights-mega-menu')}
-                  data-menu="insights-mega-menu"
-                  className="group/nav-item relative cursor-pointer py-2.5"
-                >
-                  <Link
-                    href="#"
-                    onClick={(event) => event.preventDefault()}
-                    className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
-                  >
-                    <span>Insights</span>
-                    <span className="block origin-center translate-y-px transition-all duration-300 group-hover/nav-item:rotate-180">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="size-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                        />
-                      </svg>
-                    </span>
-                  </Link>
-                  <InsightsMenu
-                    menuDropdownId={menuDropdownId}
-                    setMenuDropdownId={setMenuDropdownId}
-                  />
-                </li>
                 <li className="py-2.5">
                   <Link
                     href="/blog"
@@ -158,16 +55,11 @@ const Navbar = () => {
                 </li>
               </ul>
             </nav>
-            <div className="hidden items-center justify-center xl:flex">
-              <PrimaryLinkButton className="py-2.5" href="/signup">
-                Get started
-              </PrimaryLinkButton>
-            </div>
             <MobileMenuButton />
           </div>
         </RevealAnimation>
       </header>
-      <MobileMenu menuData={mobileMenuData} />
+      <MobileMenu menuData={[]} />
     </MobileMenuProvider>
   );
 };
