@@ -76,7 +76,7 @@
         <div>
             <label class="block text-sm font-medium text-slate-700 mb-2">Featured Image</label>
             <div id="image-preview" class="mb-3 {{ $post->featured_image ? '' : 'hidden' }}">
-                <img src="{{ $post->featured_image ? asset('storage/' . $post->featured_image) : '' }}" alt="{{ $post->title }}" class="h-32 rounded-lg object-cover">
+                <img src="{{ $post->featured_image ? Storage::disk('public')->url($post->featured_image) : '' }}" alt="{{ $post->title }}" class="h-32 rounded-lg object-cover">
             </div>
             <input type="file" name="featured_image" id="featured_image" accept="image/*" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-blue-500">
             @error('featured_image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror

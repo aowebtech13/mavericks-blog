@@ -14,12 +14,12 @@ const BlogHero = () => {
           <TextReveal>
             <h1 className="xl:text-sora-heading-2 lg:text-sora-heading-3 text-sora-heading-4 inline-block font-normal text-white/90">
               Insights, tips, and trends <br className="hidden lg:block" />
-              from Nexsas
+              from Mavericks 
             </h1>
           </TextReveal>
           <TextReveal delay={0.2}>
             <p className="text-tagline-2 mx-auto mt-3 mb-14 max-w-xl font-normal text-white/60">
-              At NexSas, we share practical insights and real-world tips to help you make the most
+              At Mavericks we share practical insights and real-world tips to help you make the most
               of AI in your business.
             </p>
           </TextReveal>

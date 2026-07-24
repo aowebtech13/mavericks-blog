@@ -8,6 +8,7 @@ export function getTeamMembers(limit?: number): TeamMember[] {
     title?: string;
     position?: string;
     image?: string;
+    [key: string]: unknown;
   }>('src/data/team', false, 'title').map((item) => ({
     name: typeof item.title === 'string' ? item.title : '',
     position: typeof item.position === 'string' ? item.position : '',

@@ -1,5 +1,5 @@
 'use client';
-import logoSmall from '@/public/images/logo/logo-dark.svg';
+import logoSmall from '@/public/images/logo/logo-dark.png';
 import MenuCloseButton from '@/src/components/shared/layout/mobile-menu/menu-close-button';
 import MobileMenuItem from '@/src/components/shared/layout/mobile-menu/mobile-menu-item';
 import { useMobileMenuContext } from '@/src/context/MobileMenuContext';
@@ -39,7 +39,7 @@ const MobileMenu = ({ menuData }: { menuData: MobileMenuGroup[] }) => {
           <Link href="/">
             <span className="sr-only">Home</span>
             <figure className="max-w-[44px]">
-              <Image src={logoSmall} alt="Nexsas" width={44} height={44} className="block w-full" />
+              <Image src={logoSmall} alt="Mavericks " width={44} height={44} className="block w-full" />
             </figure>
           </Link>
           <MenuCloseButton />

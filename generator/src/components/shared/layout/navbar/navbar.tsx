@@ -1,7 +1,6 @@
 'use client';
 
-import logo from '@/public/images/logo.svg';
-import mainLogo from '@/public/images/logo/main-logo-dark.svg';
+import logo from '@/public/images/logo/logo-dark.png';
 import RevealAnimation from '@/src/components/animation/reveal-animation';
 import MobileMenu from '@/src/components/shared/layout/mobile-menu/mobile-menu';
 import PrimaryLinkButton from '@/src/components/shared/ui/button/primary-link-button';
@@ -36,10 +35,10 @@ const Navbar = () => {
               <Link href="/blog">
                 <span className="sr-only">Blog</span>
                 <figure className="hidden lg:block lg:max-w-[198px]">
-                  <Image src={mainLogo} alt="Nexsas" className="h-auto w-full" priority />
+                  <Image src={logo} alt="Mavericks " className="h-auto w-full" priority />
                 </figure>
                 <figure className="block max-w-[44px] lg:hidden">
-                  <Image src={logo} alt="Nexsas" className="block w-full" priority />
+                  <Image src={logo} alt="Mavericks " className="block w-full" priority />
                 </figure>
               </Link>
             </div>
@@ -47,10 +46,34 @@ const Navbar = () => {
               <ul className="flex items-center">
                 <li className="py-2.5">
                   <Link
+                    href="/"
+                    className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li className="py-2.5">
+                  <Link
                     href="/blog"
                     className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
                   >
                     Blog
+                  </Link>
+                </li>
+                <li className="py-2.5">
+                  <Link
+                    href="/register"
+                    className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
+                  >
+                    Register
+                  </Link>
+                </li>
+                <li className="py-2.5">
+                  <Link
+                    href="/stenographer-login"
+                    className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
+                  >
+                    Stenographer Login
                   </Link>
                 </li>
               </ul>

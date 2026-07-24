@@ -9,10 +9,10 @@ const FooterBrand = () => (
     <div className="col-span-12 md:col-span-4">
       <div className="space-y-8">
         <Link href="/" className="-ml-3.5 block">
-          <span className="sr-only">Nexsas</span>
+          <span className="sr-only">Mavericks </span>
           <figure className="h-[40px] w-[166px]">
             <Image
-              src="/images/logo/logo-white.svg"
+              src="/images/logo/logo-dark.png"
               alt="logo"
               width={166}
               height={40}

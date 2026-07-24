@@ -2,12 +2,13 @@ import { MobileMenuData } from '../interface';
 
 export const mobileMenuData: MobileMenuData[] = [
   {
-    id: 'blog',
-    title: 'Blog',
+    id: 'navigation',
+    title: 'Menu',
     submenu: [
-      { id: 'all-posts', label: 'All Posts', href: '/blog' },
-      { id: 'featured', label: 'Featured', href: '/blog' },
-      { id: 'recent', label: 'Recent', href: '/blog' },
+      { id: 'home', label: 'Home', href: '/' },
+      { id: 'blog', label: 'Blog', href: '/blog' },
+      { id: 'register', label: 'Register', href: '/register' },
+      { id: 'stenographer-login', label: 'Stenographer Login', href: '/stenographer-login' },
     ],
   },
 ];

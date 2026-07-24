@@ -11,6 +11,7 @@ export interface BlogPost {
   category?: string;
   tags?: string[];
   popular?: boolean;
+  [key: string]: unknown;
 }
 
 export interface BlogCategory {

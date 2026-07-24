@@ -25,12 +25,12 @@ export interface FooterContact {
 
 export const footerContact: FooterContact = {
   addressTitle: 'Address:',
-  address: '30 North Gould Street, Sheridan, WY 8280',
+  address: 'Lagos, Nigeria',
   contactTitle: 'Contact:',
   phone: '+1 (202) 555-0130',
   phoneHref: 'tel:+12025550130',
-  email: 'hello@pixels71.com',
-  emailHref: 'mailto:hello@pixels71.com',
+  email: 'hello@mavericskai.com',
+  emailHref: 'mailto:hello@mavericskai.com',
 };
 
 export const footerSocialLinks: readonly FooterSocialLink[] = [
@@ -67,4 +67,4 @@ export const footerLegalLinks: readonly FooterNavItem[] = [
   { label: 'Cookie Settings', href: '#' },
 ];
 
-export const footerCopyrightHolder = 'pixels71';
+export const footerCopyrightHolder = 'mavericskai';

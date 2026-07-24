@@ -1,13 +1,7 @@
 import FeaturedArticles from '@/src/components/blog/featured-articles';
 import BlogHero from '@/src/components/blog/blog-hero';
-import CTA from '@/src/components/shared/cta';
 import type { BlogPost } from '@/src/interface';
 import type { ApiPost } from '@/src/interface/api';
-import {
-  getCurrentPage,
-  getTotalPages,
-  paginatePosts,
-} from '@/src/utils/blogFilters';
 import { apiPostsToBlogPosts, buildDateRecordsFromPosts } from '@/src/utils/apiTransformers';
 import { getPosts } from '@/src/services/posts';
 import { getCategories } from '@/src/services/categories';
@@ -72,7 +66,6 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
         currentSearch={filterType === 'search' ? filterValue : null}
         currentDate={filterType === 'date' ? filterValue : null}
       />
-      <CTA />
     </>
   );
 };
