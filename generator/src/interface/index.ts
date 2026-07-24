@@ -24,3 +24,15 @@ export interface BlogDateRecord {
   displayDate: string;
   count: number;
 }
+
+export interface MobileSubmenuItem {
+  id: string;
+  label: string;
+  href: string;
+}
+
+export interface MobileMenuData {
+  id: string;
+  title: string;
+  submenu: MobileSubmenuItem[];
+}
