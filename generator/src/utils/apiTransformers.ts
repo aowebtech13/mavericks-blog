@@ -14,11 +14,11 @@ export function apiPostToBlogPost(apiPost: ApiPost): BlogPost {
       ? `/images/opai-avatar-img-01.png` // fallback avatar
       : `/images/opai-avatar-img-01.png`,
     category: apiPost.category?.name ?? undefined,
-    publishDate: apiPost.published_at ?? apiPost.created_at,
+    publishDate: apiPost.published_at ?? apiPost.created_at ?? '',
     readTime: estimateReadTime(apiPost.content),
     thumbnail: apiPost.featured_image ?? '/images/blog-placeholder.jpg',
     tags: apiPost.tags?.map((t: ApiTag) => t.name) ?? [],
-    description: apiPost.excerpt ?? undefined,
+    description: apiPost.excerpt ?? '',
     featured: false,
     popular: false,
     // Keep original API data accessible

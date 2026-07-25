@@ -1,4 +1,4 @@
-import { MobileMenuData } from '../interface';
+import type { MobileMenuData } from '@/src/interface';
 
 export const mobileMenuData: MobileMenuData[] = [
   {

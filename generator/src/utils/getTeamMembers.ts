@@ -1,5 +1,11 @@
-import { TeamMember } from '@/src/interface';
 import getMarkDownData from '@/src/utils/getMarkDownData';
+
+export interface TeamMember {
+  name: string;
+  position: string;
+  image: string;
+  href: string;
+}
 
 export function getTeamMembers(limit?: number): TeamMember[] {
   const all = getMarkDownData<{
