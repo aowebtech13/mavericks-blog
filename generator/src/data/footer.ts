@@ -53,8 +53,7 @@ export const footerColumns: readonly FooterColumnData[] = [
   {
     title: 'Company',
     items: [
-      { label: 'About', href: '/about' },
-      { label: 'Contact', href: '/contact' },
+    
       { label: 'Privacy Policy', href: '#' },
       { label: 'Terms of Service', href: '#' },
     ],
