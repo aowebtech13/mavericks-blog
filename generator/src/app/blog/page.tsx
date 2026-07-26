@@ -8,6 +8,8 @@ import { getCategories } from '@/src/services/categories';
 import { apiCategoriesToBlogCategories } from '@/src/utils/apiTransformers';
 import type { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Blog - AI Keyword Generator | maverisks',
   description:
@@ -33,19 +35,37 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
   if (params.page) apiQueryParams.page = typeof params.page === 'string' ? params.page : params.page[0];
   apiQueryParams.per_page = 6;
 
-  const apiResponse = await getPosts(apiQueryParams);
-  const apiPosts: ApiPost[] = apiResponse.data;
-  const allPosts = apiPostsToBlogPosts(apiPosts);
-  const totalPages = apiResponse.meta.last_page;
-  const currentPage = apiResponse.meta.current_page;
-  const posts = allPosts; // API already paginates, so the current page's posts are the data
+  let posts: BlogPost[] = [];
+  let allPosts: BlogPost[] = [];
+  let totalPages = 1;
+  let currentPage = 1;
+  let categories: { label: string; count: number }[] = [];
+  let dateRecords: { date: string; displayDate: string; count: number }[] = [];
+  let fetchError = false;
 
-  // Fetch categories
-  const apiCategories = await getCategories();
-  const categories = apiCategoriesToBlogCategories(apiCategories);
+  try {
+    const apiResponse = await getPosts(apiQueryParams);
+    const apiPosts: ApiPost[] = apiResponse.data;
+    allPosts = apiPostsToBlogPosts(apiPosts);
+    totalPages = apiResponse.meta.last_page;
+    currentPage = apiResponse.meta.current_page;
+    posts = allPosts;
+  } catch {
+    // Backend unavailable — render with empty state
+    fetchError = true;
+  }
 
-  // Build date records from fetched posts
-  const dateRecords = buildDateRecordsFromPosts(allPosts);
+  try {
+    const apiCategories = await getCategories();
+    categories = apiCategoriesToBlogCategories(apiCategories);
+  } catch {
+    // Categories are non-critical — silently fall back to empty array
+  }
+
+  // Build date records from fetched posts (if any)
+  if (!fetchError) {
+    dateRecords = buildDateRecordsFromPosts(allPosts);
+  }
 
   const filterValue = typeof params.category === 'string' ? params.category :
                       typeof params.search === 'string' ? params.search :
