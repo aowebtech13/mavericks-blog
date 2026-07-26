@@ -62,6 +62,11 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        // Convert empty string category_id to null to avoid integrity constraint violations
+        if ($request->has('category_id') && $request->input('category_id') === '') {
+            $request->merge(['category_id' => null]);
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|unique:posts,slug',
@@ -112,6 +117,11 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $this->authorize('update', $post);
+
+        // Convert empty string category_id to null to avoid integrity constraint violations
+        if ($request->has('category_id') && $request->input('category_id') === '') {
+            $request->merge(['category_id' => null]);
+        }
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
