@@ -10,13 +10,11 @@ export function apiPostToBlogPost(apiPost: ApiPost): BlogPost {
     content: apiPost.content,
     title: apiPost.title,
     author: apiPost.user?.name ?? 'Unknown',
-    authorImage: apiPost.user?.name
-      ? `/images/opai-avatar-img-01.png` // fallback avatar
-      : `/images/opai-avatar-img-01.png`,
+    authorImage: `/images/opai-img-316.svg`, // fallback avatar (SVG)
     category: apiPost.category?.name ?? undefined,
     publishDate: apiPost.published_at ?? apiPost.created_at ?? '',
     readTime: estimateReadTime(apiPost.content),
-    thumbnail: apiPost.featured_image ?? '/images/blog-placeholder.jpg',
+    thumbnail: apiPost.featured_image ?? '/images/gradient/opai-4.png',
     tags: apiPost.tags?.map((t: ApiTag) => t.name) ?? [],
     description: apiPost.excerpt ?? '',
     featured: false,

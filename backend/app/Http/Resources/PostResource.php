@@ -15,7 +15,11 @@ class PostResource extends JsonResource
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
             'content' => $this->content,
-            'featured_image' => $this->featured_image ? url(Storage::url($this->featured_image)) : null,
+            'featured_image' => $this->featured_image
+                ? (filter_var($this->featured_image, FILTER_VALIDATE_URL)
+                    ? $this->featured_image
+                    : url(Storage::url($this->featured_image)))
+                : null,
             'status' => $this->status,
             'visibility' => $this->visibility,
             'views_count' => $this->views_count,
