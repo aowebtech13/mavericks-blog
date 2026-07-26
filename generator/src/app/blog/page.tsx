@@ -11,7 +11,7 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Blog - AI Keyword Generator | maverisks',
+  title: 'Blog - revolutionizing legal practice in Nigeria | maverisks',
   description:
     'Insights, tips, and trends from maverisks on SEO, keyword research, and AI-powered content.',
 };
