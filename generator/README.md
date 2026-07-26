@@ -84,25 +84,15 @@ ai-kw-generator-ns-next/
 │   │   ├── about/              # About page
 │   │   ├── blog/               # Blog listing and [slug] posts
 │   │   ├── contact/            # Contact page (incl. map)
-│   │   ├── generate-smart-keyword/  # Keyword generator marketing page
-│   │   ├── login/              # Login page
-│   │   ├── pricing/            # Pricing page
-│   │   ├── signup/             # Signup page
-│   │   ├── team/               # Team listing and [slug] profiles
-│   │   ├── globals.css
 │   │   ├── layout.tsx
 │   │   ├── not-found.tsx
 │   │   └── page.tsx            # Homepage
 │   ├── components/             # Page and shared UI (~90+ TSX files)
-│   │   ├── about/
-│   │   ├── animation/
+
 │   │   ├── auth/
 │   │   ├── blog/
 │   │   ├── blog-details/
 │   │   ├── contact/
-│   │   ├── generate-smart-keyword/
-│   │   ├── home/
-│   │   ├── not-found/
 │   │   ├── pricing/
 │   │   ├── shared/             # Layout, footer, navbar, shared UI
 │   │   └── team/
@@ -110,11 +100,6 @@ ai-kw-generator-ns-next/
 │   │   └── MobileMenuContext.tsx
 │   ├── data/                   # Static data and Markdown
 │   │   ├── blog/               # Blog posts (.md)
-│   │   ├── team/               # Team profiles (.md)
-│   │   ├── mobile-meu.ts       # Navigation / mobile menu data
-│   │   ├── footer.ts
-│   │   ├── pricing.ts
-│   │   └── team.ts
 │   ├── hooks/                  # Custom hooks
 │   ├── interface/              # Shared TypeScript types
 │   ├── styles/                 # CSS variables, typography, icons
