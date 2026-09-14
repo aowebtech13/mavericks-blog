@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@mavericks.com'],
             [
-                'name' => 'mavericks Ai Admin',
+                'name' => 'mavericksAi Admin',
                 'password' => bcrypt('KpRDFasswAdREmin1'),
                 'is_admin' => true,
             ]

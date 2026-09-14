@@ -9,7 +9,7 @@ const FooterBrand = () => (
     <div className="col-span-12 md:col-span-4">
       <div className="space-y-8">
         <Link href="/" className="-ml-3.5 block">
-          <span className="sr-only">Mavericksai </span>
+          <span className="sr-only">MavericksAi </span>
           <figure className="h-[44px] w-[240px]">
             <Image
               src="/images/logo/logo-dark.png"
@@ -31,12 +31,7 @@ const FooterBrand = () => (
             <p className="text-tagline-2 text-background-11 mb-1 font-semibold">
               {footerContact.contactTitle}
             </p>
-            <a
-              href={footerContact.phoneHref}
-              className="text-tagline-3 font-normal text-white/50 hover:underline"
-            >
-              {footerContact.phone}
-            </a>
+          
             <br />
             <a
               href={footerContact.emailHref}

@@ -29,8 +29,8 @@ export const footerContact: FooterContact = {
   contactTitle: 'Contact:',
   phone: '+234 803 615 8520',
   phoneHref: 'tel:++234 803 615 8520',
-  email: 'support@mavericksai.tech',
-  emailHref: 'mailto:hello@mavericksai.tech',
+  email: 'upport@mages.mavericksai.tech',
+  emailHref: 'mailto:upport@mages.mavericksai.tech',
 };
 
 export const footerSocialLinks: readonly FooterSocialLink[] = [

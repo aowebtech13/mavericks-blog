@@ -46,7 +46,7 @@
 <body class="flex min-h-screen items-center justify-center bg-night-950 p-4 font-grotesque">
     <div class="w-full max-w-md">
         <div class="mb-10 text-center">
-            <h1 class="text-3xl font-bold tracking-wide text-white">mavericks Ai</h1>
+            <h1 class="text-3xl font-bold tracking-wide text-white">mavericksAi</h1>
             <p class="mt-2 text-base text-slate-500">Enter your email to receive an OTP</p>
         </div>
 
