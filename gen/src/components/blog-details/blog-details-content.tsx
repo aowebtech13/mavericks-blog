@@ -4,6 +4,7 @@ import { footerSocialLinks } from '@/src/data/footer';
 import SafeImage from '@/src/components/shared/ui/safe-image';
 import type { FC } from 'react';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 
 export interface BlogDetailsContentProps {
@@ -42,7 +43,7 @@ const BlogDetailsContent: FC<BlogDetailsContentProps> = ({ blog }) => {
             </RevealAnimation>
             <RevealAnimation delay={0.2}>
               <div className="blog-details-markdown">
-                <ReactMarkdown rehypePlugins={[[rehypeSlug]]}>{blog?.content ?? ''}</ReactMarkdown>
+                <ReactMarkdown rehypePlugins={[rehypeRaw, [rehypeSlug]]}>{blog?.content ?? ''}</ReactMarkdown>
               </div>
             </RevealAnimation>
           </div>
