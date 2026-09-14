@@ -34,14 +34,14 @@ class MockProvider implements AiProvider
         $title = $this->buildTitle($topic);
 
         $sections = [
-            'Introduction' => "In this article, we explore **{$title}** and why it matters for modern businesses. "
-                . 'AI is changing the way organizations operate, and staying ahead requires understanding both the opportunities and the challenges.',
+            'Introduction' => "In this article, we explore **{$title}** and why it matters for individuals, businesses, and legal practitioners. "
+                . 'Legal landscapes are evolving rapidly, and staying ahead requires understanding both the opportunities and the challenges.',
             'Why This Is Trending' => $this->buildTrendingSection($topic, $searchInterest, $increasePercent),
-            'Key Benefits' => "- Saves time by automating repetitive tasks\n- Improves decision-making with data-driven insights\n- Scales personalization to every customer\n- Reduces operational costs over time",
-            'Practical Steps' => "1. Start with a clear goal and measurable KPIs\n2. Audit current workflows to find bottlenecks\n3. Pilot the solution on a single team before scaling\n4. Gather feedback and refine continuously",
-            'Common Pitfalls' => 'Avoid treating AI as a silver bullet. It works best when paired with clean data, clear processes, and stakeholder buy-in. '
-                . 'Plan for change management from day one.',
-            'Conclusion' => "The future belongs to organizations that act. By understanding **{$title}**, you can position your business for sustainable growth in an AI-first world.",
+            'Key Benefits' => "- Protects your rights and interests through informed legal action\n- Reduces risk by ensuring compliance with applicable laws\n- Provides clarity and peace of mind in complex situations\n- Strengthens your position in negotiations or disputes",
+            'Practical Steps' => "1. Identify the specific legal issue or question you need to address\n2. Gather all relevant documents and evidence\n3. Consult with a qualified attorney in your jurisdiction\n4. Follow the recommended legal strategy and timeline",
+            'Common Pitfalls' => 'Avoid representing yourself in complex legal matters without proper guidance. Legal issues are best handled with professional advice, thorough documentation, and a clear understanding of your jurisdiction\'s laws. '
+                . 'Plan for legal costs and timelines from the outset.',
+            'Conclusion' => "The legal landscape rewards those who act with knowledge. By understanding **{$title}**, you can make informed decisions and protect your interests in today\'s evolving legal environment.",
         ];
 
         $body = '';
