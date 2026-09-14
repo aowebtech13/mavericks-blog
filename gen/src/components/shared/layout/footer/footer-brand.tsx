@@ -21,12 +21,7 @@ const FooterBrand = () => (
           </figure>
         </Link>
         <div className="space-y-6">
-          <div>
-            <p className="text-tagline-2 text-background-11 mb-1 font-semibold">
-              {footerContact.addressTitle}
-            </p>
-            <p className="text-tagline-3 font-normal text-white/50">{footerContact.address}</p>
-          </div>
+         
           <div>
             <p className="text-tagline-2 text-background-11 mb-1 font-semibold">
               {footerContact.contactTitle}
