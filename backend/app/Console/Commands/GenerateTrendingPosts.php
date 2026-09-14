@@ -20,7 +20,7 @@ class GenerateTrendingPosts extends Command
         {--category-id= : Optional category ID}
         {--sort= : Sort order (interest|increase)}
         {--min-increase=0 : Minimum search increase % to include}
-        {--admin-email=admin@kreightor.com : Admin user email to attribute posts to}';
+        {--admin-email=admin@mavericks.com : Admin user email to attribute posts to}';
 
     protected $description = 'Bulk-generate AI blog posts from the trending topic list';
 

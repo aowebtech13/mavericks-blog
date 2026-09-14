@@ -88,7 +88,7 @@
     <div class="flex min-h-screen flex-col lg:flex-row">
         <aside class="w-full shrink-0 bg-night-950 lg:w-64 lg:min-h-screen lg:sticky lg:top-0">
             <div class="border-b border-white/10 px-6 py-6">
-                <h1 class="text-xl font-bold tracking-wide text-white">Kreightor Ai</h1>
+                <h1 class="text-xl font-bold tracking-wide text-white">mavericks Ai</h1>
                 <p class="mt-0.5 text-sm text-slate-500">Admin Area</p>
             </div>
 
