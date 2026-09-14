@@ -36,7 +36,7 @@
 
         <div>
             <label class="mb-1.5 block text-sm font-medium text-slate-400">Content</label>
-            <textarea name="content" rows="10" class="rich-text w-full rounded-lg border border-white/10 bg-night-950 px-4 py-2.5 text-base text-white transition focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent" placeholder="Full post content">{{ old('content', $post->content) }}</textarea>
+            <textarea name="content" rows="50" class="rich-text w-full rounded-lg border border-white/10 bg-night-950 px-4 py-2.5 text-base text-white transition focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent" placeholder="Full post content">{{ old('content', $post->content) }}</textarea>
             @error('content') <span class="text-red-400 text-sm">{{ $message }}</span> @enderror
         </div>
 
