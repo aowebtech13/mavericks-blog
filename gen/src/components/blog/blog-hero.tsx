@@ -19,7 +19,7 @@ const BlogHero = () => {
           </TextReveal>
           <TextReveal delay={0.2}>
             <p className="text-tagline-2 mx-auto mt-3 mb-14 max-w-xl font-normal text-white/60">
-              At Mavericks Ai we share practical insights and real-world tips to help you make the most
+              At MavericksAI we share practical insights and real-world tips to help you make the most
               of AI in your business.
             </p>
           </TextReveal>
