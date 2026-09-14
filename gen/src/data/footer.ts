@@ -54,16 +54,16 @@ export const footerColumns: readonly FooterColumnData[] = [
     title: 'Company',
     items: [
     
-      { label: 'Privacy Policy', href: '#' },
-      { label: 'Terms of Service', href: '#' },
+      { label: 'Privacy Policy', href: 'https://www.mavericksai.tech/contact' },
+      { label: 'Terms of Service', href: 'https://www.mavericksai.tech/contact' },
     ],
   },
 ];
 
 export const footerLegalLinks: readonly FooterNavItem[] = [
-  { label: 'Privacy Policy', href: '#' },
-  { label: 'Terms of Service', href: '#' },
-  { label: 'Cookie Settings', href: '#' },
+  { label: 'Privacy Policy', href: 'https://www.mavericksai.tech/contact' },
+  { label: 'Terms of Service', href: 'https://www.mavericksai.tech/contact' },
+  { label: 'Cookie Settings', href: 'https://www.mavericksai.tech/contact' },
 ];
 
-export const footerCopyrightHolder = 'Mavericksai';
+export const footerCopyrightHolder = 'MavericksAi';
