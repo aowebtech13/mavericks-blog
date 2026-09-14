@@ -26,7 +26,7 @@
                         name="topic"
                         rows="3"
                         class="w-full rounded-lg border border-white/10 bg-night-950 px-4 py-2.5 text-base text-white transition focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent placeholder:text-slate-600"
-                        placeholder="e.g. How AI is transforming customer support in 2025"
+                        placeholder="e.g. How recent Supreme Court rulings affect constitutional law in 2025"
                         required
                     >{{ old('topic') }}</textarea>
                     @error('topic') <span class="text-red-400 text-sm">{{ $message }}</span> @enderror
