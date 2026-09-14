@@ -181,14 +181,14 @@
         </div>
     </div>
 
-    {{-- Trending Topics panel --}}
+    {{-- Trending Legal Topics panel --}}
     <div class="mt-8">
         <div class="rounded-xl border border-white/10 bg-night-800/60 p-4 md:p-8">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h2 class="text-lg md:text-xl font-bold text-white">📈 Trending Topics</h2>
+                    <h2 class="text-lg md:text-xl font-bold text-white">📈 Trending Legal Topics</h2>
                     <p class="text-sm text-slate-500 mt-1">
-                        Google search interest &amp; increase data for content-creation queries. Generate posts from these topics.
+                        Google search interest &amp; increase data for high-ranking lawyer and law-based keywords across the USA, Canada, Nigeria, and worldwide. Generate posts from these topics.
                     </p>
                 </div>
                 <form action="{{ route('admin.ai-writer.trending.batch') }}" method="POST" class="flex flex-wrap items-center gap-3">
@@ -260,4 +260,5 @@
     </div>
 </div>
 @endsection
+
 

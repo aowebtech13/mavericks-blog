@@ -198,8 +198,8 @@ class AiWriterTest extends TestCase
         $response = $this->actingAs($admin)->get(route('admin.ai-writer.index'));
 
         $response->assertOk();
-        $response->assertSee('Trending Topics');
-        $response->assertSee('content creation');
+        $response->assertSee('Trending Legal Topics');
+        $response->assertSee('constitutional law');
     }
 }
 
