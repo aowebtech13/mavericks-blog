@@ -29,8 +29,8 @@ export const footerContact: FooterContact = {
   contactTitle: 'Contact:',
   phone: '+234 803 615 8520',
   phoneHref: 'tel:++234 803 615 8520',
-  email: 'upport@mages.mavericksai.tech',
-  emailHref: 'mailto:upport@mages.mavericksai.tech',
+  email: 'support@mages.mavericksai.tech',
+  emailHref: 'mailto:support@mages.mavericksai.tech',
 };
 
 export const footerSocialLinks: readonly FooterSocialLink[] = [
@@ -63,7 +63,7 @@ export const footerColumns: readonly FooterColumnData[] = [
 export const footerLegalLinks: readonly FooterNavItem[] = [
   { label: 'Privacy Policy', href: 'https://www.mavericksai.tech/contact' },
   { label: 'Terms of Service', href: 'https://www.mavericksai.tech/contact' },
-  { label: 'Cookie Settings', href: 'https://www.mavericksai.tech/contact' },
+
 ];
 
 export const footerCopyrightHolder = 'MavericksAi';
