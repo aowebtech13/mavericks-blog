@@ -27,10 +27,10 @@ export const footerContact: FooterContact = {
   addressTitle: 'Address:',
   address: 'Lagos, Nigeria',
   contactTitle: 'Contact:',
-  phone: '+1 (202) 555-0130',
-  phoneHref: 'tel:+12025550130',
-  email: 'hello@kreightor.com',
-  emailHref: 'mailto:hello@kreightor.com',
+  phone: '+234 803 615 8520',
+  phoneHref: 'tel:++234 803 615 8520',
+  email: 'support@mavericksai.tech',
+  emailHref: 'mailto:hello@mavericksai.tech',
 };
 
 export const footerSocialLinks: readonly FooterSocialLink[] = [
@@ -66,4 +66,4 @@ export const footerLegalLinks: readonly FooterNavItem[] = [
   { label: 'Cookie Settings', href: '#' },
 ];
 
-export const footerCopyrightHolder = 'Kreightor';
+export const footerCopyrightHolder = 'Mavericksai';

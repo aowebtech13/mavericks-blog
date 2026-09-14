@@ -35,10 +35,10 @@ const Navbar = () => {
               <Link href="/blog">
                 <span className="sr-only">Blog</span>
                 <figure className="hidden lg:block lg:max-w-[198px]">
-                  <Image src={logo} alt="Kreightor " className="h-auto w-full" priority />
+                  <Image src={logo} alt="Mavericksai " className="h-auto w-full" priority />
                 </figure>
                 <figure className="block max-w-[110px] lg:hidden">
-                  <Image src={logo} alt="Kreightor " className="block w-full" priority />
+                  <Image src={logo} alt="Mavericksai " className="block w-full" priority />
                 </figure>
               </Link>
             </div>
@@ -54,7 +54,7 @@ const Navbar = () => {
                 </li>
                 <li className="py-2.5">
                   <Link
-                    href="https://www.blog.mavericksai.tech/"
+                    href="https://blog.mavericksai.tech/"
                     className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
                   >
                     Blog
