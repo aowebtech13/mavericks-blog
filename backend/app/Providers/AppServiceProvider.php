@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Ai\AiManager;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -14,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(AiManager::class, function ($app) {
+            return new AiManager(config('ai.default', 'mock'));
+        });
     }
 
     /**

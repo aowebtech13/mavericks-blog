@@ -4,33 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') - Blog Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         html {
-            font-size: 18px;
+            font-size: 16px;
+        }
+        body {
+            font-family: 'Darker Grotesque', sans-serif;
+        }
+::selection {
+            background: rgba(34, 126, 255, 0.35);
+            color: #fff;
+        }
+        /* Darker text for the CKEditor content area */
+        .ck-editor__editable {
+            color: #1f2937 !important;
+            background-color: #ffffff !important;
+        }
+        .ck-editor__editable p,
+        .ck-editor__editable li,
+        .ck-editor__editable h1,
+        .ck-editor__editable h2,
+        .ck-editor__editable h3,
+        .ck-editor__editable blockquote {
+            color: #1f2937 !important;
+        }
+        .ck-editor__editable a {
+            color: #007BFF !important;
         }
     </style>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
+                    fontFamily: {
+                        grotesque: ['Darker Grotesque', 'sans-serif'],
+                    },
                     colors: {
-                        winter: {
-                            50: '#f8fafc',
-                            100: '#f1f5f9',
-                            200: '#e2e8f0',
-                            300: '#cbd5e1',
-                            400: '#94a3b8',
-                            500: '#64748b',
-                            600: '#475569',
-                            700: '#334155',
-                            800: '#1e293b',
-                            900: '#0f172a',
-                        }
-                    }
-                }
-            }
-        }
+                        night: {
+                            950: '#0d1017',
+                            900: '#11141d',
+                            800: '#191d2a',
+                            700: '#252a32',
+                            600: '#323a44',
+                            500: '#3d4753',
+                        },
+                        accent: {
+                            DEFAULT: '#007BFF',
+                            purple: '#7E27E2',
+                            yellow: '#fff049',
+                            green: '#09f647',
+                        },
+                    },
+                },
+            },
+        };
     </script>
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <script>
@@ -53,52 +84,58 @@
     </script>
     @stack('scripts')
 </head>
-<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 min-h-screen">
-    <div class="flex h-screen">
-        <aside class="w-64 bg-gradient-to-b from-slate-800 via-slate-900 to-slate-950 shadow-2xl overflow-y-auto">
-            <div class="p-6 border-b border-slate-700">
-                <h1 class="text-2xl font-bold text-white">Mavericks Ai</h1>
-                <p class="text-slate-400 text-sm mt-1">Admin Area </p>
+<body class="min-h-screen bg-night-900 font-grotesque text-slate-200">
+    <div class="flex min-h-screen flex-col lg:flex-row">
+        <aside class="w-full shrink-0 bg-night-950 lg:w-64 lg:min-h-screen lg:sticky lg:top-0">
+            <div class="border-b border-white/10 px-6 py-6">
+                <h1 class="text-xl font-bold tracking-wide text-white">Kreightor Ai</h1>
+                <p class="mt-0.5 text-sm text-slate-500">Admin Area</p>
             </div>
 
-            <nav class="p-4 space-y-2">
-                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-blue-600 hover:text-white transition {{ request()->routeIs('admin.dashboard') ? 'bg-blue-600 text-white' : '' }}">
-                    📊 Dashboard
-                </a>
-                <a href="{{ route('admin.posts.index') }}" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-blue-600 hover:text-white transition {{ request()->routeIs('admin.posts*') ? 'bg-blue-600 text-white' : '' }}">
-                    📝 Posts
-                </a>
-                <a href="{{ route('admin.categories.index') }}" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-blue-600 hover:text-white transition {{ request()->routeIs('admin.categories*') ? 'bg-blue-600 text-white' : '' }}">
-                    📁 Categories
-                </a>
-                <a href="{{ route('admin.tags.index') }}" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-blue-600 hover:text-white transition {{ request()->routeIs('admin.tags*') ? 'bg-blue-600 text-white' : '' }}">
-                    🏷️ Tags
-                </a>
-                <hr class="border-slate-700 my-2">
-                <a href="{{ route('admin.password.change') }}" class="block px-4 py-3 rounded-lg text-slate-300 hover:bg-blue-600 hover:text-white transition {{ request()->routeIs('admin.password.change') ? 'bg-blue-600 text-white' : '' }}">
-                    🔐 Change Password
-                </a>
+            <nav class="p-4">
+                <div class="grid grid-cols-2 gap-1 lg:grid-cols-1">
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 rounded-md px-4 py-2.5 text-base font-medium text-slate-300 transition hover:bg-white/5 hover:text-white {{ request()->routeIs('admin.dashboard') ? 'bg-white/5 text-white' : '' }}">
+                        <span class="opacity-70">📊</span> Dashboard
+                    </a>
+                    <a href="{{ route('admin.posts.index') }}" class="flex items-center gap-2.5 rounded-md px-4 py-2.5 text-base font-medium text-slate-300 transition hover:bg-white/5 hover:text-white {{ request()->routeIs('admin.posts*') ? 'bg-white/5 text-white' : '' }}">
+                        <span class="opacity-70">📝</span> Posts
+                    </a>
+                    <a href="{{ route('admin.categories.index') }}" class="flex items-center gap-2.5 rounded-md px-4 py-2.5 text-base font-medium text-slate-300 transition hover:bg-white/5 hover:text-white {{ request()->routeIs('admin.categories*') ? 'bg-white/5 text-white' : '' }}">
+                        <span class="opacity-70">📁</span> Categories
+                    </a>
+                    <a href="{{ route('admin.tags.index') }}" class="flex items-center gap-2.5 rounded-md px-4 py-2.5 text-base font-medium text-slate-300 transition hover:bg-white/5 hover:text-white {{ request()->routeIs('admin.tags*') ? 'bg-white/5 text-white' : '' }}">
+                        <span class="opacity-70">🏷️</span> Tags
+                    </a>
+                    <a href="{{ route('admin.ai-writer.index') }}" class="flex items-center gap-2.5 rounded-md px-4 py-2.5 text-base font-medium text-slate-300 transition hover:bg-white/5 hover:text-white {{ request()->routeIs('admin.ai-writer*') ? 'bg-white/5 text-white' : '' }}">
+                        <span class="opacity-70">🤖</span> AI Writer
+                    </a>
+                    <a href="{{ route('admin.password.change') }}" class="flex items-center gap-2.5 rounded-md px-4 py-2.5 text-base font-medium text-slate-300 transition hover:bg-white/5 hover:text-white {{ request()->routeIs('admin.password.change') ? 'bg-white/5 text-white' : '' }}">
+                        <span class="opacity-70">🔐</span> Password
+                    </a>
+                </div>
             </nav>
 
-            <div class="absolute bottom-0 w-64 p-4 border-t border-slate-700 bg-slate-900">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-full bg-blue-500"></div>
-                    <div>
-                        <p class="text-white font-medium text-sm">{{ auth()->user()->name }}</p>
-                        <form action="{{ route('admin.logout') }}" method="POST" class="inline">
+            <div class="border-t border-white/10 px-6 py-4">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">
+                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    </div>
+                    <div class="min-w-0">
+                        <p class="truncate text-sm font-semibold text-white">{{ auth()->user()->name }}</p>
+                        <form action="{{ route('admin.logout') }}" method="POST">
                             @csrf
-                            <button type="submit" class="text-slate-400 text-xs hover:text-red-400 transition">Logout</button>
+                            <button type="submit" class="text-sm text-slate-500 transition hover:text-red-400">Logout</button>
                         </form>
                     </div>
                 </div>
             </div>
         </aside>
 
-        <main class="flex-1 overflow-y-auto">
-            <div class="p-8">
+        <main class="min-w-0 flex-1">
+            <div class="p-4 md:p-6 lg:p-8">
                 @if ($errors->any())
-                    <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-                        <ul class="list-disc list-inside">
+                    <div class="mb-6 rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
+                        <ul class="list-inside list-disc">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
@@ -107,7 +144,7 @@
                 @endif
 
                 @if (session('success'))
-                    <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                    <div class="mb-6 rounded-lg border border-green-500/30 bg-green-500/10 p-4 text-sm text-green-300">
                         {{ session('success') }}
                     </div>
                 @endif
@@ -118,3 +155,4 @@
     </div>
 </body>
 </html>
+

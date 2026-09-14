@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Cache;
 
@@ -28,12 +29,16 @@ class Post extends Model
         'status',
         'visibility',
         'published_at',
-        'scheduled_at'
+        'scheduled_at',
+        'ai_generated',
+        'ai_generation_data',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
         'scheduled_at' => 'datetime',
+        'ai_generated' => 'boolean',
+        'ai_generation_data' => 'array',
     ];
 
     protected static function boot()
@@ -74,6 +79,11 @@ class Post extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function aiGenerations(): HasMany
+    {
+        return $this->hasMany(AiGeneration::class);
     }
 
     public function scopePublished($query)

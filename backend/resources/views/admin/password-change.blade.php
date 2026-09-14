@@ -4,40 +4,40 @@
 
 @section('content')
 <div class="max-w-2xl mx-auto">
-    <div class="bg-white rounded-xl shadow-md overflow-hidden">
-        <div class="p-8">
-            <h1 class="text-2xl font-bold text-slate-800 mb-6">🔐 Change Password</h1>
+    <div class="rounded-xl border border-white/10 bg-night-800/60 overflow-hidden">
+        <div class="p-6 md:p-8">
+            <h1 class="text-2xl font-bold text-white mb-6">🔐 Change Password</h1>
 
             @if (session('status') === 'password-updated')
-                <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg text-sm">
+                <div class="mb-6 rounded-lg border border-green-500/30 bg-green-500/10 p-4 text-sm text-green-300">
                     Password updated successfully.
                 </div>
             @endif
 
-            <form action="{{ route('admin.password.change.update') }}" method="POST" class="space-y-6">
+            <form action="{{ route('admin.password.change.update') }}" method="POST" class="space-y-5">
                 @csrf
 
                 <div>
-                    <label for="current_password" class="block text-sm font-medium text-slate-700 mb-2">Current Password</label>
+                    <label for="current_password" class="mb-1.5 block text-sm font-medium text-slate-400">Current Password</label>
                     <input type="password" name="current_password" id="current_password" required
-                        class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        class="w-full rounded-lg border border-white/10 bg-night-950 px-4 py-2.5 text-base text-white transition focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">
                 </div>
 
                 <div>
-                    <label for="password" class="block text-sm font-medium text-slate-700 mb-2">New Password</label>
+                    <label for="password" class="mb-1.5 block text-sm font-medium text-slate-400">New Password</label>
                     <input type="password" name="password" id="password" required
-                        class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        class="w-full rounded-lg border border-white/10 bg-night-950 px-4 py-2.5 text-base text-white transition focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">
                 </div>
 
                 <div>
-                    <label for="password_confirmation" class="block text-sm font-medium text-slate-700 mb-2">Confirm New Password</label>
+                    <label for="password_confirmation" class="mb-1.5 block text-sm font-medium text-slate-400">Confirm New Password</label>
                     <input type="password" name="password_confirmation" id="password_confirmation" required
-                        class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                        class="w-full rounded-lg border border-white/10 bg-night-950 px-4 py-2.5 text-base text-white transition focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">
                 </div>
 
-                <div class="flex items-center justify-end">
+                <div class="flex items-center justify-end pt-2">
                     <button type="submit" 
-                        class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition shadow-md active:scale-[0.98]">
+                        class="rounded-lg bg-accent px-6 py-2.5 font-semibold text-white transition hover:bg-accent-purple active:scale-[0.98]">
                         Update Password
                     </button>
                 </div>
@@ -46,3 +46,4 @@
     </div>
 </div>
 @endsection
+
