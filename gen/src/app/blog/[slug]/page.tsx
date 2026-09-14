@@ -17,9 +17,9 @@ export async function generateMetadata({
   const { slug } = await params;
   try {
     const apiPost = await getPost(slug);
-    return buildMetadata(`${apiPost.title} - revolutionizing legal practice in Nigeria | mavericks Ai`, apiPost.excerpt ?? undefined, `/blog/${slug}`);
+    return buildMetadata(`${apiPost.title} - revolutionizing legal practice in Nigeria | mavericksAI`, apiPost.excerpt ?? undefined, `/blog/${slug}`);
   } catch {
-    return buildMetadata('Post Not Found - revolutionizing legal practice in Nigeria | mavericksai', undefined, `/blog/${slug}`);
+    return buildMetadata('Post Not Found - revolutionizing legal practice in Nigeria | mavericksAi', undefined, `/blog/${slug}`);
   }
 }
 

@@ -39,7 +39,7 @@ const MobileMenu = ({ menuData }: { menuData: MobileMenuGroup[] }) => {
           <Link href="/">
             <span className="sr-only">Home</span>
             <figure className="max-w-[110px]">
-              <Image src={logoSmall} alt="MavericksAi " width={110} height={20} className="block h-auto w-full" />
+              <Image src={logoSmall} alt="MavericksAI " width={110} height={20} className="block h-auto w-full" />
             </figure>
           </Link>
           <MenuCloseButton />

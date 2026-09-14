@@ -14,7 +14,7 @@ const BlogHero = () => {
           <TextReveal>
             <h1 className="xl:text-sora-heading-2 lg:text-sora-heading-3 text-sora-heading-4 inline-block font-normal text-white/90">
               Insights, tips, and trends <br className="hidden lg:block" />
-              from MavericksAi
+              from MavericksAI
             </h1>
           </TextReveal>
           <TextReveal delay={0.2}>

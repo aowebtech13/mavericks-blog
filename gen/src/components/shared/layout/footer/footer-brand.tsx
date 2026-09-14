@@ -9,7 +9,7 @@ const FooterBrand = () => (
     <div className="col-span-12 md:col-span-4">
       <div className="space-y-8">
         <Link href="/" className="-ml-3.5 block">
-          <span className="sr-only">MavericksAi </span>
+          <span className="sr-only">MavericksAI </span>
           <figure className="h-[44px] w-[240px]">
             <Image
               src="/images/logo/logo-dark.png"
