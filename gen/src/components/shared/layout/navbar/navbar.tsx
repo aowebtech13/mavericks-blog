@@ -46,7 +46,7 @@ const Navbar = () => {
               <ul className="flex items-center">
                 <li className="py-2.5">
                   <Link
-                    href="https://www.kreightor.com/"
+                    href="https://www.mavericksai.tech/"
                     className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
                   >
                     Home
@@ -54,7 +54,7 @@ const Navbar = () => {
                 </li>
                 <li className="py-2.5">
                   <Link
-                    href="https://www.blog.kreightor.com/"
+                    href="https://www.blog.mavericksai.tech/"
                     className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
                   >
                     Blog
@@ -62,7 +62,7 @@ const Navbar = () => {
                 </li>
                 <li className="py-2.5">
                   <Link
-                    href="https://www.kreightor.com/"
+                    href="https://www.mavericksai.tech/"
                     className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
                   >
                     Register
@@ -70,7 +70,7 @@ const Navbar = () => {
                 </li>
                 <li className="py-2.5">
                   <Link
-                    href="https://www.kreightor.com/"
+                    href="https://www.mavericksai.tech/"
                     className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
                   >
                      Login
