@@ -54,7 +54,7 @@ const Navbar = () => {
                 </li>
                 <li className="py-2.5">
                   <Link
-                    href="https://blog.mavericksai.tech/"
+                    href="https://blog.mavericksai.tech/blog"
                     className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
                   >
                     Blog
