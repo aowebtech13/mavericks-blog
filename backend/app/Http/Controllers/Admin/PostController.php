@@ -62,11 +62,6 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        // Convert empty string category_id to null to avoid integrity constraint violations
-        if ($request->has('category_id') && $request->input('category_id') === '') {
-            $request->merge(['category_id' => null]);
-        }
-
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|unique:posts,slug',
@@ -76,9 +71,12 @@ class PostController extends Controller
             'status' => 'in:draft,published,archived',
             'visibility' => 'in:public,private,scheduled',
             'published_at' => 'nullable|date',
-            'category_id' => 'nullable|exists:categories,id',
+            'category_id' => 'required|exists:categories,id',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
+        ], [
+            'category_id.required' => 'Please select a category before submitting.',
+            'category_id.exists' => 'The selected category does not exist.',
         ]);
 
         $validated['user_id'] = $request->user()->id;
@@ -118,11 +116,6 @@ class PostController extends Controller
     {
         $this->authorize('update', $post);
 
-        // Convert empty string category_id to null to avoid integrity constraint violations
-        if ($request->has('category_id') && $request->input('category_id') === '') {
-            $request->merge(['category_id' => null]);
-        }
-
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|unique:posts,slug,' . $post->id,
@@ -132,9 +125,12 @@ class PostController extends Controller
             'status' => 'in:draft,published,archived',
             'visibility' => 'in:public,private,scheduled',
             'published_at' => 'nullable|date',
-            'category_id' => 'nullable|exists:categories,id',
+            'category_id' => 'required|exists:categories,id',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
+        ], [
+            'category_id.required' => 'Please select a category before submitting.',
+            'category_id.exists' => 'The selected category does not exist.',
         ]);
 
         $validated['slug'] = $validated['slug'] ?? Str::slug($validated['title']);
