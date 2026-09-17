@@ -20,12 +20,25 @@ export interface MobileMenuGroup {
   submenu: MobileMenuItem[];
 }
 
-const MobileMenu = ({ menuData }: { menuData: MobileMenuGroup[] }) => {
+interface CategoryItem {
+  label: string;
+  href: string;
+}
+
+interface MobileMenuProps {
+  menuData: MobileMenuGroup[];
+  categories?: CategoryItem[];
+}
+
+const MobileMenu = ({ menuData, categories = [] }: MobileMenuProps) => {
   const { isOpen, closeMenu } = useMobileMenuContext();
   const pathname = usePathname();
 
   const isActiveLink = (href: string) =>
     pathname === href || (href !== '#' && pathname.startsWith(href + '/'));
+
+  const isActiveCategory = (href: string) =>
+    href === '/blog' ? pathname === '/blog' : pathname === href || pathname.startsWith(href + '/');
 
   return (
     <aside
@@ -36,8 +49,8 @@ const MobileMenu = ({ menuData }: { menuData: MobileMenuGroup[] }) => {
     >
       <div className="space-y-4 p-5 sm:p-8 lg:p-9">
         <div className="flex items-center justify-between">
-          <Link href="/">
-            <span className="sr-only">Home</span>
+          <Link href="/blog">
+            <span className="sr-only">Blog</span>
             <figure className="max-w-[110px]">
               <Image src={logoSmall} alt="MavericksAI " width={110} height={20} className="block h-auto w-full" />
             </figure>
@@ -73,6 +86,29 @@ const MobileMenu = ({ menuData }: { menuData: MobileMenuGroup[] }) => {
                 ))}
               </MobileMenuItem>
             ))}
+
+            {/* Categories section */}
+            {categories.length > 0 && (
+              <MobileMenuItem id="categories" title="Categories" hasSubmenu>
+                {categories.map((cat, idx) => (
+                  <li key={cat.href + cat.label}>
+                    <Link
+                      href={cat.href}
+                      onClick={closeMenu}
+                      className={cn(
+                        'font-inter-tight text-tagline-3 ml-4 block text-left transition-all duration-500 ease-in-out',
+                        idx === 0 ? 'py-1.5' : 'py-2.5',
+                        isActiveCategory(cat.href)
+                          ? 'font-semibold text-white'
+                          : 'font-normal text-white/70'
+                      )}
+                    >
+                      {cat.label}
+                    </Link>
+                  </li>
+                ))}
+              </MobileMenuItem>
+            )}
           </ul>
         </div>
       </div>

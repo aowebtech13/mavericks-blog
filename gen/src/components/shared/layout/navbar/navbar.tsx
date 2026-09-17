@@ -9,12 +9,36 @@ import { useNavbarScroll } from '@/src/hooks/useScrollHeader';
 import { cn } from '@/src/utils/cn';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MobileMenuButton from './mobile-menu-button';
+import { getCategories } from '@/src/services/categories';
+import { apiCategoriesToBlogCategories } from '@/src/utils/apiTransformers';
 
 const Navbar = () => {
   const { isScrolled } = useNavbarScroll(150);
   const [menuDropdownId, setMenuDropdownId] = useState<string | null>(null);
+  const [categories, setCategories] = useState<{ label: string; href: string }[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    getCategories()
+      .then((apiCategories) => {
+        if (cancelled) return;
+        const blogCategories = apiCategoriesToBlogCategories(apiCategories);
+        setCategories(
+          blogCategories.map((cat) => ({
+            label: cat.label,
+            href: `/blog?category=${encodeURIComponent(cat.label)}`,
+          }))
+        );
+      })
+      .catch(() => {
+        // Categories are non-critical for the mobile menu
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleMenuHover = (dropdownId?: string | null) => {
     setMenuDropdownId(dropdownId || null);
@@ -82,7 +106,7 @@ const Navbar = () => {
           </div>
         </RevealAnimation>
       </header>
-      <MobileMenu menuData={[]} />
+      <MobileMenu menuData={[]} categories={categories} />
     </MobileMenuProvider>
   );
 };
