@@ -1,6 +1,5 @@
 import RevealAnimation from '@/src/components/animation/reveal-animation';
-import { SocialIcons } from '@/src/components/shared/social-icons';
-import { footerSocialLinks } from '@/src/data/footer';
+import ShareSection from '@/src/components/blog-details/share-section';
 import SafeImage from '@/src/components/shared/ui/safe-image';
 import type { FC } from 'react';
 import ReactMarkdown from 'react-markdown';

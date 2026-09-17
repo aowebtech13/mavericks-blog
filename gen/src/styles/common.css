@@ -175,7 +175,7 @@ dialog.modal-overlay.modal-close {
   }
 
   strong {
-    @apply font-semibold text-white;
+    @apply font-bold text-white;
   }
 
   em {
@@ -183,7 +183,7 @@ dialog.modal-overlay.modal-close {
   }
 
   a {
-    @apply text-opai-blue underline decoration-opai-blue/50 underline-offset-2 transition-colors hover:text-white hover:decoration-white;
+    @apply text-opai-yellow underline decoration-opai-yellow/60 underline-offset-2 transition-colors hover:text-white hover:decoration-white;
   }
 
   code {
