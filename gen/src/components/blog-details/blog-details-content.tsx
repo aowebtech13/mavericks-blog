@@ -49,12 +49,7 @@ const BlogDetailsContent: FC<BlogDetailsContentProps> = ({ blog }) => {
 
           <RevealAnimation delay={0.3}>
             <div>
-              <p className="text-tagline-2 mb-4 font-normal text-white/80">Share this post</p>
-              <SocialIcons
-                links={footerSocialLinks}
-                iconClassName="stroke-white [stroke-opacity:0.6]"
-              />
-              <hr className="border-t-stroke-3/25 my-6 h-px border-t" />
+              <ShareSection title="Share this post" />
               <div className="flex items-center gap-3">
                 <figure className="size-12 overflow-hidden rounded-full">
                   <SafeImage
