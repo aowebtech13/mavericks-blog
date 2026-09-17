@@ -12,17 +12,22 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import MobileMenuButton from './mobile-menu-button';
 import { getCategories } from '@/src/services/categories';
+import { getPopularTags } from '@/src/services/tags';
 import { apiCategoriesToBlogCategories } from '@/src/utils/apiTransformers';
 
 const Navbar = () => {
   const { isScrolled } = useNavbarScroll(150);
   const [menuDropdownId, setMenuDropdownId] = useState<string | null>(null);
   const [categories, setCategories] = useState<{ label: string; href: string }[]>([]);
+  const [trendingLabels, setTrendingLabels] = useState<{ label: string; href: string }[]>([]);
 
   useEffect(() => {
     let cancelled = false;
-    getCategories()
-      .then((apiCategories) => {
+    Promise.all([
+      getCategories().catch(() => []),
+      getPopularTags().catch(() => []),
+    ])
+      .then(([apiCategories, apiTags]) => {
         if (cancelled) return;
         const blogCategories = apiCategoriesToBlogCategories(apiCategories);
         setCategories(
@@ -31,9 +36,15 @@ const Navbar = () => {
             href: `/blog?category=${encodeURIComponent(cat.label)}`,
           }))
         );
+        setTrendingLabels(
+          (apiTags ?? []).map((tag) => ({
+            label: tag.name,
+            href: `/blog?tag=${encodeURIComponent(tag.name)}`,
+          }))
+        );
       })
       .catch(() => {
-        // Categories are non-critical for the mobile menu
+        // Categories and tags are non-critical for the mobile menu
       });
     return () => {
       cancelled = true;
@@ -106,7 +117,7 @@ const Navbar = () => {
           </div>
         </RevealAnimation>
       </header>
-      <MobileMenu menuData={[]} categories={categories} />
+      <MobileMenu menuData={[]} categories={categories} trendingLabels={trendingLabels} />
     </MobileMenuProvider>
   );
 };

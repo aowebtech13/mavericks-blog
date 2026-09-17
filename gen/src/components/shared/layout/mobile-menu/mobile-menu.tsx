@@ -28,9 +28,10 @@ interface CategoryItem {
 interface MobileMenuProps {
   menuData: MobileMenuGroup[];
   categories?: CategoryItem[];
+  trendingLabels?: CategoryItem[];
 }
 
-const MobileMenu = ({ menuData, categories = [] }: MobileMenuProps) => {
+const MobileMenu = ({ menuData, categories = [], trendingLabels = [] }: MobileMenuProps) => {
   const { isOpen, closeMenu } = useMobileMenuContext();
   const pathname = usePathname();
 
@@ -104,6 +105,29 @@ const MobileMenu = ({ menuData, categories = [] }: MobileMenuProps) => {
                       )}
                     >
                       {cat.label}
+                    </Link>
+                  </li>
+                ))}
+              </MobileMenuItem>
+            )}
+
+            {/* Trending labels section */}
+            {trendingLabels.length > 0 && (
+              <MobileMenuItem id="trending-labels" title="Trending label" hasSubmenu>
+                {trendingLabels.map((tag, idx) => (
+                  <li key={tag.href + tag.label}>
+                    <Link
+                      href={tag.href}
+                      onClick={closeMenu}
+                      className={cn(
+                        'font-inter-tight text-tagline-3 ml-4 block text-left transition-all duration-500 ease-in-out',
+                        idx === 0 ? 'py-1.5' : 'py-2.5',
+                        isActiveCategory(tag.href)
+                          ? 'font-semibold text-white'
+                          : 'font-normal text-white/70'
+                      )}
+                    >
+                      {tag.label}
                     </Link>
                   </li>
                 ))}
