@@ -64,7 +64,7 @@ const MobileMenu = ({ menuData, categories = [], trendingLabels = [] }: MobileMe
             {/* Home link */}
             <li>
               <Link
-                href="https://www.mavericksai.tech/"
+                href="https://blog.mavericksai.tech/blog"
                 onClick={closeMenu}
                 className={cn(
                   'font-inter-tight text-tagline-3 block text-left transition-all duration-500 ease-in-out py-2.5',
