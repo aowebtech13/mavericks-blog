@@ -1,143 +1,143 @@
 @utility text-it-heading-1 {
-  @apply font-inter-tight;
+  @apply font-system;
 }
 
 @utility text-it-heading-2 {
-  @apply font-inter-tight;
+  @apply font-system;
 }
 
 @utility text-it-heading-3 {
-  @apply font-inter-tight;
+  @apply font-system;
 }
 
 @utility text-it-heading-4 {
-  @apply font-inter-tight;
+  @apply font-system;
 }
 
 @utility text-it-heading-5 {
-  @apply font-inter-tight;
+  @apply font-system;
 }
 
 @utility text-it-heading-6 {
-  @apply font-inter-tight;
+  @apply font-system;
 }
 
 @utility text-is-heading-1 {
-  @apply font-instrument-serif;
+  @apply font-system;
 }
 
 @utility text-is-heading-2 {
-  @apply font-instrument-serif;
+  @apply font-system;
 }
 
 @utility text-is-heading-3 {
-  @apply font-instrument-serif;
+  @apply font-system;
 }
 
 @utility text-is-heading-4 {
-  @apply font-instrument-serif;
+  @apply font-system;
 }
 
 @utility text-is-heading-5 {
-  @apply font-instrument-serif;
+  @apply font-system;
 }
 
 @utility text-is-heading-6 {
-  @apply font-instrument-serif;
+  @apply font-system;
 }
 
 @utility text-sora-heading-1 {
-  @apply font-sora;
+  @apply font-system;
 }
 
 @utility text-sora-heading-2 {
-  @apply font-sora;
+  @apply font-system;
 }
 
 @utility text-sora-heading-3 {
-  @apply font-sora;
+  @apply font-system;
 }
 
 @utility text-sora-heading-4 {
-  @apply font-sora;
+  @apply font-system;
 }
 
 @utility text-sora-heading-5 {
-  @apply font-sora;
+  @apply font-system;
 }
 
 @utility text-sora-heading-6 {
-  @apply font-sora;
+  @apply font-system;
 }
 
 @utility text-fd-heading-1 {
-  @apply font-funnel-display;
+  @apply font-system;
 }
 
 @utility text-fd-heading-2 {
-  @apply font-funnel-display;
+  @apply font-system;
 }
 
 @utility text-fd-heading-3 {
-  @apply font-funnel-display;
+  @apply font-system;
 }
 
 @utility text-fd-heading-4 {
-  @apply font-funnel-display;
+  @apply font-system;
 }
 
 @utility text-fd-heading-5 {
-  @apply font-funnel-display;
+  @apply font-system;
 }
 
 @utility text-fd-heading-6 {
-  @apply font-funnel-display;
+  @apply font-system;
 }
 
 @utility text-sg-heading-1 {
-  @apply font-space-grotesk;
+  @apply font-system;
 }
 
 @utility text-sg-heading-2 {
-  @apply font-space-grotesk;
+  @apply font-system;
 }
 
 @utility text-sg-heading-3 {
-  @apply font-space-grotesk;
+  @apply font-system;
 }
 
 @utility text-sg-heading-4 {
-  @apply font-space-grotesk;
+  @apply font-system;
 }
 
 @utility text-sg-heading-5 {
-  @apply font-space-grotesk;
+  @apply font-system;
 }
 
 @utility text-sg-heading-6 {
-  @apply font-space-grotesk;
+  @apply font-system;
 }
 
 @utility text-manrope-heading-1 {
-  @apply font-manrope;
+  @apply font-system;
 }
 
 @utility text-manrope-heading-2 {
-  @apply font-manrope;
+  @apply font-system;
 }
 
 @utility text-manrope-heading-3 {
-  @apply font-manrope;
+  @apply font-system;
 }
 
 @utility text-manrope-heading-4 {
-  @apply font-manrope;
+  @apply font-system;
 }
 
 @utility text-manrope-heading-5 {
-  @apply font-manrope;
+  @apply font-system;
 }
 
 @utility text-manrope-heading-6 {
-  @apply font-manrope;
+  @apply font-system;
 }

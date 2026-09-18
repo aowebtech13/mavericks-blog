@@ -105,11 +105,11 @@ dialog.modal-overlay.modal-close {
   @apply mx-auto w-full max-w-[850px];
 
   h3 {
-    @apply font-sora text-sora-heading-5 mt-10 font-normal text-white/90 md:mt-18;
+    @apply font-system text-sora-heading-5 mt-10 font-normal text-white/90 md:mt-18;
   }
 
   p {
-    @apply font-inter-tight text-tagline-2 font-normal text-white/60;
+    @apply font-system text-tagline-2 font-normal text-white/60;
   }
 
   h3 + p {
@@ -117,7 +117,7 @@ dialog.modal-overlay.modal-close {
   }
 
   h4 {
-    @apply font-sora text-sora-heading-6 mt-8 font-normal text-white/90;
+    @apply font-system text-sora-heading-6 mt-8 font-normal text-white/90;
   }
 
   h4 + p {
@@ -129,7 +129,7 @@ dialog.modal-overlay.modal-close {
   }
 
   ul > li {
-    @apply font-inter-tight text-tagline-2 flex items-center gap-x-2 font-normal text-white/60 before:block before:size-1.5 before:rounded-full before:bg-white before:content-[''];
+    @apply font-system text-tagline-2 flex items-center gap-x-2 font-normal text-white/60 before:block before:size-1.5 before:rounded-full before:bg-white before:content-[''];
   }
 }
 
@@ -138,23 +138,23 @@ dialog.modal-overlay.modal-close {
   @apply w-full max-w-full text-white/80;
 
   h1 {
-    @apply font-sora text-sora-heading-3 mt-10 mb-1 font-normal text-white/90 md:mt-14;
+    @apply font-system text-sora-heading-3 mt-10 mb-1 font-normal text-white/90 md:mt-14;
   }
 
   h2 {
-    @apply font-sora lg:text-sora-heading-5 text-sora-heading-6 mt-10 mb-1 font-normal text-white/90 md:mt-14;
+    @apply font-system lg:text-sora-heading-5 text-sora-heading-6 mt-10 mb-1 font-normal text-white/90 md:mt-14;
   }
 
   h3 {
-    @apply font-sora lg:text-sora-heading-5 text-sora-heading-6 mt-10 mb-1 font-normal text-white/90;
+    @apply font-system lg:text-sora-heading-5 text-sora-heading-6 mt-10 mb-1 font-normal text-white/90;
   }
 
   h4 {
-    @apply font-sora text-sora-heading-6 mt-8 mb-1 font-normal text-white/90;
+    @apply font-system text-sora-heading-6 mt-8 mb-1 font-normal text-white/90;
   }
 
   p {
-    @apply font-inter-tight text-tagline-2 font-normal text-white/60;
+    @apply font-system text-tagline-2 font-normal text-white/60;
   }
 
   h2 + p,
@@ -187,7 +187,7 @@ dialog.modal-overlay.modal-close {
   }
 
   code {
-    @apply font-ibm-plex-mono rounded bg-white/10 px-1.5 py-0.5 text-sm text-white/90;
+    @apply font-system rounded bg-white/10 px-1.5 py-0.5 text-sm text-white/90;
   }
 
   pre {
@@ -199,7 +199,7 @@ dialog.modal-overlay.modal-close {
   }
 
   blockquote {
-    @apply font-inter-tight text-it-heading-6 border-l-opai-purple mt-6 mb-6 border-l-2 pl-6 leading-[30px] font-normal text-white/90;
+    @apply font-system text-sora-heading-6 border-l-opai-purple mt-6 mb-6 border-l-2 pl-6 leading-[30px] font-normal text-white/90;
   }
 
   table {
