@@ -1,12 +1,13 @@
 import FeaturedArticles from '@/src/components/blog/featured-articles';
 import BlogHero from '@/src/components/blog/blog-hero';
-import type { BlogPost } from '@/src/interface';
+import type { BlogPost, BlogCategory } from '@/src/interface';
 import type { ApiPost } from '@/src/interface/api';
 import { apiPostsToBlogPosts, buildDateRecordsFromPosts } from '@/src/utils/apiTransformers';
 import { getPosts } from '@/src/services/posts';
 import { getCategories } from '@/src/services/categories';
 import { apiCategoriesToBlogCategories } from '@/src/utils/apiTransformers';
 import { getCategoryBySlug } from '@/src/services/categories';
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
@@ -18,6 +19,22 @@ interface CategoryPageProps {
   }>;
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  try {
+    const category = await getCategoryBySlug(slug);
+    if (category) {
+      return {
+        title: `${category.name} - Blog | MavericksAI`,
+        description: `Browse posts in the ${category.name} category.`,
+      };
+    }
+  } catch {
+    // Fall through to default
+  }
+  return { title: `Category - Blog | MavericksAI` };
+}
+
 const CategoryPage = async ({ params, searchParams }: CategoryPageProps) => {
   const { slug } = await params;
   const paramsSearch = await searchParams;
@@ -25,15 +42,21 @@ const CategoryPage = async ({ params, searchParams }: CategoryPageProps) => {
   // Fetch category info by slug
   let categoryId: number | null = null;
   let categoryName = slug;
+  let categoryFound = false;
 
   try {
     const category = await getCategoryBySlug(slug);
     if (category) {
       categoryId = category.id;
       categoryName = category.name;
+      categoryFound = true;
     }
   } catch {
     // Category fetch failed — proceed with slug as fallback name
+  }
+
+  if (!categoryFound) {
+    notFound();
   }
 
   // Fetch posts filtered by category ID
@@ -41,7 +64,7 @@ const CategoryPage = async ({ params, searchParams }: CategoryPageProps) => {
   let allPosts: BlogPost[] = [];
   let totalPages = 1;
   let currentPage = 1;
-  let categories: { label: string; slug: string; count: number }[] = [];
+  let categories: BlogCategory[] = [];
   let dateRecords: { date: string; displayDate: string; count: number }[] = [];
   let fetchError = false;
 
@@ -93,3 +116,4 @@ const CategoryPage = async ({ params, searchParams }: CategoryPageProps) => {
 };
 
 export default CategoryPage;
+

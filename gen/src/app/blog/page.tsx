@@ -48,15 +48,6 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
     ? (typeof params.date === 'string' ? params.date : params.date[0])
     : null;
 
-  // Look up category ID from categories list
-  const categoryId = categoryName
-    ? categories.find((c) => c.label === categoryName)?.slug
-      ? categories.find((c) => c.label === categoryName)!.id
-        ? undefined
-        : undefined
-      : undefined
-    : undefined;
-
   // Fetch posts from API (paginated, with optional filters)
   const apiQueryParams: Record<string, string | number> = {};
   if (categoryName) {
