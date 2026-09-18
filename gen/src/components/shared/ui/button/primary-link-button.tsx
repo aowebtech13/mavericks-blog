@@ -28,7 +28,7 @@ const PrimaryLinkButton = forwardRef<HTMLAnchorElement, PrimaryLinkButtonProps>(
             className="bg-background-6 absolute left-0 size-4 translate-x-[-130%] rounded-full transition-transform duration-400 ease-in-out group-hover:translate-x-0"
             aria-hidden
           />
-          <span className="font-ibm-plex-mono text-tagline-2 text-background-14 inline-block leading-[22.4px] font-medium text-nowrap transition-transform duration-400 ease-in-out group-hover:translate-x-[28px]">
+          <span className="font-system text-tagline-2 text-background-14 inline-block leading-[22.4px] font-medium text-nowrap transition-transform duration-400 ease-in-out group-hover:translate-x-[28px]">
             {children}
           </span>
           <span className="text-background-6 relative mt-px inline-block transition-transform duration-400 ease-in-out group-hover:translate-x-full">

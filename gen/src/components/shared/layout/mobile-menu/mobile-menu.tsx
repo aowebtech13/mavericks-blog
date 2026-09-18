@@ -67,7 +67,7 @@ const MobileMenu = ({ menuData, categories = [], trendingLabels = [] }: MobileMe
                 href="https://blog.mavericksai.tech/blog"
                 onClick={closeMenu}
                 className={cn(
-                  'font-inter-tight text-tagline-3 block text-left transition-all duration-500 ease-in-out py-2.5',
+                  'font-system text-tagline-3 block text-left transition-all duration-500 ease-in-out py-2.5',
                   isActiveLink('/')
                     ? 'font-semibold text-white'
                     : 'font-normal text-white/70'
@@ -90,7 +90,7 @@ const MobileMenu = ({ menuData, categories = [], trendingLabels = [] }: MobileMe
                       href={subItem.href}
                       onClick={closeMenu}
                       className={cn(
-                        'font-inter-tight text-tagline-3 ml-4 block text-left transition-all duration-500 ease-in-out',
+                        'font-system text-tagline-3 ml-4 block text-left transition-all duration-500 ease-in-out',
                         idx === 0 ? 'py-1.5' : 'py-2.5',
                         isActiveLink(subItem.href)
                           ? 'font-semibold text-white'
@@ -113,7 +113,7 @@ const MobileMenu = ({ menuData, categories = [], trendingLabels = [] }: MobileMe
                       href={cat.href}
                       onClick={closeMenu}
                       className={cn(
-                        'font-inter-tight text-tagline-3 ml-4 block text-left transition-all duration-500 ease-in-out',
+                        'font-system text-tagline-3 ml-4 block text-left transition-all duration-500 ease-in-out',
                         idx === 0 ? 'py-1.5' : 'py-2.5',
                         isActiveCategory(cat.href)
                           ? 'font-semibold text-white'
@@ -136,7 +136,7 @@ const MobileMenu = ({ menuData, categories = [], trendingLabels = [] }: MobileMe
                       href={tag.href}
                       onClick={closeMenu}
                       className={cn(
-                        'font-inter-tight text-tagline-3 ml-4 block text-left transition-all duration-500 ease-in-out',
+                        'font-system text-tagline-3 ml-4 block text-left transition-all duration-500 ease-in-out',
                         idx === 0 ? 'py-1.5' : 'py-2.5',
                         isActiveCategory(tag.href)
                           ? 'font-semibold text-white'

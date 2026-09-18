@@ -82,7 +82,7 @@ const Navbar = () => {
                 <li className="py-2.5">
                   <Link
                     href="https://www.mavericksai.tech/"
-                    className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
+                    className="text-tagline-3 font-system flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
                   >
                     Home
                   </Link>
@@ -90,7 +90,7 @@ const Navbar = () => {
                 <li className="py-2.5">
                   <Link
                     href="https://blog.mavericksai.tech/blog"
-                    className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
+                    className="text-tagline-3 font-system flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
                   >
                     Blog
                   </Link>
@@ -98,7 +98,7 @@ const Navbar = () => {
                 <li className="py-2.5">
                   <Link
                     href="https://www.mavericksai.tech/"
-                    className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
+                    className="text-tagline-3 font-system flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
                   >
                     Register
                   </Link>
@@ -106,7 +106,7 @@ const Navbar = () => {
                 <li className="py-2.5">
                   <Link
                     href="https://www.mavericksai.tech/"
-                    className="text-tagline-3 font-ibm-plex-mono flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
+                    className="text-tagline-3 font-system flex items-center gap-1 rounded-full border border-transparent px-4 py-2 font-normal text-white/60 transition-all duration-200 hover:text-white"
                   >
                      Login
                   </Link>

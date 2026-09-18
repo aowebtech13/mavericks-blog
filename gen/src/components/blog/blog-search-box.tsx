@@ -47,7 +47,7 @@ const BlogSearchBox = (props: Readonly<BlogSearchBoxProps>) => {
             required
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="text-tagline-2 focus:border-stroke-3/30 placeholder:text-tagline-2 placeholder:font-inter-tight block w-full max-w-full py-3 pr-11 pl-[18px] text-white placeholder:font-normal placeholder:text-white/50 focus:outline-none"
+            className="text-tagline-2 focus:border-stroke-3/30 placeholder:text-tagline-2 placeholder:font-system block w-full max-w-full py-3 pr-11 pl-[18px] text-white placeholder:font-normal placeholder:text-white/50 focus:outline-none"
           />
           <span className="absolute top-[55%] right-4 inline-block -translate-y-1/2">
             {isShowingSearchResults ? (

@@ -92,7 +92,7 @@ const ShuffledTitle = ({
         ref={titleRef}
         className={
           headingClassName ??
-          'footer-title text-it-heading-4 font-inter-tight pl-7 text-center font-bold tracking-[30.48px] uppercase sm:text-[60px] sm:leading-[120px] md:tracking-[50.48px] lg:text-[80px] lg:tracking-[70.48px] xl:text-[112px] xl:leading-[168px] 2xl:tracking-[100.48px]'
+          'footer-title text-sora-heading-4 font-system pl-7 text-center font-bold tracking-[30.48px] uppercase sm:text-[60px] sm:leading-[120px] md:tracking-[50.48px] lg:text-[80px] lg:tracking-[70.48px] xl:text-[112px] xl:leading-[168px] 2xl:tracking-[100.48px]'
         }
         aria-hidden
       >

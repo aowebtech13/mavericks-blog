@@ -84,8 +84,8 @@ const BlogCard: FC<BlogCardProps> = ({
               />
             </figure>
             <div className="space-y-0.5">
-              <h4 className="font-inter-tight text-tagline-3 text-white/90">{author}</h4>
-              <p className="font-inter-tight text-tagline-4 flex items-center justify-center gap-x-[5px] font-normal text-white/90">
+              <h4 className="font-system text-tagline-3 text-white/90">{author}</h4>
+              <p className="font-system text-tagline-4 flex items-center justify-center gap-x-[5px] font-normal text-white/90">
                 <span>
                   <CalendarIcon />
                 </span>

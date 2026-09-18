@@ -10,7 +10,7 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(({ className, children, ..
   <span
     ref={ref}
     className={cn(
-      'font-inter-tight text-tagline-4 inline-block bg-(image:--color-gradient-23) bg-clip-text text-transparent',
+      'font-system text-tagline-4 inline-block bg-(image:--color-gradient-23) bg-clip-text text-transparent',
       className
     )}
     {...props}

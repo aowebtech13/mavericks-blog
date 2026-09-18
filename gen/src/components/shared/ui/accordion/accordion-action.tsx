@@ -22,7 +22,7 @@ export const AccordionAction = ({ children, className }: AccordionActionProps) =
         type="button"
         className={cn(
           'relative flex w-full cursor-pointer items-center justify-between text-left transition-all duration-300 ease-in-out',
-          'font-inter-tight text-tagline-2 text-white focus:outline-none',
+          'font-system text-tagline-2 text-white focus:outline-none',
           className
         )}
         onClick={() => toggle(itemValue)}

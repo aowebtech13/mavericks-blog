@@ -13,7 +13,7 @@ const FooterBottom = () => (
           <li key={item.label}>
             <Link
               href={item.href}
-              className="footer-link font-inter-tight text-tagline-4 font-normal text-white/50 transition-colors duration-300 hover:text-white"
+              className="footer-link font-system text-tagline-4 font-normal text-white/50 transition-colors duration-300 hover:text-white"
             >
               {item.label}
             </Link>

@@ -31,7 +31,7 @@ const MobileMenuItem = ({ id, title, children, hasSubmenu = false }: MobileMenuI
         aria-expanded={hasSubmenu ? isActive : undefined}
         aria-controls={hasSubmenu ? `submenu-${id}` : undefined}
       >
-        <span className="font-sora text-tagline-1 block font-normal text-white">{title}</span>
+        <span className="font-system text-tagline-1 block font-normal text-white">{title}</span>
         {hasSubmenu && (
           <span className={cn('transition-transform duration-300', isActive && 'rotate-90')}>
             <svg
