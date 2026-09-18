@@ -55,7 +55,7 @@ export interface ApiPaginatedResponse<T> {
 export interface PostsQueryParams {
   page?: number;
   per_page?: number;
-  category?: string;
+  category?: string | number;
   q?: string;
   tag?: string;
   status?: string;

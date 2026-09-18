@@ -116,4 +116,3 @@ const CategoryPage = async ({ params, searchParams }: CategoryPageProps) => {
 };
 
 export default CategoryPage;
-

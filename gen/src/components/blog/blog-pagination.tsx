@@ -14,9 +14,15 @@ function buildPageUrl(
   otherPage: number
 ): string {
   const params = new URLSearchParams();
-  if (currentCategory) params.set('category', currentCategory);
-  else if (currentSearch) params.set('search', currentSearch);
-  else if (currentDate) params.set('date', currentDate);
+  if (currentCategorySlug) {
+    // Category page: don't add category param, slug is in the path
+  } else if (currentCategory) {
+    params.set('category', currentCategory);
+  } else if (currentSearch) {
+    params.set('search', currentSearch);
+  } else if (currentDate) {
+    params.set('date', currentDate);
+  }
 
   const mainPage = pageParam === 'page' ? targetPage : otherPage;
   const popularPage = pageParam === 'popularPage' ? targetPage : otherPage;
