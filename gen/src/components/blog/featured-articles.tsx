@@ -14,6 +14,7 @@ interface FeaturedArticlesProps {
   categories: BlogCategory[];
   dateRecords: BlogDateRecord[];
   currentCategory: string | null;
+  currentCategorySlug: string | null;
   currentSearch: string | null;
   currentDate: string | null;
 }
@@ -28,6 +29,7 @@ const FeaturedArticles: FC<FeaturedArticlesProps> = ({
   categories,
   dateRecords,
   currentCategory,
+  currentCategorySlug,
   currentSearch,
   currentDate,
 }) => {
@@ -83,6 +85,7 @@ const FeaturedArticles: FC<FeaturedArticlesProps> = ({
                   totalPages={totalPages}
                   currentPage={currentPage}
                   currentCategory={currentCategory}
+                  currentCategorySlug={currentCategorySlug}
                   currentSearch={currentSearch}
                   currentDate={currentDate}
                   pageParam="page"

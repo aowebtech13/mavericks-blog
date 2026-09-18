@@ -46,6 +46,7 @@ function estimateReadTime(content: string): string {
 export function apiCategoriesToBlogCategories(categories: ApiCategory[]): BlogCategory[] {
   return categories.map((cat) => ({
     label: cat.name,
+    slug: cat.slug,
     count: cat.posts_count ?? 0,
   }));
 }

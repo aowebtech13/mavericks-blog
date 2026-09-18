@@ -1,6 +1,6 @@
 import FeaturedArticles from '@/src/components/blog/featured-articles';
 import BlogHero from '@/src/components/blog/blog-hero';
-import type { BlogPost } from '@/src/interface';
+import type { BlogPost, BlogCategory } from '@/src/interface';
 import type { ApiPost } from '@/src/interface/api';
 import { apiPostsToBlogPosts, buildDateRecordsFromPosts } from '@/src/utils/apiTransformers';
 import { getPosts } from '@/src/services/posts';
@@ -39,7 +39,7 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
   let allPosts: BlogPost[] = [];
   let totalPages = 1;
   let currentPage = 1;
-  let categories: { label: string; count: number }[] = [];
+  let categories: BlogCategory[] = [];
   let dateRecords: { date: string; displayDate: string; count: number }[] = [];
   let fetchError = false;
 
@@ -72,6 +72,11 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
                       typeof params.date === 'string' ? params.date : null;
   const filterType = params.category ? 'category' : params.search ? 'search' : params.date ? 'date' : null;
 
+  // Find the slug for the current category from the categories list
+  const currentCategorySlug = filterType === 'category' && categories.length > 0
+    ? (categories.find((c) => c.label === filterValue)?.slug ?? null)
+    : null;
+
   return (
     <>
       <BlogHero />
@@ -83,6 +88,7 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
         categories={categories}
         dateRecords={dateRecords}
         currentCategory={filterType === 'category' ? filterValue : null}
+        currentCategorySlug={currentCategorySlug}
         currentSearch={filterType === 'search' ? filterValue : null}
         currentDate={filterType === 'date' ? filterValue : null}
       />

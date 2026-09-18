@@ -9,3 +9,15 @@ export async function getCategories(): Promise<ApiCategory[]> {
   return response.data.data;
 }
 
+/**
+ * Fetch a single category by slug (public endpoint).
+ */
+export async function getCategoryBySlug(slug: string): Promise<ApiCategory | null> {
+  try {
+    const categories = await getCategories();
+    return categories.find((cat) => cat.slug === slug) ?? null;
+  } catch {
+    return null;
+  }
+}
+

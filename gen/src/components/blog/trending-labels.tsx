@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 interface TrendingLabelItem {
   label: string;
+  slug: string;
   count: number;
 }
 
@@ -16,11 +17,13 @@ interface TrendingLabelLinkProps {
   isActive: boolean;
 }
 
-function TrendingLabelLink({ label, isActive }: Readonly<TrendingLabelLinkProps>) {
+function TrendingLabelLink({ label, isActive, slug }: Readonly<TrendingLabelLinkProps> & { slug?: string }) {
   const href =
     label === 'All' || isActive
       ? '/blog'
-      : `/blog?category=${encodeURIComponent(label)}`;
+      : slug
+        ? `/blog/category/${slug}`
+        : `/blog?category=${encodeURIComponent(label)}`;
   return (
     <Link
       href={href}
@@ -48,9 +51,10 @@ function TrendingLabels({ items, currentCategory }: Readonly<TrendingLabelsProps
         <TrendingLabelLink label="All" isActive={allIsActive} />
         {items.map((item) => (
           <TrendingLabelLink
-            key={item.label}
+            key={item.slug}
             label={item.label}
             isActive={currentCategory === item.label}
+            slug={item.slug}
           />
         ))}
       </div>

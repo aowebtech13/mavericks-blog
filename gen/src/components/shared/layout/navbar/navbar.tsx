@@ -33,7 +33,7 @@ const Navbar = () => {
         setCategories(
           blogCategories.map((cat) => ({
             label: cat.label,
-            href: `/blog?category=${encodeURIComponent(cat.label)}`,
+            href: `/blog/category/${cat.slug}`,
           }))
         );
         setTrendingLabels(

@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 interface CategoryItem {
   label: string;
+  slug: string;
   count: number;
 }
 
@@ -34,12 +35,12 @@ const Categories = ({ items, currentCategory, totalCount = 0 }: CategoriesProps)
             <span>({Number.isFinite(totalCount) ? totalCount : 0})</span>
           </Link>
         </li>
-        {items.map(({ label, count }) => {
+        {items.map(({ label, slug, count }) => {
           const isSelected = currentCategory === label;
           return (
-            <li key={label}>
+            <li key={slug}>
               <Link
-                href={isSelected ? '/blog' : `/blog?category=${encodeURIComponent(label)}`}
+                href={isSelected ? '/blog' : `/blog/category/${slug}`}
                 aria-current={isSelected ? 'page' : undefined}
                 className={cn(
                   'flex items-center justify-between rounded-md p-2 transition-all duration-500',

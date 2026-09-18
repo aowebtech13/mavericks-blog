@@ -7,6 +7,7 @@ export type BlogPaginationPageParam = 'page' | 'popularPage';
 function buildPageUrl(
   targetPage: number,
   currentCategory: string | null,
+  currentCategorySlug: string | null,
   currentSearch: string | null,
   currentDate: string | null,
   pageParam: BlogPaginationPageParam,
@@ -24,6 +25,11 @@ function buildPageUrl(
   if (popularPage > 1) params.set('popularPage', String(popularPage));
 
   const q = params.toString();
+  if (currentCategorySlug) {
+    return q
+      ? `/blog/category/${currentCategorySlug}?${q}`
+      : `/blog/category/${currentCategorySlug}`;
+  }
   return q ? `/blog?${q}` : '/blog';
 }
 
@@ -31,6 +37,7 @@ export interface BlogPaginationProps {
   totalPages: number;
   currentPage: number;
   currentCategory: string | null;
+  currentCategorySlug: string | null;
   currentSearch: string | null;
   currentDate: string | null;
   pageParam?: BlogPaginationPageParam;
@@ -42,6 +49,7 @@ const BlogPagination = ({
   totalPages,
   currentPage,
   currentCategory,
+  currentCategorySlug,
   currentSearch,
   currentDate,
   pageParam = 'page',
@@ -52,6 +60,7 @@ const BlogPagination = ({
   const prevUrl = buildPageUrl(
     currentPage - 1,
     currentCategory,
+    currentCategorySlug,
     currentSearch,
     currentDate,
     pageParam,
@@ -60,6 +69,7 @@ const BlogPagination = ({
   const nextUrl = buildPageUrl(
     currentPage + 1,
     currentCategory,
+    currentCategorySlug,
     currentSearch,
     currentDate,
     pageParam,
@@ -84,6 +94,7 @@ const BlogPagination = ({
           href={buildPageUrl(
             page,
             currentCategory,
+            currentCategorySlug,
             currentSearch,
             currentDate,
             pageParam,

@@ -16,6 +16,7 @@ export interface BlogPost {
 
 export interface BlogCategory {
   label: string;
+  slug: string;
   count: number;
 }
 
