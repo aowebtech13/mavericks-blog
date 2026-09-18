@@ -61,6 +61,22 @@ const MobileMenu = ({ menuData, categories = [], trendingLabels = [] }: MobileMe
 
         <div className="scroll-bar mt-6 h-[85vh] w-full overflow-x-hidden overflow-y-auto pb-10">
           <ul className="space-y-2">
+            {/* Home link */}
+            <li>
+              <Link
+                href="https://www.mavericksai.tech/"
+                onClick={closeMenu}
+                className={cn(
+                  'font-inter-tight text-tagline-3 block text-left transition-all duration-500 ease-in-out py-2.5',
+                  isActiveLink('/')
+                    ? 'font-semibold text-white'
+                    : 'font-normal text-white/70'
+                )}
+              >
+                Home
+              </Link>
+            </li>
+
             {menuData.map((item) => (
               <MobileMenuItem
                 key={item.id}

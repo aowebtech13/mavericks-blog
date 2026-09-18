@@ -1,7 +1,7 @@
 /* =========== GLOBAL STYLES ========== */
 
 body {
-  @apply font-inter-tight antialiased;
+  @apply font-system antialiased;
 }
 
 [data-ns-animate] {
