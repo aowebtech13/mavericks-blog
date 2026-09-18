@@ -15,6 +15,7 @@ export interface BlogPost {
 }
 
 export interface BlogCategory {
+  id: number;
   label: string;
   slug: string;
   count: number;

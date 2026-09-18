@@ -28,10 +28,44 @@ interface BlogPageProps {
 const BlogPage = async ({ searchParams }: BlogPageProps) => {
   const params = await searchParams;
 
+  // Fetch categories first (needed for category ID lookup)
+  let categories: BlogCategory[] = [];
+  try {
+    const apiCategories = await getCategories();
+    categories = apiCategoriesToBlogCategories(apiCategories);
+  } catch {
+    // Categories are non-critical
+  }
+
+  // Determine filter values
+  const categoryName = params.category
+    ? (typeof params.category === 'string' ? params.category : params.category[0])
+    : null;
+  const searchValue = params.search
+    ? (typeof params.search === 'string' ? params.search : params.search[0])
+    : null;
+  const dateValue = params.date
+    ? (typeof params.date === 'string' ? params.date : params.date[0])
+    : null;
+
+  // Look up category ID from categories list
+  const categoryId = categoryName
+    ? categories.find((c) => c.label === categoryName)?.slug
+      ? categories.find((c) => c.label === categoryName)!.id
+        ? undefined
+        : undefined
+      : undefined
+    : undefined;
+
   // Fetch posts from API (paginated, with optional filters)
   const apiQueryParams: Record<string, string | number> = {};
-  if (params.category) apiQueryParams.category = typeof params.category === 'string' ? params.category : params.category[0];
-  if (params.search) apiQueryParams.q = typeof params.search === 'string' ? params.search : params.search[0];
+  if (categoryName) {
+    const cat = categories.find((c) => c.label === categoryName);
+    if (cat) {
+      apiQueryParams.category = cat.id;
+    }
+  }
+  if (searchValue) apiQueryParams.q = searchValue;
   if (params.page) apiQueryParams.page = typeof params.page === 'string' ? params.page : params.page[0];
   apiQueryParams.per_page = 6;
 
@@ -39,7 +73,6 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
   let allPosts: BlogPost[] = [];
   let totalPages = 1;
   let currentPage = 1;
-  let categories: BlogCategory[] = [];
   let dateRecords: { date: string; displayDate: string; count: number }[] = [];
   let fetchError = false;
 
@@ -55,26 +88,16 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
     fetchError = true;
   }
 
-  try {
-    const apiCategories = await getCategories();
-    categories = apiCategoriesToBlogCategories(apiCategories);
-  } catch {
-    // Categories are non-critical — silently fall back to empty array
-  }
-
   // Build date records from fetched posts (if any)
   if (!fetchError) {
     dateRecords = buildDateRecordsFromPosts(allPosts);
   }
 
-  const filterValue = typeof params.category === 'string' ? params.category :
-                      typeof params.search === 'string' ? params.search :
-                      typeof params.date === 'string' ? params.date : null;
-  const filterType = params.category ? 'category' : params.search ? 'search' : params.date ? 'date' : null;
+  const filterType = categoryName ? 'category' : searchValue ? 'search' : dateValue ? 'date' : null;
 
   // Find the slug for the current category from the categories list
   const currentCategorySlug = filterType === 'category' && categories.length > 0
-    ? (categories.find((c) => c.label === filterValue)?.slug ?? null)
+    ? (categories.find((c) => c.label === categoryName)?.slug ?? null)
     : null;
 
   return (
@@ -87,10 +110,10 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
         currentPage={currentPage}
         categories={categories}
         dateRecords={dateRecords}
-        currentCategory={filterType === 'category' ? filterValue : null}
+        currentCategory={filterType === 'category' ? categoryName : null}
         currentCategorySlug={currentCategorySlug}
-        currentSearch={filterType === 'search' ? filterValue : null}
-        currentDate={filterType === 'date' ? filterValue : null}
+        currentSearch={filterType === 'search' ? searchValue : null}
+        currentDate={filterType === 'date' ? dateValue : null}
       />
     </>
   );
