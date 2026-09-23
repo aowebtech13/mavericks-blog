@@ -31,8 +31,10 @@ const ShareSection = ({
     }
   }, [pathname]);
 
-  // Build a short, engaging share text that includes the title + excerpt.
-  const shareText = [title, description].filter(Boolean).join(' — ');
+  // Build a short, engaging share text that includes the title + excerpt + image.
+  const shareText = [title, description, imageUrl ? `📸 ${imageUrl}` : '']
+    .filter(Boolean)
+    .join(' — ');
 
   const shareLinks = [
     {

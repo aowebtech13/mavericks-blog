@@ -50,7 +50,12 @@ const BlogDetailsContent: FC<BlogDetailsContentProps> = ({ blog }) => {
 
           <RevealAnimation delay={0.3}>
             <div>
-              <ShareSection title="Share this post" />
+              <ShareSection
+                title={title}
+                description={description}
+                imageUrl={thumbnail}
+                shareLabel="Share this post"
+              />
               <div className="flex items-center gap-3">
                 <figure className="size-12 overflow-hidden rounded-full">
                   <SafeImage
