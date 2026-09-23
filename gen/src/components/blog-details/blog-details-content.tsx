@@ -23,6 +23,7 @@ const BlogDetailsContent: FC<BlogDetailsContentProps> = ({ blog }) => {
   const publishDate = (data?.publishDate as string) ?? '';
   const readTime = (data?.readTime as string) ?? '';
   const thumbnail = (data?.thumbnail as string) ?? '';
+  const description = (data?.description as string) ?? '';
 
   return (
     <section className="pt-32 xl:pt-40 2xl:pt-50">
