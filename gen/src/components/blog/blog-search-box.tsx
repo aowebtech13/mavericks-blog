@@ -32,6 +32,11 @@ const BlogSearchBox = (props: Readonly<BlogSearchBoxProps>) => {
     setSelectedCategory(defaultCategory);
   }, [defaultCategory]);
 
+  // Filter categories based on search input
+  const filteredCategories = categories.filter((cat) =>
+    cat.label.toLowerCase().includes(value.toLowerCase())
+  );
+
   const isShowingSearchResults = (defaultValue ?? '').trim().length > 0 || selectedCategory.length > 0;
 
   const handleSubmit: ComponentPropsWithoutRef<'form'>['onSubmit'] = (e) => {
