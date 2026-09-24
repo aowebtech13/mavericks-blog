@@ -36,18 +36,7 @@ const FeaturedArticles: FC<FeaturedArticlesProps> = ({
   return (
     <section aria-label="Blog listing">
       <div className="main-container">
-        <div className="mb-18 space-y-3 text-left">
-          <TextReveal>
-            <h2 className="lg:text-sora-heading-2 md:text-sora-heading-3 text-sora-heading-4 font-normal text-white/90">
-              Featured articles
-            </h2>
-          </TextReveal>
-          <TextReveal delay={0.1}>
-            <p className="text-tagline-2 font-normal text-white/60">
-              Level up your SEO, content strategy, and AI workflows.
-            </p>
-          </TextReveal>
-        </div>
+        
         <div className="flex flex-col items-start gap-y-12 lg:flex-row lg:gap-x-10 xl:gap-x-14 2xl:gap-x-18">
           <BlogSidebar
             posts={allPosts}
