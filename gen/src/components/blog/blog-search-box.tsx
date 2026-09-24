@@ -95,7 +95,7 @@ const BlogSearchBox = (props: Readonly<BlogSearchBoxProps>) => {
                     >
                       All Categories
                     </button>
-                    {categories.map((cat) => (
+                    {filteredCategories.map((cat) => (
                       <button
                         key={cat.slug}
                         type="button"
@@ -107,6 +107,11 @@ const BlogSearchBox = (props: Readonly<BlogSearchBoxProps>) => {
                         {cat.label}
                       </button>
                     ))}
+                    {filteredCategories.length === 0 && categories.length > 0 && (
+                      <div className="w-full px-3 py-2 text-left text-sm text-white/40">
+                        No categories match "{value}"
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
