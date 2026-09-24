@@ -29,7 +29,11 @@ const BlogSidebar = ({
         className="border-stroke-1/11 from-background-3 to-background-5 w-full max-w-full space-y-[70px] rounded-lg border bg-radial-[52.78%_57.9%_at_3.87%_7.86%] px-8 py-10.5 lg:max-w-[370px]"
         aria-label="Blog filters and recent articles"
       >
-        <BlogSearchBox defaultValue={currentSearch ?? ''} />
+        <BlogSearchBox
+          defaultValue={currentSearch ?? ''}
+          categories={categories.map((cat) => ({ label: cat.label, slug: cat.slug }))}
+          defaultCategory={currentCategory ?? ''}
+        />
 
         <Categories
           items={categories}

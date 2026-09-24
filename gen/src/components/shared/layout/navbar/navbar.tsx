@@ -14,12 +14,17 @@ import MobileMenuButton from './mobile-menu-button';
 import { getCategories } from '@/src/services/categories';
 import { getPopularTags } from '@/src/services/tags';
 import { apiCategoriesToBlogCategories } from '@/src/utils/apiTransformers';
+import BlogSearchBox from '@/src/components/blog/blog-search-box';
+import { useSearchParams } from 'next/navigation';
 
 const Navbar = () => {
   const { isScrolled } = useNavbarScroll(150);
   const [menuDropdownId, setMenuDropdownId] = useState<string | null>(null);
-  const [categories, setCategories] = useState<{ label: string; href: string }[]>([]);
+  const [categories, setCategories] = useState<{ label: string; href: string; slug: string }[]>([]);
   const [trendingLabels, setTrendingLabels] = useState<{ label: string; href: string }[]>([]);
+  const searchParams = useSearchParams();
+  const currentSearch = searchParams?.get('search') ?? '';
+  const currentCategory = searchParams?.get('category') ?? '';
 
   useEffect(() => {
     let cancelled = false;
@@ -34,6 +39,7 @@ const Navbar = () => {
           blogCategories.map((cat) => ({
             label: cat.label,
             href: `/blog/category/${cat.slug}`,
+            slug: cat.slug,
           }))
         );
         setTrendingLabels(
@@ -78,7 +84,7 @@ const Navbar = () => {
               </Link>
             </div>
             <nav className="hidden items-center xl:flex">
-              <ul className="flex items-center">
+              <ul className="flex items-center gap-4">
                 <li className="py-2.5">
                   <Link
                     href="https://www.mavericksai.tech/"
@@ -112,6 +118,13 @@ const Navbar = () => {
                   </Link>
                 </li>
               </ul>
+              <div className="ml-4 hidden lg:block w-[320px]">
+                <BlogSearchBox
+                  defaultValue={currentSearch}
+                  categories={categories.map((cat) => ({ label: cat.label, slug: cat.slug }))}
+                  defaultCategory={currentCategory}
+                />
+              </div>
             </nav>
             <MobileMenuButton />
           </div>
