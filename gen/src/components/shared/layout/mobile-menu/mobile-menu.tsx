@@ -77,6 +77,22 @@ const MobileMenu = ({ menuData, categories = [], trendingLabels = [] }: MobileMe
               </Link>
             </li>
 
+            {/* Recent Posts link */}
+            <li>
+              <Link
+                href="https://blog.mavericksai.tech/blog/recent"
+                onClick={closeMenu}
+                className={cn(
+                  'font-system text-tagline-3 block text-left transition-all duration-500 ease-in-out py-2.5',
+                  isActiveLink('/blog/recent')
+                    ? 'font-semibold text-white'
+                    : 'font-normal text-white/70'
+                )}
+              >
+                Recent Posts
+              </Link>
+            </li>
+
             {menuData.map((item) => (
               <MobileMenuItem
                 key={item.id}
