@@ -1,27 +1,27 @@
 import RevealAnimation from '@/src/components/animation/reveal-animation';
 import BlogSearchBox from '@/src/components/blog/blog-search-box';
 import Categories from '@/src/components/blog/categories';
-import PastRecords from '@/src/components/blog/past-records';
+import CountryDropdown from '@/src/components/blog/country-dropdown';
 import RecentArticles from '@/src/components/blog/recent-articles';
 import TrendingLabels from '@/src/components/blog/trending-labels';
-import type { BlogCategory, BlogDateRecord, BlogPost } from '@/src/interface';
+import type { BlogCategory, BlogPost } from '@/src/interface';
 
 interface BlogSidebarProps {
   posts?: BlogPost[];
   categories: BlogCategory[];
-  dateRecords: BlogDateRecord[];
   currentCategory: string | null;
   currentSearch: string | null;
   currentDate: string | null;
+  currentCountry: string | null;
 }
 
 const BlogSidebar = ({
   posts = [],
   categories,
-  dateRecords,
   currentCategory,
   currentSearch,
   currentDate,
+  currentCountry,
 }: BlogSidebarProps) => {
   return (
     <RevealAnimation delay={0.1}>
@@ -33,7 +33,10 @@ const BlogSidebar = ({
           defaultValue={currentSearch ?? ''}
           categories={categories.map((cat) => ({ label: cat.label, slug: cat.slug }))}
           defaultCategory={currentCategory ?? ''}
+          defaultCountry={currentCountry ?? ''}
         />
+
+        <CountryDropdown currentCountry={currentCountry} />
 
         <Categories
           items={categories}
@@ -44,8 +47,6 @@ const BlogSidebar = ({
         <RecentArticles posts={posts} limit={3} />
 
         <TrendingLabels items={categories} currentCategory={currentCategory} />
-
-        <PastRecords records={dateRecords} currentDate={currentDate} totalCount={posts.length} />
       </aside>
     </RevealAnimation>
   );
