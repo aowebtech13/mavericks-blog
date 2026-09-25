@@ -24,13 +24,14 @@ class PostController extends Controller
         $tag = $request->input('tag');
         $all = $request->input('all');
         $search = $request->input('q');
+        $country = $request->input('country');
         $userId = $request->user()?->id;
 
         $version = Cache::rememberForever('posts_version', fn() => time());
-        $cacheKey = "posts_index_v{$version}_{$page}_{$perPage}_{$status}_{$category}_{$tag}_{$all}_{$search}_{$userId}";
+        $cacheKey = "posts_index_v{$version}_{$page}_{$perPage}_{$status}_{$category}_{$tag}_{$all}_{$search}_{$country}_{$userId}";
 
-        $posts = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($request, $userId, $search) {
-            $query = Post::query()->select(['id', 'user_id', 'category_id', 'title', 'slug', 'excerpt', 'featured_image', 'status', 'visibility', 'published_at', 'created_at', 'updated_at', 'views_count']);
+        $posts = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($request, $userId, $search, $country) {
+            $query = Post::query()->select(['id', 'user_id', 'category_id', 'title', 'slug', 'excerpt', 'featured_image', 'status', 'visibility', 'published_at', 'created_at', 'updated_at', 'views_count', 'country']);
 
             if ($userId) {
                 if (!$request->input('all')) {
@@ -54,6 +55,10 @@ class PostController extends Controller
 
             if ($request->input('category')) {
                 $query->where('category_id', $request->input('category'));
+            }
+
+            if ($country) {
+                $query->where('country', $country);
             }
 
             if ($request->input('tag')) {
@@ -104,6 +109,7 @@ class PostController extends Controller
             'visibility' => 'nullable|in:public,private,scheduled',
             'published_at' => 'nullable|date',
             'scheduled_at' => 'nullable|date|after:now',
+            'country' => 'nullable|string|max:2',
         ]);
 
         $validated['user_id'] = $request->user()->id;
@@ -145,6 +151,7 @@ class PostController extends Controller
             'visibility' => 'nullable|in:public,private,scheduled',
             'published_at' => 'nullable|date',
             'scheduled_at' => 'nullable|date|after:now',
+            'country' => 'nullable|string|max:2',
         ]);
 
         if ($request->hasFile('featured_image')) {

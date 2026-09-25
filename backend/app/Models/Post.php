@@ -32,6 +32,7 @@ class Post extends Model
         'scheduled_at',
         'ai_generated',
         'ai_generation_data',
+        'country',
     ];
 
     protected $casts = [

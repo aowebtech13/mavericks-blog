@@ -26,6 +26,7 @@ class PostResource extends JsonResource
             'published_at' => $this->published_at?->toIso8601String(),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
+            'country' => $this->country,
             'user' => $this->user ? [
                 'id' => $this->user->id,
                 'name' => $this->user->name,

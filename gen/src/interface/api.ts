@@ -31,6 +31,7 @@ export interface ApiPost {
   published_at?: string;
   created_at?: string;
   updated_at?: string;
+  country?: string;
   user?: ApiUser;
   category?: ApiCategory;
   tags?: ApiTag[];

@@ -74,6 +74,7 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
+            'country' => 'nullable|string|max:2',
         ], [
             'category_id.required' => 'Please select a category before submitting.',
             'category_id.exists' => 'The selected category does not exist.',
@@ -128,6 +129,7 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
+            'country' => 'nullable|string|max:2',
         ], [
             'category_id.required' => 'Please select a category before submitting.',
             'category_id.exists' => 'The selected category does not exist.',
