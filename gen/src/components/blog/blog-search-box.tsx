@@ -170,7 +170,7 @@ const BlogSearchBox = (props: Readonly<BlogSearchBoxProps>) => {
                   )}
                 </span>
                 <span className="max-w-[140px] truncate">
-                  {selectedCountryObj?.name ?? 'All Countries'}
+                  {selectedCountryObj?.code ?? 'All Countries'}
                 </span>
                 <DownArrowIcon className={`size-4 transition-transform ${isCountryOpen ? 'rotate-180' : ''}`} />
               </button>

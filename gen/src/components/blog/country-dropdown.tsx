@@ -94,7 +94,7 @@ const CountryDropdown = ({
                 unoptimized
               />
             </span>
-            <span className="max-w-[140px] truncate">{selected.name}</span>
+            <span className="max-w-[140px] truncate">{selected.code}</span>
           </>
         ) : (
           <>
