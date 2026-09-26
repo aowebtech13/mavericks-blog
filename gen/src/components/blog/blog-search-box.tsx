@@ -1,7 +1,9 @@
 'use client';
 
 import { CrossIcon, SearchIcon, DownArrowIcon } from '@/src/components/shared/icon';
+import { COUNTRIES, getCountryByCode, type Country } from '@/src/data/countries';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 import type { ComponentPropsWithoutRef } from 'react';
 import { useEffect, useState } from 'react';
 
@@ -14,15 +16,18 @@ interface BlogSearchBoxProps {
   defaultValue?: string;
   categories?: CategoryOption[];
   defaultCategory?: string;
+  defaultCountry?: string;
 }
 
 const BlogSearchBox = (props: Readonly<BlogSearchBoxProps>) => {
-  const { defaultValue = '', categories = [], defaultCategory = '' } = props;
+  const { defaultValue = '', categories = [], defaultCategory = '', defaultCountry = '' } = props;
   const router = useRouter();
   const searchParams = useSearchParams();
   const [value, setValue] = useState(defaultValue);
   const [selectedCategory, setSelectedCategory] = useState(defaultCategory);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState(defaultCountry);
+  const [isCountryOpen, setIsCountryOpen] = useState(false);
 
   useEffect(() => {
     setValue(defaultValue);
@@ -32,12 +37,16 @@ const BlogSearchBox = (props: Readonly<BlogSearchBoxProps>) => {
     setSelectedCategory(defaultCategory);
   }, [defaultCategory]);
 
+  useEffect(() => {
+    setSelectedCountry(defaultCountry);
+  }, [defaultCountry]);
+
   // Filter categories based on search input
   const filteredCategories = categories.filter((cat) =>
     cat.label.toLowerCase().includes(value.toLowerCase())
   );
 
-  const isShowingSearchResults = (defaultValue ?? '').trim().length > 0 || selectedCategory.length > 0;
+  const isShowingSearchResults = (defaultValue ?? '').trim().length > 0 || selectedCategory.length > 0 || selectedCountry.length > 0;
 
   const handleSubmit: ComponentPropsWithoutRef<'form'>['onSubmit'] = (e) => {
     e.preventDefault();
@@ -45,12 +54,14 @@ const BlogSearchBox = (props: Readonly<BlogSearchBoxProps>) => {
     const params = new URLSearchParams();
     if (q) params.set('search', q);
     if (selectedCategory) params.set('category', selectedCategory);
+    if (selectedCountry) params.set('country', selectedCountry);
     router.push(`/blog?${params.toString()}`);
   };
 
   const handleReset = () => {
     setValue('');
     setSelectedCategory('');
+    setSelectedCountry('');
     router.push('/blog');
   };
 
@@ -61,8 +72,22 @@ const BlogSearchBox = (props: Readonly<BlogSearchBoxProps>) => {
     const params = new URLSearchParams();
     if (q) params.set('search', q);
     if (category) params.set('category', category);
+    if (selectedCountry) params.set('country', selectedCountry);
     router.push(`/blog?${params.toString()}`);
   };
+
+  const handleCountryChange = (country: string) => {
+    setSelectedCountry(country);
+    setIsCountryOpen(false);
+    const q = value.trim();
+    const params = new URLSearchParams();
+    if (q) params.set('search', q);
+    if (selectedCategory) params.set('category', selectedCategory);
+    if (country) params.set('country', country);
+    router.push(`/blog?${params.toString()}`);
+  };
+
+  const selectedCountryObj: Country | undefined = getCountryByCode(selectedCountry);
 
   return (
     <form className="block" onSubmit={handleSubmit}>
@@ -116,6 +141,78 @@ const BlogSearchBox = (props: Readonly<BlogSearchBoxProps>) => {
                 )}
               </div>
             )}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setIsCountryOpen(!isCountryOpen)}
+                className={`flex items-center gap-1.5 px-3 py-3 text-sm text-white/70 hover:text-white transition-colors ${
+                  selectedCountry ? 'text-white' : ''
+                }`}
+                aria-label="Select country"
+                aria-expanded={isCountryOpen}
+              >
+                <span>
+                  {selectedCountryObj ? (
+                    <span className="relative inline-flex size-4 overflow-hidden rounded-sm">
+                      <Image
+                        src={selectedCountryObj.flag}
+                        alt={selectedCountryObj.name}
+                        fill
+                        sizes="16px"
+                        className="object-cover"
+                        unoptimized
+                      />
+                    </span>
+                  ) : (
+                    <span className="flex size-4 items-center justify-center rounded-sm bg-white/10 text-[8px] font-bold">
+                      All
+                    </span>
+                  )}
+                </span>
+                <span className="max-w-[140px] truncate">
+                  {selectedCountryObj?.name ?? 'All Countries'}
+                </span>
+                <DownArrowIcon className={`size-4 transition-transform ${isCountryOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {isCountryOpen && (
+                <div className="absolute top-full left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-background-13 border border-stroke-3/25 rounded-lg shadow-lg z-50">
+                  <button
+                    type="button"
+                    onClick={() => handleCountryChange('')}
+                    className={`w-full px-3 py-2 text-left text-sm transition-colors ${
+                      !selectedCountry ? 'bg-background-7 text-background-13' : 'text-white/70 hover:bg-background-7 hover:text-white'
+                    }`}
+                  >
+                    <span className="flex size-4 items-center justify-center rounded-sm bg-white/10 text-[8px] font-bold">
+                      All
+                    </span>
+                    <span>All Countries</span>
+                  </button>
+                  {COUNTRIES.map((country) => (
+                    <button
+                      key={country.code}
+                      type="button"
+                      onClick={() => handleCountryChange(country.code)}
+                      className={`w-full px-3 py-2 text-left text-sm transition-colors ${
+                        selectedCountry === country.code ? 'bg-background-7 text-background-13' : 'text-white/70 hover:bg-background-7 hover:text-white'
+                      }`}
+                    >
+                      <span className="relative inline-flex size-4 overflow-hidden rounded-sm">
+                        <Image
+                          src={country.flag}
+                          alt={country.name}
+                          fill
+                          sizes="16px"
+                          className="object-cover"
+                          unoptimized
+                        />
+                      </span>
+                      <span className="truncate">{country.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             <div className="flex-1 relative">
               <input
                 type="text"
