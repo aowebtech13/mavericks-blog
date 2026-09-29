@@ -141,78 +141,7 @@ const BlogSearchBox = (props: Readonly<BlogSearchBoxProps>) => {
                 )}
               </div>
             )}
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setIsCountryOpen(!isCountryOpen)}
-                className={`flex items-center gap-1.5 px-3 py-3 text-sm text-white/70 hover:text-white transition-colors ${
-                  selectedCountry ? 'text-white' : ''
-                }`}
-                aria-label="Select country"
-                aria-expanded={isCountryOpen}
-              >
-                <span>
-                  {selectedCountryObj ? (
-                    <span className="relative inline-flex size-4 overflow-hidden rounded-sm">
-                      <Image
-                        src={selectedCountryObj.flag}
-                        alt={selectedCountryObj.name}
-                        fill
-                        sizes="16px"
-                        className="object-cover"
-                        unoptimized
-                      />
-                    </span>
-                  ) : (
-                    <span className="flex size-4 items-center justify-center rounded-sm bg-white/10 text-[8px] font-bold">
-                      All
-                    </span>
-                  )}
-                </span>
-                <span className="max-w-[140px] truncate">
-                  {selectedCountryObj?.code ?? 'All Countries'}
-                </span>
-                <DownArrowIcon className={`size-4 transition-transform ${isCountryOpen ? 'rotate-180' : ''}`} />
-              </button>
-              {isCountryOpen && (
-                <div className="absolute top-full left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-background-13 border border-stroke-3/25 rounded-lg shadow-lg z-50">
-                  <button
-                    type="button"
-                    onClick={() => handleCountryChange('')}
-                    className={`w-full px-3 py-2 text-left text-sm transition-colors ${
-                      !selectedCountry ? 'bg-background-7 text-background-13' : 'text-white/70 hover:bg-background-7 hover:text-white'
-                    }`}
-                  >
-                    <span className="flex size-4 items-center justify-center rounded-sm bg-white/10 text-[8px] font-bold">
-                      All
-                    </span>
-                    <span>All Countries</span>
-                  </button>
-                  {COUNTRIES.map((country) => (
-                    <button
-                      key={country.code}
-                      type="button"
-                      onClick={() => handleCountryChange(country.code)}
-                      className={`w-full px-3 py-2 text-left text-sm transition-colors ${
-                        selectedCountry === country.code ? 'bg-background-7 text-background-13' : 'text-white/70 hover:bg-background-7 hover:text-white'
-                      }`}
-                    >
-                      <span className="relative inline-flex size-4 overflow-hidden rounded-sm">
-                        <Image
-                          src={country.flag}
-                          alt={country.name}
-                          fill
-                          sizes="16px"
-                          className="object-cover"
-                          unoptimized
-                        />
-                      </span>
-                      <span className="truncate">{country.name}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            
             <div className="flex-1 relative">
               <input
                 type="text"

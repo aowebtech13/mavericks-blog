@@ -123,21 +123,6 @@ const CountryDropdown = ({
 
       {isOpen && (
         <div className="absolute top-full left-0 right-0 z-50 mt-1 max-h-72 overflow-y-auto rounded-lg border border-stroke-3/25 bg-background-13 shadow-lg">
-          <Link
-            href={buildUrl(null)}
-            onClick={() => handleSelect(null)}
-            className={cn(
-              'flex w-full items-center gap-2 px-3 py-2 text-sm transition-colors',
-              !selectedCountry
-                ? 'bg-background-7 text-background-13'
-                : 'text-white/70 hover:bg-background-7 hover:text-white',
-            )}
-          >
-            <span className="flex size-4 items-center justify-center rounded-sm bg-white/10 text-[8px] font-bold">
-              All
-            </span>
-            <span>All countries</span>
-          </Link>
           {COUNTRIES.map((country) => (
             <Link
               key={country.code}
