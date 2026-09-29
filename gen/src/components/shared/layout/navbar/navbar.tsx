@@ -14,7 +14,7 @@ import MobileMenuButton from './mobile-menu-button';
 import { getCategories } from '@/src/services/categories';
 import { getPopularTags } from '@/src/services/tags';
 import { apiCategoriesToBlogCategories } from '@/src/utils/apiTransformers';
-import BlogSearchBox from '@/src/components/blog/blog-search-box';
+
 import { useSearchParams } from 'next/navigation';
 
 const Navbar = () => {
@@ -126,13 +126,7 @@ const Navbar = () => {
                   </Link>
                 </li>
               </ul>
-              <div className="ml-4 hidden lg:block w-[320px]">
-                <BlogSearchBox
-                  defaultValue={currentSearch}
-                  categories={categories.map((cat) => ({ label: cat.label, slug: cat.slug }))}
-                  defaultCategory={currentCategory}
-                />
-              </div>
+             
             </nav>
             <MobileMenuButton />
           </div>

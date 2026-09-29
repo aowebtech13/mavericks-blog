@@ -78,8 +78,8 @@ const CountryDropdown = ({
         aria-label="Filter by country"
         aria-expanded={isOpen}
         className={cn(
-          'flex items-center gap-2 rounded-md border border-stroke-3/25 bg-background-3/40 px-3 py-2 text-sm text-white/80 transition-all duration-200 hover:bg-background-7',
-          isOpen && 'border-stroke-3/60 bg-background-7',
+          'flex items-center gap-2 rounded-md border border-stroke-3/25 bg-background-3/40 px-3 py-2 text-sm text-white/80 transition-all duration-200 hover:bg-background-6',
+          isOpen && 'border-stroke-3/60 bg-background-6',
         )}
       >
         {selected ? (
