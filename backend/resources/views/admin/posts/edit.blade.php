@@ -74,6 +74,17 @@
         </div>
 
         <div>
+            <label class="mb-1.5 block text-sm font-medium text-slate-400">Country</label>
+            <select name="country" class="w-full rounded-lg border border-white/10 bg-night-950 px-4 py-2.5 text-base text-white transition focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">
+                <option value="">No country (global)</option>
+                @foreach($countries as $country)
+                    <option value="{{ $country['code'] }}" {{ old('country', $post->country) == $country['code'] ? 'selected' : '' }}>{{ $country['name'] }} ({{ $country['code'] }})</option>
+                @endforeach
+            </select>
+            @error('country') <span class="text-red-400 text-sm">{{ $message }}</span> @enderror
+        </div>
+
+        <div>
             <label class="mb-1.5 block text-sm font-medium text-slate-400">Featured Image</label>
             <div id="image-preview" class="mb-3 {{ $post->featured_image ? '' : 'hidden' }}">
                 <img src="{{ $post->featured_image ? Storage::disk('public')->url($post->featured_image) : '' }}" alt="{{ $post->title }}" class="h-32 rounded-lg object-cover">

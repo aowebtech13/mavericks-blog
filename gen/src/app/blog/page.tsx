@@ -22,6 +22,7 @@ interface BlogPageProps {
     search?: string | string[];
     date?: string | string[];
     page?: string | string[];
+    country?: string | string[];
   }>;
 }
 
@@ -47,6 +48,9 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
   const dateValue = params.date
     ? (typeof params.date === 'string' ? params.date : params.date[0])
     : null;
+  const countryValue = params.country
+    ? (typeof params.country === 'string' ? params.country : params.country[0])
+    : null;
 
   // Fetch posts from API (paginated, with optional filters)
   const apiQueryParams: Record<string, string | number> = {};
@@ -57,6 +61,7 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
     }
   }
   if (searchValue) apiQueryParams.q = searchValue;
+  if (countryValue) apiQueryParams.country = countryValue;
   if (params.page) apiQueryParams.page = typeof params.page === 'string' ? params.page : params.page[0];
   apiQueryParams.per_page = 6;
 
@@ -101,11 +106,12 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
         currentPage={currentPage}
         categories={categories}
         dateRecords={dateRecords}
-        currentCategory={filterType === 'category' ? categoryName : null}
-        currentCategorySlug={currentCategorySlug}
-        currentSearch={filterType === 'search' ? searchValue : null}
-        currentDate={filterType === 'date' ? dateValue : null}
-      />
+         currentCategory={filterType === 'category' ? categoryName : null}
+         currentCategorySlug={currentCategorySlug}
+         currentSearch={filterType === 'search' ? searchValue : null}
+         currentDate={filterType === 'date' ? dateValue : null}
+         currentCountry={countryValue}
+       />
     </>
   );
 };

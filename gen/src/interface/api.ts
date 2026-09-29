@@ -61,4 +61,5 @@ export interface PostsQueryParams {
   tag?: string;
   status?: string;
   all?: boolean;
+  country?: string;
 }

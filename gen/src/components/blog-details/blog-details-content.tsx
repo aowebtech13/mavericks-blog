@@ -1,10 +1,12 @@
 import RevealAnimation from '@/src/components/animation/reveal-animation';
 import ShareSection from '@/src/components/blog-details/share-section';
 import SafeImage from '@/src/components/shared/ui/safe-image';
+import { getCountryByCode } from '@/src/data/countries';
 import type { FC } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
+import Link from 'next/link';
 
 export interface BlogDetailsContentProps {
   blog: { data: Record<string, unknown>; content: string };
@@ -24,6 +26,8 @@ const BlogDetailsContent: FC<BlogDetailsContentProps> = ({ blog }) => {
   const readTime = (data?.readTime as string) ?? '';
   const thumbnail = (data?.thumbnail as string) ?? '';
   const description = (data?.description as string) ?? '';
+  const countryCode = (data?.country as string | null) ?? null;
+  const country = countryCode ? getCountryByCode(countryCode) : undefined;
 
   return (
     <section className="pt-32 xl:pt-40 2xl:pt-50">
@@ -74,6 +78,20 @@ const BlogDetailsContent: FC<BlogDetailsContentProps> = ({ blog }) => {
                     </span>
                     <span className="block size-1.5 rounded-full bg-white/60" />
                     <span className="text-tagline-3 font-normal text-white/60">{readTime}</span>
+                    {country && (
+                      <>
+                        <span className="block size-1.5 rounded-full bg-white/60" />
+                        <Link
+                          href={`/blog?country=${country.code}`}
+                          className="flex items-center gap-1.5 text-tagline-3 font-normal text-white/60 hover:text-white transition-colors"
+                        >
+                          <span className="relative inline-flex size-5 overflow-hidden rounded-sm">
+                            <img src={country.flag} alt={country.name} className="object-cover" />
+                          </span>
+                          <span>{country.name}</span>
+                        </Link>
+                      </>
+                    )}
                   </p>
                 </div>
               </div>

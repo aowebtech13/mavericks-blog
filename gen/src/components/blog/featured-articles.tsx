@@ -17,6 +17,7 @@ interface FeaturedArticlesProps {
   currentCategorySlug: string | null;
   currentSearch: string | null;
   currentDate: string | null;
+  currentCountry: string | null;
 }
 
 const categoryLabel = (post: BlogPost) => post.category?.trim() || post.tags?.[0] || 'Blog';
@@ -32,6 +33,7 @@ const FeaturedArticles: FC<FeaturedArticlesProps> = ({
   currentCategorySlug,
   currentSearch,
   currentDate,
+  currentCountry,
 }) => {
   return (
     <section aria-label="Blog listing">
@@ -45,6 +47,7 @@ const FeaturedArticles: FC<FeaturedArticlesProps> = ({
             currentCategory={currentCategory}
             currentSearch={currentSearch}
             currentDate={currentDate}
+            currentCountry={currentCountry}
           />
 
           <RevealAnimation delay={0.2}>

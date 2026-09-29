@@ -19,6 +19,7 @@ export function apiPostToBlogPost(apiPost: ApiPost): BlogPost {
     description: apiPost.excerpt ?? '',
     featured: false,
     popular: false,
+    country: apiPost.country ?? null,
     // Keep original API data accessible
     _apiPost: apiPost,
   };

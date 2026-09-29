@@ -57,6 +57,7 @@ class PostController extends Controller
         return view('admin.posts.create', [
             'categories' => Category::orderBy('name')->get(),
             'tags' => Tag::orderBy('name')->get(),
+            'countries' => config('countries'),
         ]);
     }
 
@@ -109,6 +110,7 @@ class PostController extends Controller
             'post' => $post,
             'categories' => Category::orderBy('name')->get(),
             'tags' => Tag::orderBy('name')->get(),
+            'countries' => config('countries'),
             'selectedTags' => $post->tags->pluck('id')->toArray(),
         ]);
     }
