@@ -43,14 +43,16 @@ const generateMetadata = (
   imageUrl?: string,
   options?: ArticleMetadataOptions,
 ): Metadata => {
-  const og: NonNullable<Metadata['openGraph']> = {
+  const ogImages = imageUrl
+    ? [{ url: imageUrl, width: 1200, height: 630 }]
+    : defaultMetadata.openGraph?.images;
+
+  const og: Record<string, unknown> = {
     ...defaultMetadata.openGraph,
     title: title ?? defaultMetadata.openGraph?.title,
     description: description ?? defaultMetadata.openGraph?.description,
     url: canonicaUrl ?? defaultMetadata.openGraph?.url,
-    images: imageUrl
-      ? [{ url: imageUrl, width: 1200, height: 630 }]
-      : defaultMetadata.openGraph?.images,
+    images: ogImages,
   };
 
   if (options?.type) {
@@ -62,7 +64,7 @@ const generateMetadata = (
   if (options?.authors) {
     og.authors = options.authors;
   }
-  if (options?.publishedTime || options?.modifiedTime || options?.tags) {
+  if (options?.publishedTime || options?.modifiedTime || options?.tags || options?.authors) {
     og.article = {
       ...(options.publishedTime ? { publishedTime: options.publishedTime } : {}),
       ...(options.modifiedTime ? { modifiedTime: options.modifiedTime } : {}),
@@ -78,7 +80,7 @@ const generateMetadata = (
     alternates: {
       canonical: canonicaUrl,
     },
-    openGraph: og,
+    openGraph: og as NonNullable<Metadata['openGraph']>,
     twitter: {
       ...defaultMetadata.twitter,
       title: title ?? defaultMetadata.twitter?.title,
