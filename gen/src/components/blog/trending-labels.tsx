@@ -28,7 +28,7 @@ function TrendingLabelLink({ label, isActive, slug }: Readonly<TrendingLabelLink
     <Link
       href={href}
       className={cn(
-        'text-tagline-3 rounded-full px-5 py-[9px] font-normal',
+        'rounded-full px-5 py-[9px] text-[16px] leading-[150%] font-normal',
         isActive
           ? 'text-background-5 bg-white'
           : 'border-stroke-3/25 hover:text-background-5 border text-white transition-all duration-500 hover:bg-white'
