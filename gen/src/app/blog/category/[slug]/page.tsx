@@ -110,6 +110,7 @@ const CategoryPage = async ({ params, searchParams }: CategoryPageProps) => {
         currentCategorySlug={slug}
         currentSearch={null}
         currentDate={null}
+        currentCountry={null}
       />
     </>
   );
