@@ -15,11 +15,24 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const fullUrl = new URL(`/blog/${slug}`, DEFAULT_URL).toString();
   try {
     const apiPost = await getPost(slug);
-    return buildMetadata(`${apiPost.title} - revolutionizing legal practice in Nigeria | mavericksAI`, apiPost.excerpt ?? undefined, `/blog/${slug}`);
+    return buildMetadata(
+      `${apiPost.title} - revolutionizing legal practice in Nigeria | mavericksAI`,
+      apiPost.excerpt ?? undefined,
+      fullUrl,
+      apiPost.featured_image ?? undefined,
+      {
+        type: 'article',
+        authors: apiPost.user?.name ? [apiPost.user.name] : undefined,
+        publishedTime: apiPost.published_at ?? undefined,
+        modifiedTime: apiPost.updated_at ?? undefined,
+        tags: apiPost.tags?.map((t) => t.name) ?? undefined,
+      },
+    );
   } catch {
-    return buildMetadata('Post Not Found - revolutionizing legal practice in Nigeria | mavericksAi', undefined, `/blog/${slug}`);
+    return buildMetadata('Post Not Found - revolutionizing legal practice in Nigeria | mavericksAI', undefined, fullUrl);
   }
 }
 
