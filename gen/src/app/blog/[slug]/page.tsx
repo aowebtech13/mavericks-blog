@@ -1,6 +1,6 @@
 import BlogDetailsContent from '@/src/components/blog-details/blog-details-content';
 import RelatedBlog from '@/src/components/blog-details/related-blog';
-import { generateMetadata as buildMetadata } from '@/src/utils/generateMetaData';
+import { generateMetadata as buildMetadata, DEFAULT_URL } from '@/src/utils/generateMetaData';
 import { getPost } from '@/src/services/posts';
 import { apiPostToBlogPost, apiPostsToBlogPosts } from '@/src/utils/apiTransformers';
 import type { Metadata } from 'next';
