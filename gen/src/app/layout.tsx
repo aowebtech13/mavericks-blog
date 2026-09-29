@@ -11,7 +11,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="font-system antialiased">
+      <body className="font-system antialiased" suppressHydrationWarning>
         <Suspense>
           <SmoothScrollProvider>
             <Navbar />
