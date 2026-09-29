@@ -36,7 +36,7 @@ const RelatedBlog: FC<RelatedBlogProps> = ({ posts, currentSlug }) => {
   if (related.length === 0) return null;
 
   return (
-    <section className="pt-28 pb-39">
+    <section className="pt-18 pb-23">
       <div className="main-container">
         <p className="lg:text-sora-heading-5 text-sora-heading-6 mb-6 font-normal text-white/90">
           Related articles
