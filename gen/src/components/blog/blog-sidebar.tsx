@@ -4,24 +4,26 @@ import Categories from '@/src/components/blog/categories';
 import CountryDropdown from '@/src/components/blog/country-dropdown';
 import RecentArticles from '@/src/components/blog/recent-articles';
 import TrendingLabels from '@/src/components/blog/trending-labels';
-import type { BlogCategory, BlogPost } from '@/src/interface';
+import type { BlogCategory, BlogDateRecord, BlogPost } from '@/src/interface';
 
 interface BlogSidebarProps {
   posts?: BlogPost[];
   categories: BlogCategory[];
+  dateRecords?: BlogDateRecord[];
   currentCategory: string | null;
   currentSearch: string | null;
   currentDate: string | null;
-  currentCountry: string | null;
+  currentCountry?: string | null;
 }
 
 const BlogSidebar = ({
   posts = [],
   categories,
+  dateRecords = [],
   currentCategory,
   currentSearch,
   currentDate,
-  currentCountry,
+  currentCountry = null,
 }: BlogSidebarProps) => {
   return (
     <RevealAnimation delay={0.1}>
