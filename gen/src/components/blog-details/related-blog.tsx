@@ -41,12 +41,12 @@ const RelatedBlog: FC<RelatedBlogProps> = ({ posts, currentSlug }) => {
         <p className="lg:text-sora-heading-5 text-sora-heading-6 mb-6 font-normal text-white/90">
           Related articles
         </p>
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {related.map((post) => (
-            <article key={post.slug}>
+            <article key={post.slug} className="h-full">
               <Link
                 href={`/blog/${post.slug}`}
-                className="border-stroke-3/25 group flex items-center gap-x-3.5 rounded-md border pr-0.5"
+                className="border-stroke-3/25 group flex h-full items-center gap-x-3.5 rounded-md border p-2 transition-colors hover:border-stroke-3/50"
               >
                 <figure className="h-[90px] w-[110px] shrink-0 overflow-hidden rounded-md">
                   <SafeImage
