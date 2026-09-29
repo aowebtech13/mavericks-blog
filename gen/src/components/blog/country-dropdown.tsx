@@ -101,7 +101,7 @@ const CountryDropdown = ({
             <span className="flex size-4 items-center justify-center rounded-sm bg-white/10 text-[8px] font-bold">
               All
             </span>
-            <span>All countries</span>
+            <span>Filter by country</span>
           </>
         )}
         <svg
@@ -132,7 +132,7 @@ const CountryDropdown = ({
                 'flex w-full items-center gap-2 px-3 py-2 text-sm transition-colors',
                 selectedCountry === country.code
                   ? 'bg-background-7 text-background-13'
-                  : 'text-white/70 hover:bg-background-7 hover:text-white',
+                  : 'text-white/70 hover:bg-background-7 hover:text-background-13',
               )}
             >
               <span className="relative inline-flex size-4 overflow-hidden rounded-sm">
