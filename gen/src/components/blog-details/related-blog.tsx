@@ -1,6 +1,5 @@
-import RevealAnimation from '@/src/components/animation/reveal-animation';
-import { TextReveal } from '@/src/components/animation/text-reveal-animation';
-import { BlogCard } from '@/src/components/shared/ui/card/blog-card';
+import SafeImage from '@/src/components/shared/ui/safe-image';
+import Link from 'next/link';
 import type { BlogPost } from '@/src/interface';
 import type { FC } from 'react';
 
@@ -25,8 +24,11 @@ function pickThreeDeterministic(
   return shuffled.slice(0, 3);
 }
 
-const categoryLabel = (post: BlogPost) =>
-  post.category?.trim() || post.tags?.[0] || 'Blog';
+function formatDate(dateStr: string | undefined): string {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+}
 
 const RelatedBlog: FC<RelatedBlogProps> = ({ posts, currentSlug }) => {
   const related = pickThreeDeterministic(posts ?? [], currentSlug, (p) => p?.slug === currentSlug);
@@ -36,36 +38,31 @@ const RelatedBlog: FC<RelatedBlogProps> = ({ posts, currentSlug }) => {
   return (
     <section className="pt-28 pb-39">
       <div className="main-container">
-        <div className="mb-[70px] text-center">
-          <TextReveal>
-            <h3 className="lg:text-sora-heading-4 text-sora-heading-5 mb-1 font-normal text-white/90">
-              Related articles
-            </h3>
-          </TextReveal>
-          <TextReveal delay={0.1}>
-            <p className="text-tagline-2 font-normal text-white/60">
-              More deep dives on AI‑powered keyword research and SEO content.
-            </p>
-          </TextReveal>
-        </div>
-        <div className="grid grid-cols-12 gap-x-5 gap-y-8 xl:gap-x-8">
-          {related.map((blogPost, index) => (
-            <RevealAnimation
-              key={blogPost.slug}
-              delay={index * 0.1}
-              className="col-span-12 md:col-span-6 lg:col-span-4"
-            >
-              <BlogCard
-                title={blogPost.title}
-                href={`/blog/${blogPost.slug}`}
-                imageSrc={blogPost.thumbnail}
-                imageAlt={blogPost.title}
-                author={blogPost.author}
-                authorImageSrc={blogPost.authorImage}
-                date={blogPost.publishDate}
-                category={categoryLabel(blogPost)}
-              />
-            </RevealAnimation>
+        <p className="lg:text-sora-heading-5 text-sora-heading-6 mb-6 font-normal text-white/90">
+          Related articles
+        </p>
+        <div className="space-y-4">
+          {related.map((post) => (
+            <article key={post.slug}>
+              <Link
+                href={`/blog/${post.slug}`}
+                className="border-stroke-3/25 group flex items-center gap-x-3.5 rounded-md border pr-0.5"
+              >
+                <figure className="h-[90px] w-[110px] shrink-0 overflow-hidden rounded-md">
+                  <SafeImage
+                    src={post.thumbnail}
+                    alt={post.title}
+                    width={110}
+                    height={90}
+                    className="h-full w-full object-cover transition-all duration-500 ease-in-out group-hover:scale-104 group-hover:rotate-1"
+                  />
+                </figure>
+                <div className="space-y-1">
+                  <p className="text-tagline-3 line-clamp-2 font-normal text-white/80">{post.title}</p>
+                  <p className="text-tagline-4 font-normal text-white/50">{formatDate(post.publishDate)}</p>
+                </div>
+              </Link>
+            </article>
           ))}
         </div>
       </div>
