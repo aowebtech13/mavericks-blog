@@ -27,12 +27,50 @@ const defaultMetadata: Metadata = {
   },
 };
 
+export interface ArticleMetadataOptions {
+  type?: 'website' | 'article' | 'profile' | 'book' | string;
+  authors?: string[];
+  publishedTime?: string;
+  modifiedTime?: string;
+  tags?: string[];
+  locale?: string;
+}
+
 const generateMetadata = (
   title?: string,
   description?: string,
   canonicaUrl?: string,
-  imageUrl?: string
+  imageUrl?: string,
+  options?: ArticleMetadataOptions,
 ): Metadata => {
+  const og: NonNullable<Metadata['openGraph']> = {
+    ...defaultMetadata.openGraph,
+    title: title ?? defaultMetadata.openGraph?.title,
+    description: description ?? defaultMetadata.openGraph?.description,
+    url: canonicaUrl ?? defaultMetadata.openGraph?.url,
+    images: imageUrl
+      ? [{ url: imageUrl, width: 1200, height: 630 }]
+      : defaultMetadata.openGraph?.images,
+  };
+
+  if (options?.type) {
+    og.type = options.type;
+  }
+  if (options?.locale) {
+    og.locale = options.locale;
+  }
+  if (options?.authors) {
+    og.authors = options.authors;
+  }
+  if (options?.publishedTime || options?.modifiedTime || options?.tags) {
+    og.article = {
+      ...(options.publishedTime ? { publishedTime: options.publishedTime } : {}),
+      ...(options.modifiedTime ? { modifiedTime: options.modifiedTime } : {}),
+      ...(options.authors ? { authors: options.authors } : {}),
+      ...(options.tags ? { tags: options.tags } : {}),
+    };
+  }
+
   return {
     ...defaultMetadata,
     title: title ?? defaultMetadata.title,
@@ -40,15 +78,7 @@ const generateMetadata = (
     alternates: {
       canonical: canonicaUrl,
     },
-    openGraph: {
-      ...defaultMetadata.openGraph,
-      title: title ?? defaultMetadata.openGraph?.title,
-      description: description ?? defaultMetadata.openGraph?.description,
-      url: canonicaUrl ?? defaultMetadata.openGraph?.url,
-      images: imageUrl
-        ? [{ url: imageUrl, width: 1200, height: 630 }]
-        : defaultMetadata.openGraph?.images,
-    },
+    openGraph: og,
     twitter: {
       ...defaultMetadata.twitter,
       title: title ?? defaultMetadata.twitter?.title,
