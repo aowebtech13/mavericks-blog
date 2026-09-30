@@ -13,9 +13,17 @@
                 {{ number_format($stats['size'] / 1048576, 1) }} MB total
             </p>
         </div>
-        <button type="button" onclick="openUpload()" class="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-6 py-2.5 font-semibold text-white transition hover:bg-accent-purple w-full sm:w-auto">
-            ⬆️ Upload Files
-        </button>
+        <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <form method="POST" action="{{ route('admin.media.sync') }}" class="flex-1 sm:flex-none">
+                @csrf
+                <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-white/10 px-5 py-2.5 font-semibold text-slate-200 transition hover:bg-white/20 hover:text-white">
+                    🔄 Sync Library
+                </button>
+            </form>
+            <button type="button" onclick="openUpload()" class="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-6 py-2.5 font-semibold text-white transition hover:bg-accent-purple w-full sm:w-auto">
+                ⬆️ Upload Files
+            </button>
+        </div>
     </div>
 
     @if ($errors->any())

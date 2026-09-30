@@ -18,6 +18,10 @@ class MediaController extends Controller
 
     public function index(Request $request): View
     {
+        // Pick up files uploaded before the media table existed (or restored
+        // from a backup). Throttled so it stays cheap on large disks.
+        $this->mediaService->syncIfStale();
+
         $search = trim((string) $request->input('search', ''));
         $type = $request->input('type');
         $sort = $request->input('sort', 'newest');
@@ -76,6 +80,26 @@ class MediaController extends Controller
             : "{$count} files uploaded successfully!";
 
         return redirect()->route('admin.media.index')->with('success', $message);
+    }
+
+    /**
+     * Manually re-scan storage so pre-existing uploads appear in the library.
+     */
+    public function sync(Request $request): RedirectResponse
+    {
+        $result = $this->mediaService->sync(
+            $request->boolean('prune_missing'),
+        );
+
+        $message = $result['registered'] === 0
+            ? 'Library is already up to date.'
+            : "{$result['registered']} existing file(s) added to the library.";
+
+        if ($result['removed'] > 0) {
+            $message .= " {$result['removed']} missing file(s) removed.";
+        }
+
+        return back()->with('success', $message);
     }
 
     /**

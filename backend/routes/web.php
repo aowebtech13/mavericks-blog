@@ -48,6 +48,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/media', [AdminMediaController::class, 'store'])->name('media.store');
         Route::post('/media/upload', [AdminMediaController::class, 'uploadJson'])->name('media.upload');
         Route::get('/media/list', [AdminMediaController::class, 'list'])->name('media.list');
+        Route::post('/media/sync', [AdminMediaController::class, 'sync'])->name('media.sync');
         Route::patch('/media/{medium}', [AdminMediaController::class, 'update'])->name('media.update');
         Route::delete('/media/bulk', [AdminMediaController::class, 'bulkDestroy'])->name('media.bulk-destroy');
         Route::delete('/media/{medium}', [AdminMediaController::class, 'destroy'])->name('media.destroy');
