@@ -21,10 +21,12 @@ class MediaController extends Controller
         $search = trim((string) $request->input('search', ''));
         $type = $request->input('type');
         $sort = $request->input('sort', 'newest');
+        $folder = $request->input('folder');
 
         $query = Media::query()
             ->ofType($type)
-            ->search($search);
+            ->search($search)
+            ->when($folder, fn ($q) => $q->where('folder', $folder));
 
         match ($sort) {
             'oldest' => $query->oldest(),
@@ -47,7 +49,7 @@ class MediaController extends Controller
             ->orderBy('folder')
             ->pluck('folder');
 
-        return view('admin.media.index', compact('media', 'stats', 'folders', 'search', 'type', 'sort'));
+        return view('admin.media.index', compact('media', 'stats', 'folders', 'search', 'type', 'sort', 'folder'));
     }
 
     /**

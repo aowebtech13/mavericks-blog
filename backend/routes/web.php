@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\TagController as AdminTagController;
 use App\Http\Controllers\Admin\AiWriterController as AdminAiWriterController;
+use App\Http\Controllers\Admin\MediaController as AdminMediaController;
 use App\Http\Controllers\Api\MediaController;
 
 Route::get('/', function () {
@@ -41,6 +42,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('posts', AdminPostController::class);
         Route::resource('categories', AdminCategoryController::class);
         Route::resource('tags', AdminTagController::class);
+
+        // Media library
+        Route::get('/media', [AdminMediaController::class, 'index'])->name('media.index');
+        Route::post('/media', [AdminMediaController::class, 'store'])->name('media.store');
+        Route::post('/media/upload', [AdminMediaController::class, 'uploadJson'])->name('media.upload');
+        Route::get('/media/list', [AdminMediaController::class, 'list'])->name('media.list');
+        Route::patch('/media/{medium}', [AdminMediaController::class, 'update'])->name('media.update');
+        Route::delete('/media/bulk', [AdminMediaController::class, 'bulkDestroy'])->name('media.bulk-destroy');
+        Route::delete('/media/{medium}', [AdminMediaController::class, 'destroy'])->name('media.destroy');
 
         Route::prefix('ai-writer')->name('ai-writer.')->group(function () {
             Route::get('/', [AdminAiWriterController::class, 'index'])->name('index');

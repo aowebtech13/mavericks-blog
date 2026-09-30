@@ -103,6 +103,9 @@
                     <a href="{{ route('admin.categories.index') }}" class="flex items-center gap-2.5 rounded-md px-4 py-2.5 text-base font-medium text-slate-300 transition hover:bg-white/5 hover:text-white {{ request()->routeIs('admin.categories*') ? 'bg-white/5 text-white' : '' }}">
                         <span class="opacity-70">📁</span> Categories
                     </a>
+                    <a href="{{ route('admin.media.index') }}" class="flex items-center gap-2.5 rounded-md px-4 py-2.5 text-base font-medium text-slate-300 transition hover:bg-white/5 hover:text-white {{ request()->routeIs('admin.media*') ? 'bg-white/5 text-white' : '' }}">
+                        <span class="opacity-70">🗂️</span> Media
+                    </a>
                     <a href="{{ route('admin.tags.index') }}" class="flex items-center gap-2.5 rounded-md px-4 py-2.5 text-base font-medium text-slate-300 transition hover:bg-white/5 hover:text-white {{ request()->routeIs('admin.tags*') ? 'bg-white/5 text-white' : '' }}">
                         <span class="opacity-70">🏷️</span> Tags
                     </a>
