@@ -104,7 +104,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
                 <label class="mb-1.5 block text-sm font-medium text-slate-400">Views</label>
-                <div class="rounded-lg bg-night-950 px-4 py-2.5 text-slate-300">{{ $post->views_count }}</div>
+                <div class="rounded-lg bg-night-950 px-4 py-2.5 text-slate-300 tabular-nums">{{ number_format($post->views_count) }}</div>
             </div>
             <div>
                 <label class="mb-1.5 block text-sm font-medium text-slate-400">Comments</label>

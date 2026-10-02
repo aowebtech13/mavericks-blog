@@ -20,6 +20,7 @@ export function apiPostToBlogPost(apiPost: ApiPost): BlogPost {
     featured: false,
     popular: false,
     country: apiPost.country ?? null,
+    views_count: apiPost.views_count ?? 0,
     // Keep original API data accessible
     _apiPost: apiPost,
   };

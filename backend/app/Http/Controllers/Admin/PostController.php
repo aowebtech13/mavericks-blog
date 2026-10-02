@@ -36,8 +36,17 @@ class PostController extends Controller
             });
         }
 
+        $sort = $request->input('sort', 'latest');
+        $direction = $request->input('direction') === 'asc' ? 'asc' : 'desc';
+
+        match ($sort) {
+            'views' => $query->orderBy('views_count', $direction)->orderByDesc('id'),
+            'title' => $query->orderBy('title', $direction),
+            'oldest' => $query->orderBy('created_at', $direction),
+            default => $query->orderByDesc('created_at')->orderByDesc('id'),
+        };
+
         $posts = $query->with(['user', 'category'])
-            ->latest('created_at')
             ->paginate(15)
             ->withQueryString();
 
@@ -49,7 +58,30 @@ class PostController extends Controller
             'selectedStatus' => $request->input('status'),
             'selectedCategory' => $request->input('category'),
             'search' => $request->input('search'),
+            'sort' => $sort,
+            'direction' => $direction,
+            'stats' => $this->indexStats($request),
         ]);
+    }
+
+    /**
+     * Live, un-cached aggregates for the posts screen. The view totals come
+     * straight from the posts table so they always reflect real reads.
+     */
+    protected function indexStats(Request $request)
+    {
+        $base = Post::query();
+
+        if (!$request->user()->can('viewAll', Post::class)) {
+            $base->where('user_id', $request->user()->id);
+        }
+
+        return [
+            'total' => (clone $base)->count(),
+            'published' => (clone $base)->where('status', 'published')->count(),
+            'drafts' => (clone $base)->where('status', 'draft')->count(),
+            'total_views' => (int) (clone $base)->sum('views_count'),
+        ];
     }
 
     public function create()

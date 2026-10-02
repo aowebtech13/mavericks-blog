@@ -11,6 +11,10 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// View tracking — declared before apiResource so the literal segment is not
+// captured by the posts/{post} route binding.
+Route::post('/posts/{post}/view', [PostController::class, 'trackView'])->name('posts.view');
+
 Route::apiResource('posts', PostController::class);
 Route::get('/tags', [TagController::class, 'index']);
 Route::get('/tags/popular', [TagController::class, 'popular']);

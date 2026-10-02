@@ -21,6 +21,20 @@ export async function getPost(slug: string): Promise<ApiPost> {
 }
 
 /**
+ * Record a genuine page view for a post.
+ *
+ * Must be called from the browser (client component), NOT from the server
+ * component / generateMetadata — otherwise server renders and prefetches get
+ * counted as real reads. The backend also de-duplicates per visitor.
+ */
+export async function trackPostView(slug: string): Promise<number> {
+  const response = await apiClient.post<{ slug: string; views_count: number }>(
+    `/posts/${slug}/view`,
+  );
+  return response.data.views_count;
+}
+
+/**
  * Search posts via POST /api/posts/search
  */
 export async function searchPosts(query: string): Promise<ApiPost[]> {

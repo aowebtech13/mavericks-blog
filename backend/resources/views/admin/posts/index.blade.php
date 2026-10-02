@@ -11,6 +11,25 @@
         </a>
     </div>
 
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="rounded-xl border border-white/10 bg-night-800/60 p-4">
+            <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Total Posts</p>
+            <p class="mt-1 text-2xl font-bold text-white">{{ number_format($stats['total']) }}</p>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-night-800/60 p-4">
+            <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Published</p>
+            <p class="mt-1 text-2xl font-bold text-green-300">{{ number_format($stats['published']) }}</p>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-night-800/60 p-4">
+            <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Drafts</p>
+            <p class="mt-1 text-2xl font-bold text-yellow-300">{{ number_format($stats['drafts']) }}</p>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-night-800/60 p-4">
+            <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Total Views</p>
+            <p class="mt-1 text-2xl font-bold text-white">{{ number_format($stats['total_views']) }}</p>
+        </div>
+    </div>
+
     <div class="rounded-xl border border-white/10 bg-night-800/60 p-4 md:p-6 mb-6">
         <form action="{{ route('admin.posts.index') }}" method="GET" class="flex flex-col md:flex-row md:flex-wrap gap-4">
             <div class="flex-1 min-w-[200px]">
@@ -33,12 +52,22 @@
                 @endforeach
             </select>
 
+            <select name="sort" class="w-full md:w-auto rounded-lg border border-white/10 bg-night-950 px-4 py-2 text-base text-white transition focus:border-accent focus:outline-none">
+                @foreach(['latest' => 'Newest first', 'oldest' => 'Oldest first', 'views' => 'Most viewed', 'title' => 'Title A–Z'] as $value => $label)
+                    <option value="{{ $value }}" {{ $sort === $value ? 'selected' : '' }}>{{ $label }}</option>
+                @endforeach
+            </select>
+
+            @if($sort === 'views')
+                <input type="hidden" name="direction" value="{{ $direction }}">
+            @endif
+
             <div class="flex gap-3">
                 <button type="submit" class="flex-1 md:flex-none rounded-lg bg-accent px-6 py-2 text-base font-semibold text-white transition hover:bg-accent-purple">
                     Filter
                 </button>
                 
-                @if($search || $selectedStatus || $selectedCategory)
+                @if($search || $selectedStatus || $selectedCategory || $sort !== 'latest')
                     <a href="{{ route('admin.posts.index') }}" class="px-4 py-2 rounded-lg border border-white/10 text-slate-300 hover:text-white transition flex items-center justify-center">
                         Clear
                     </a>
@@ -53,11 +82,21 @@
             <thead class="border-b border-white/10 bg-night-900/60">
                 <tr>
                     <th class="px-4 py-3.5 text-left text-sm font-semibold text-slate-400 w-10">ID</th>
-                    <th class="px-4 py-3.5 text-left text-sm font-semibold text-slate-400">Title</th>
+                    <th class="px-4 py-3.5 text-left text-sm font-semibold text-slate-400">
+                        <a href="{{ route('admin.posts.index', array_merge(request()->query(), ['sort' => 'title', 'direction' => $sort === 'title' && $direction === 'asc' ? 'desc' : 'asc'])) }}" class="inline-flex items-center gap-1 hover:text-white">
+                            Title
+                            @if($sort === 'title')<span class="text-accent">{{ $direction === 'asc' ? '↑' : '↓' }}</span>@endif
+                        </a>
+                    </th>
                     <th class="px-4 py-3.5 text-left text-sm font-semibold text-slate-400 hidden lg:table-cell">Category</th>
                     <th class="px-4 py-3.5 text-left text-sm font-semibold text-slate-400 hidden xl:table-cell">Author</th>
                     <th class="px-4 py-3.5 text-left text-sm font-semibold text-slate-400">Status</th>
-                    <th class="px-4 py-3.5 text-left text-sm font-semibold text-slate-400 hidden xl:table-cell">Views</th>
+                    <th class="px-4 py-3.5 text-left text-sm font-semibold text-slate-400 hidden xl:table-cell">
+                        <a href="{{ route('admin.posts.index', array_merge(request()->query(), ['sort' => 'views', 'direction' => $sort === 'views' && $direction === 'desc' ? 'asc' : 'desc'])) }}" class="inline-flex items-center gap-1 hover:text-white">
+                            Views
+                            @if($sort === 'views')<span class="text-accent">{{ $direction === 'asc' ? '↑' : '↓' }}</span>@endif
+                        </a>
+                    </th>
                     <th class="px-4 py-3.5 text-left text-sm font-semibold text-slate-400 hidden md:table-cell">Created</th>
                     <th class="px-4 py-3.5 text-center text-sm font-semibold text-slate-400">Actions</th>
                 </tr>
@@ -82,7 +121,9 @@
                                 {{ ucfirst($post->status) }}
                             </span>
                         </td>
-                        <td class="px-4 py-3.5 hidden xl:table-cell text-slate-400">{{ $post->views_count }}</td>
+                        <td class="px-4 py-3.5 hidden xl:table-cell">
+                            <span class="font-medium text-slate-200 tabular-nums">{{ number_format($post->views_count) }}</span>
+                        </td>
                         <td class="px-4 py-3.5 hidden md:table-cell text-slate-400 text-sm">{{ $post->created_at->format('M d, Y') }}</td>
                         <td class="px-4 py-3.5 text-center">
                             <div class="flex items-center justify-center gap-2">

@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+use App\Services\ViewTracker;
 
 use App\Http\Resources\PostResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -30,8 +31,10 @@ class PostController extends Controller
         $version = Cache::rememberForever('posts_version', fn() => time());
         $cacheKey = "posts_index_v{$version}_{$page}_{$perPage}_{$status}_{$category}_{$tag}_{$all}_{$search}_{$country}_{$userId}";
 
+        // views_count is deliberately left out of the cached payload so the
+        // list always shows live numbers (see refreshViewCounts below).
         $posts = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($request, $userId, $search, $country) {
-            $query = Post::query()->select(['id', 'user_id', 'category_id', 'title', 'slug', 'excerpt', 'featured_image', 'status', 'visibility', 'published_at', 'created_at', 'updated_at', 'views_count', 'country']);
+            $query = Post::query()->select(['id', 'user_id', 'category_id', 'title', 'slug', 'excerpt', 'featured_image', 'status', 'visibility', 'published_at', 'created_at', 'updated_at', 'country']);
 
             if ($userId) {
                 if (!$request->input('all')) {
@@ -78,6 +81,8 @@ class PostController extends Controller
                 ->paginate($request->input('per_page', 15));
         });
 
+        $this->refreshViewCounts($posts);
+
         return PostResource::collection($posts);
     }
 
@@ -85,13 +90,58 @@ class PostController extends Controller
     {
         $cacheKey = "post_show_{$post->id}";
 
+        // Reading a post must never bump the counter: this endpoint is also
+        // hit by server-side metadata generation and by prefetching, which
+        // would inflate the numbers. Views are recorded by trackView() only.
         $postData = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($post) {
             return $post->load(['user', 'category', 'tags']);
         });
 
-        $post->increment('views_count');
+        $postData->views_count = app(ViewTracker::class)->currentCount($post);
 
         return new PostResource($postData);
+    }
+
+    /**
+     * Record a genuine page view for a post.
+     *
+     * Called from the browser once per post page render. De-duplicated per
+     * visitor within the configured window, so reloads and router prefetches
+     * do not double count.
+     */
+    public function trackView(Request $request, Post $post)
+    {
+        $views = app(ViewTracker::class)->record($post, $request);
+
+        return response()->json([
+            'slug' => $post->slug,
+            'views_count' => $views,
+        ]);
+    }
+
+    /**
+     * Hydrate live view counts onto a (possibly cached) paginator in one query.
+     */
+    protected function refreshViewCounts($posts): void
+    {
+        $items = $posts instanceof \Illuminate\Contracts\Pagination\Paginator
+            ? $posts->items()
+            : $posts;
+
+        $ids = collect($items)->pluck('id')->filter()->all();
+
+        if (empty($ids)) {
+            return;
+        }
+
+        $counts = Post::whereIn('id', $ids)
+            ->pluck('views_count', 'id');
+
+        foreach ($items as $item) {
+            if (isset($counts[$item->id])) {
+                $item->views_count = (int) $counts[$item->id];
+            }
+        }
     }
 
     public function store(Request $request): JsonResponse
