@@ -36,7 +36,15 @@
 
         <div>
             <label class="mb-1.5 block text-sm font-medium text-slate-400">Content</label>
-            <textarea name="content" rows="50" class="rich-text w-full rounded-lg border border-white/10 bg-night-950 px-4 py-2.5 text-base text-white transition focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent" placeholder="Full post content">{{ old('content', $post->content) }}</textarea>
+            <input type="hidden" id="content_data" name="content" value="{{ old('content', $post->content) }}">
+            <trix-editor
+                id="content_editor"
+                input="content_data"
+                class="rich-text"
+                placeholder="Full post content"
+                data-trix-toolbar="content_editor_toolbar"
+                style="min-height: 28rem;"
+            ></trix-editor>
             @error('content') <span class="text-red-400 text-sm">{{ $message }}</span> @enderror
         </div>
 
@@ -122,6 +130,13 @@
 
 @push('scripts')
 <script>
+    document.addEventListener('trix-file-accept', function (event) {
+        if (!event.file.accept.match(/^(image|video)\/.*|application\/pdf/)) {
+            event.preventDefault();
+            alert('Only images, videos and PDFs can be attached.');
+        }
+    });
+
     // Slug generator
     const titleInput = document.querySelector('input[name="title"]');
     const slugInput = document.querySelector('input[name="slug"]');
