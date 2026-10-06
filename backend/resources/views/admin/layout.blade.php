@@ -240,6 +240,7 @@
         // Track which Trix editor triggered the media picker so we can insert
         // the selected image back into the correct editor.
         var trixPickerEditor = null;
+        var trixPickerTargetFigure = null;
 
         // Intercept the attachment button click in the capture phase so the
         // media picker opens BEFORE Trix opens its native file dialog.
@@ -270,8 +271,7 @@
             });
         }, true);
 
-        // Allow clicking an existing image inside Trix to replace it via the
-        // media picker.
+        // Allow clicking an existing image inside Trix to adjust or replace it.
         document.addEventListener('click', function (event) {
             var figure = event.target.closest('figure.attachment');
             if (!figure) return;
@@ -282,20 +282,31 @@
             event.preventDefault();
             event.stopPropagation();
 
+            // Pre-fill width/height with the image's current dimensions.
+            var img = figure.querySelector('img');
+            if (img) {
+                document.getElementById('mpWidth').value = img.getAttribute('width') || '';
+                document.getElementById('mpHeight').value = img.getAttribute('height') || '';
+            } else {
+                document.getElementById('mpWidth').value = '';
+                document.getElementById('mpHeight').value = '';
+            }
+
             trixPickerEditor = editorEl;
+            trixPickerTargetFigure = figure;
             openMediaPicker(function (item) {
                 if (item && item.url && trixPickerEditor) {
-                    var attachmentId = figure.getAttribute('data-trix-attachment');
-                    var attachment = trixPickerEditor.editor.getAttachment && trixPickerEditor.editor.getAttachment(attachmentId);
-                    if (attachment) {
-                        var attrs = {
-                            url: item.url,
-                            href: item.url
-                        };
-                        if (item.selected_width) attrs.width = item.selected_width;
-                        if (item.selected_height) attrs.height = item.selected_height;
-                        attachment.setAttributes(attrs);
+                    var targetImg = trixPickerTargetFigure ? trixPickerTargetFigure.querySelector('img') : null;
+                    if (targetImg) {
+                        // Update the existing image in-place.
+                        targetImg.src = item.url;
+                        targetImg.alt = item.alt_text || item.file_name;
+                        if (item.selected_width) targetImg.setAttribute('width', item.selected_width);
+                        else targetImg.removeAttribute('width');
+                        if (item.selected_height) targetImg.setAttribute('height', item.selected_height);
+                        else targetImg.removeAttribute('height');
                     } else {
+                        // Fallback: insert a new image.
                         var imgTag = '<img src="' + item.url + '" alt="' + (item.alt_text || item.file_name) + '"';
                         if (item.selected_width) imgTag += ' width="' + item.selected_width + '"';
                         if (item.selected_height) imgTag += ' height="' + item.selected_height + '"';
@@ -304,6 +315,7 @@
                     }
                 }
                 trixPickerEditor = null;
+                trixPickerTargetFigure = null;
             });
         });
 
@@ -423,7 +435,7 @@
                 <h2 class="text-xl font-bold text-white">Upload Files</h2>
                 <button type="button" onclick="closeMediaPickerUpload()" class="text-slate-400 hover:text-white" aria-label="Close">&times;</button>
             </div>
-            <form id="mpUploadForm" method="POST" action="{{ route('admin.media.store') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
+            <form id="mpUploadForm" method="POST" action="{{ route('admin.media.upload') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
                 @csrf
                 <div id="mpDropzone" onclick="document.getElementById('mpFiles').click()"
                      class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-white/15 bg-night-900/60 px-6 py-10 text-center transition hover:border-accent/60">
@@ -446,9 +458,18 @@
                         <option value="banners"></option>
                     </datalist>
                 </div>
+                <div id="mpUploadProgress" class="hidden">
+                    <div class="flex items-center justify-between text-sm text-slate-300">
+                        <span>Uploading…</span>
+                        <span id="mpUploadPercent">0%</span>
+                    </div>
+                    <div class="mt-2 h-2 rounded-full bg-night-900 overflow-hidden">
+                        <div id="mpUploadBar" class="h-full rounded-full bg-accent transition-all duration-200" style="width:0%"></div>
+                    </div>
+                </div>
                 <div class="flex justify-end gap-3 pt-2">
                     <button type="button" onclick="closeMediaPickerUpload()" class="rounded-lg bg-white/5 px-5 py-2.5 font-semibold text-slate-300 transition hover:bg-white/10">Cancel</button>
-                    <button type="submit" class="rounded-lg bg-accent px-5 py-2.5 font-semibold text-white transition hover:bg-accent-purple">Upload</button>
+                    <button type="submit" id="mpUploadBtn" class="rounded-lg bg-accent px-5 py-2.5 font-semibold text-white transition hover:bg-accent-purple">Upload</button>
                 </div>
             </form>
         </div>
@@ -596,31 +617,67 @@
                 }
             });
 
-            // Upload form submit via AJAX
+            // Upload form submit via AJAX with progress
             var uploadForm = document.getElementById('mpUploadForm');
             if (uploadForm) {
                 uploadForm.addEventListener('submit', function (e) {
                     e.preventDefault();
                     var formData = new FormData(uploadForm);
-                    fetch(uploadForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                        credentials: 'same-origin'
-                    })
-                        .then(function (r) {
-                            if (!r.ok) return r.json().then(function (j) { throw new Error(j.message || 'Upload failed'); });
-                            return r.json();
-                        })
-                        .then(function () {
+                    var xhr = new XMLHttpRequest();
+                    var progressEl = document.getElementById('mpUploadProgress');
+                    var progressBar = document.getElementById('mpUploadBar');
+                    var progressPercent = document.getElementById('mpUploadPercent');
+                    var uploadBtn = document.getElementById('mpUploadBtn');
+
+                    progressEl.classList.remove('hidden');
+                    uploadBtn.disabled = true;
+
+                    xhr.upload.addEventListener('progress', function (e) {
+                        if (e.lengthComputable) {
+                            var pct = Math.round((e.loaded / e.total) * 100);
+                            progressBar.style.width = pct + '%';
+                            progressPercent.textContent = pct + '%';
+                        }
+                    });
+
+                    xhr.onload = function () {
+                        progressEl.classList.add('hidden');
+                        uploadBtn.disabled = false;
+                        progressBar.style.width = '0%';
+                        progressPercent.textContent = '0%';
+
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            try {
+                                var json = JSON.parse(xhr.responseText);
+                            } catch (err) {
+                                alert('Upload succeeded but response was not valid JSON.');
+                                return;
+                            }
                             closeMediaPickerUpload();
                             uploadForm.reset();
                             document.getElementById('mpFileList').innerHTML = '';
                             loadMediaPickerItems(1);
-                        })
-                        .catch(function (err) {
-                            alert(err.message || 'Upload failed');
-                        });
+                        } else {
+                            var msg = 'Upload failed';
+                            try {
+                                var errJson = JSON.parse(xhr.responseText);
+                                msg = errJson.message || msg;
+                            } catch (err) { /* ignore */ }
+                            alert(msg);
+                        }
+                    };
+
+                    xhr.onerror = function () {
+                        progressEl.classList.add('hidden');
+                        uploadBtn.disabled = false;
+                        progressBar.style.width = '0%';
+                        progressPercent.textContent = '0%';
+                        alert('Upload failed. Please try again.');
+                    };
+
+                    xhr.open('POST', uploadForm.action);
+                    xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+                    xhr.send(formData);
                 });
             }
         });
