@@ -237,6 +237,35 @@
         window.trixCsrfToken = @json(csrf_token());
     </script>
     <script>
+        // Track which Trix editor triggered the media picker so we can insert
+        // the selected image back into the correct editor.
+        var trixPickerEditor = null;
+
+        // Intercept the attachment button click in the capture phase so the
+        // media picker opens BEFORE Trix opens its native file dialog.
+        document.addEventListener('click', function (event) {
+            var btn = event.target.closest('.trix-button--icon-attach');
+            if (!btn) return;
+
+            // Find the trix-editor this button belongs to.
+            var toolbar = btn.closest('trix-toolbar');
+            var editorId = toolbar ? toolbar.getAttribute('data-trix-editor') : null;
+            var editorEl = editorId ? document.getElementById(editorId) : document.querySelector('trix-editor');
+            if (!editorEl) return;
+
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+
+            trixPickerEditor = editorEl;
+            openMediaPicker(function (item) {
+                if (item && item.url && trixPickerEditor) {
+                    trixPickerEditor.editor.insertHTML('<img src="' + item.url + '" alt="' + (item.alt_text || item.file_name) + '">');
+                }
+                trixPickerEditor = null;
+            });
+        }, true);
+
         // Trix 2 wires a toolbar to an editor through the native `toolbar`
         // attribute and builds its own toolbar (correct buttons, attributes and
         // link dialog) when none is supplied. The dark-theme CSS above styles
@@ -284,6 +313,258 @@
                         });
                 });
             });
+        });
+    </script>
+
+    {{-- Media Picker Modal --}}
+    <div id="mediaPickerModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4">
+        <div class="flex max-h-[90vh] w-full max-w-5xl flex-col rounded-xl border border-white/10 bg-night-800">
+            <div class="flex items-center justify-between border-b border-white/10 px-6 py-4">
+                <h2 class="text-xl font-bold text-white">Select Image</h2>
+                <button type="button" onclick="closeMediaPicker()" class="text-slate-400 hover:text-white" aria-label="Close">&times;</button>
+            </div>
+            <div class="flex flex-1 overflow-hidden">
+                {{-- Sidebar / filters --}}
+                <div class="w-64 shrink-0 border-r border-white/10 p-4 space-y-4">
+                    <div>
+                        <label class="mb-1.5 block text-sm font-semibold text-slate-300">Search</label>
+                        <input type="text" id="mpSearch" placeholder="Search files…"
+                               class="w-full rounded-lg border border-white/10 bg-night-900 px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:border-accent focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="mb-1.5 block text-sm font-semibold text-slate-300">Type</label>
+                        <select id="mpType" class="w-full rounded-lg border border-white/10 bg-night-900 px-3 py-2 text-sm text-slate-200 focus:border-accent focus:outline-none">
+                            <option value="">All types</option>
+                            <option value="image">Images</option>
+                            <option value="video">Videos</option>
+                            <option value="audio">Audio</option>
+                            <option value="document">Documents</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="mb-1.5 block text-sm font-semibold text-slate-300">Sort</label>
+                        <select id="mpSort" class="w-full rounded-lg border border-white/10 bg-night-900 px-3 py-2 text-sm text-slate-200 focus:border-accent focus:outline-none">
+                            <option value="newest">Newest first</option>
+                            <option value="oldest">Oldest first</option>
+                            <option value="name">File name</option>
+                            <option value="largest">Largest first</option>
+                        </select>
+                    </div>
+                    <button type="button" onclick="openMediaPickerUpload()" class="w-full rounded-lg bg-accent px-4 py-2.5 font-semibold text-white transition hover:bg-accent-purple">
+                        ⬆️ Upload New
+                    </button>
+                </div>
+                {{-- Grid --}}
+                <div class="flex-1 overflow-y-auto p-4">
+                    <div id="mpGrid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                        <div class="col-span-full py-16 text-center text-slate-500">Loading…</div>
+                    </div>
+                    <div id="mpPagination" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Media Picker Upload Modal --}}
+    <div id="mediaPickerUploadModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/70 p-4">
+        <div class="w-full max-w-lg rounded-xl border border-white/10 bg-night-800 p-6">
+            <div class="flex items-start justify-between">
+                <h2 class="text-xl font-bold text-white">Upload Files</h2>
+                <button type="button" onclick="closeMediaPickerUpload()" class="text-slate-400 hover:text-white" aria-label="Close">&times;</button>
+            </div>
+            <form id="mpUploadForm" method="POST" action="{{ route('admin.media.store') }}" enctype="multipart/form-data" class="mt-5 space-y-4">
+                @csrf
+                <div id="mpDropzone" onclick="document.getElementById('mpFiles').click()"
+                     class="flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-white/15 bg-night-900/60 px-6 py-10 text-center transition hover:border-accent/60">
+                    <span class="text-3xl">📤</span>
+                    <p class="mt-3 text-sm font-semibold text-white">Drop files here or click to browse</p>
+                    <p class="mt-1 text-xs text-slate-500">Images, video, audio, PDF, Office or ZIP &middot; up to 10 MB each &middot; 20 files max</p>
+                    <ul id="mpFileList" class="mt-3 w-full space-y-1 text-left text-xs text-slate-400"></ul>
+                </div>
+                <input type="file" id="mpFiles" name="files[]" multiple class="hidden"
+                       accept="image/*,video/mp4,video/webm,audio/*,application/pdf,.doc,.docx,.zip"
+                       onchange="listMpFiles(this)">
+                <div>
+                    <label for="mpFolder" class="mb-1.5 block text-sm font-semibold text-slate-300">Folder</label>
+                    <input type="text" id="mpFolder" name="folder" value="library" list="mpFolderList"
+                           class="w-full rounded-lg border border-white/10 bg-night-900 px-4 py-2.5 text-slate-200 focus:border-accent focus:outline-none">
+                    <datalist id="mpFolderList">
+                        <option value="library"></option>
+                        <option value="posts"></option>
+                        <option value="avatars"></option>
+                        <option value="banners"></option>
+                    </datalist>
+                </div>
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="closeMediaPickerUpload()" class="rounded-lg bg-white/5 px-5 py-2.5 font-semibold text-slate-300 transition hover:bg-white/10">Cancel</button>
+                    <button type="submit" class="rounded-lg bg-accent px-5 py-2.5 font-semibold text-white transition hover:bg-accent-purple">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ---- Media Picker ----
+        var mediaPickerCallback = null;
+        var mediaPickerCurrentPage = 1;
+
+        function openMediaPicker(callback) {
+            mediaPickerCallback = callback;
+            mediaPickerCurrentPage = 1;
+            var modal = document.getElementById('mediaPickerModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            loadMediaPickerItems();
+        }
+
+        function closeMediaPicker() {
+            var modal = document.getElementById('mediaPickerModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            mediaPickerCallback = null;
+        }
+
+        function openMediaPickerUpload() {
+            var modal = document.getElementById('mediaPickerUploadModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeMediaPickerUpload() {
+            var modal = document.getElementById('mediaPickerUploadModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function listMpFiles(input) {
+            var list = document.getElementById('mpFileList');
+            list.innerHTML = '';
+            Array.from(input.files).forEach(function (file) {
+                var li = document.createElement('li');
+                li.className = 'truncate';
+                li.textContent = file.name + ' (' + (file.size / 1048576).toFixed(2) + ' MB)';
+                list.appendChild(li);
+            });
+        }
+
+        function loadMediaPickerItems(page) {
+            page = page || 1;
+            mediaPickerCurrentPage = page;
+            var grid = document.getElementById('mpGrid');
+            var pagination = document.getElementById('mpPagination');
+            grid.innerHTML = '<div class="col-span-full py-16 text-center text-slate-500">Loading…</div>';
+            pagination.innerHTML = '';
+
+            var params = new URLSearchParams({ page: page, per_page: 24 });
+            var search = document.getElementById('mpSearch').value;
+            var type = document.getElementById('mpType').value;
+            var sort = document.getElementById('mpSort').value;
+            if (search) params.set('search', search);
+            if (type) params.set('type', type);
+            if (sort) params.set('sort', sort);
+
+            fetch('{{ route('admin.media.list') }}?' + params.toString(), {
+                headers: { 'Accept': 'application/json' }
+            })
+                .then(function (r) { return r.json(); })
+                .then(function (json) {
+                    var items = json.data;
+                    if (!items.length) {
+                        grid.innerHTML = '<div class="col-span-full py-16 text-center text-slate-500">No files found</div>';
+                        return;
+                    }
+                    grid.innerHTML = '';
+                    items.forEach(function (item) {
+                        var el = document.createElement('div');
+                        el.className = 'group relative overflow-hidden rounded-xl border border-white/10 bg-night-800/60 transition hover:border-accent/60 cursor-pointer';
+                        el.onclick = function () { selectMediaPickerItem(item); };
+
+                        var preview = '';
+                        if (item.is_image) {
+                            preview = '<img src="' + item.url + '" alt="" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">';
+                        } else if (item.is_video) {
+                            preview = '<video src="' + item.url + '" class="h-full w-full object-cover" muted></video>' +
+                                '<span class="absolute left-2 top-2 rounded bg-black/70 px-2 py-0.5 text-xs font-semibold text-white">VIDEO</span>';
+                        } else if (item.is_audio) {
+                            preview = '<div class="flex h-full w-full flex-col items-center justify-center gap-2 text-slate-500"><span class="text-3xl">🎵</span><span class="text-xs uppercase tracking-wider">Audio</span></div>';
+                        } else {
+                            preview = '<div class="flex h-full w-full flex-col items-center justify-center gap-2 text-slate-500"><span class="text-3xl">📄</span><span class="px-2 text-xs uppercase tracking-wider">' + item.extension + '</span></div>';
+                        }
+
+                        el.innerHTML = '<div class="relative aspect-square overflow-hidden bg-night-900">' + preview + '</div>' +
+                            '<div class="p-3">' +
+                            '<p class="truncate text-sm font-medium text-white" title="' + item.file_name + '">' + item.file_name + '</p>' +
+                            '<p class="mt-0.5 text-xs text-slate-500">' + item.human_size + ' &middot; ' + (item.created_at ? new Date(item.created_at).toLocaleDateString() : '') + '</p>' +
+                            '</div>';
+                        grid.appendChild(el);
+                    });
+
+                    // Pagination
+                    var meta = json.meta;
+                    if (meta.last_page > 1) {
+                        var html = '<div class="flex items-center justify-center gap-2">';
+                        if (meta.current_page > 1) {
+                            html += '<button type="button" onclick="loadMediaPickerItems(' + (meta.current_page - 1) + ')" class="rounded-lg bg-white/5 px-4 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/10">← Prev</button>';
+                        }
+                        html += '<span class="text-sm text-slate-400">Page ' + meta.current_page + ' of ' + meta.last_page + '</span>';
+                        if (meta.current_page < meta.last_page) {
+                            html += '<button type="button" onclick="loadMediaPickerItems(' + (meta.current_page + 1) + ')" class="rounded-lg bg-white/5 px-4 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/10">Next →</button>';
+                        }
+                        html += '</div>';
+                        pagination.innerHTML = html;
+                    }
+                })
+                .catch(function () {
+                    grid.innerHTML = '<div class="col-span-full py-16 text-center text-red-400">Failed to load media.</div>';
+                });
+        }
+
+        function selectMediaPickerItem(item) {
+            if (mediaPickerCallback) {
+                mediaPickerCallback(item);
+            }
+            closeMediaPicker();
+        }
+
+        // Auto-refresh on filter change
+        document.addEventListener('DOMContentLoaded', function () {
+            ['mpSearch', 'mpType', 'mpSort'].forEach(function (id) {
+                var el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('change', function () { loadMediaPickerItems(1); });
+                    if (id === 'mpSearch') {
+                        el.addEventListener('keyup', function (e) { if (e.key === 'Enter') loadMediaPickerItems(1); });
+                    }
+                }
+            });
+
+            // Upload form submit via AJAX
+            var uploadForm = document.getElementById('mpUploadForm');
+            if (uploadForm) {
+                uploadForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    var formData = new FormData(uploadForm);
+                    fetch(uploadForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                        credentials: 'same-origin'
+                    })
+                        .then(function (r) {
+                            if (!r.ok) return r.json().then(function (j) { throw new Error(j.message || 'Upload failed'); });
+                            return r.json();
+                        })
+                        .then(function () {
+                            closeMediaPickerUpload();
+                            uploadForm.reset();
+                            document.getElementById('mpFileList').innerHTML = '';
+                            loadMediaPickerItems(1);
+                        })
+                        .catch(function (err) {
+                            alert(err.message || 'Upload failed');
+                        });
+                });
+            }
         });
     </script>
     @stack('scripts')

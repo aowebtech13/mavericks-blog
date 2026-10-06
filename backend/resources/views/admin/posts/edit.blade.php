@@ -96,7 +96,12 @@
             <div id="image-preview" class="mb-3 {{ $post->featured_image ? '' : 'hidden' }}">
                 <img src="{{ $post->featured_image ? Storage::disk('public')->url($post->featured_image) : '' }}" alt="{{ $post->title }}" class="h-32 rounded-lg object-cover">
             </div>
-            <input type="file" name="featured_image" id="featured_image" accept="image/*" class="w-full rounded-lg border border-white/10 bg-night-950 px-4 py-2.5 text-sm text-slate-300 file:mr-4 file:rounded-lg file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-white/20 transition focus:border-accent focus:outline-none">
+            <input type="hidden" name="featured_image_id" id="featured_image_id" value="">
+            <button type="button" id="select-featured-image" class="w-full rounded-lg border border-white/10 bg-night-950 px-4 py-2.5 text-sm text-slate-300 transition hover:bg-white/10 focus:border-accent focus:outline-none">
+                📷 Select from Media Library
+            </button>
+            <input type="file" name="featured_image" id="featured_image" accept="image/*" class="mt-2 w-full rounded-lg border border-white/10 bg-night-950 px-4 py-2.5 text-sm text-slate-300 file:mr-4 file:rounded-lg file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-white/20 transition focus:border-accent focus:outline-none">
+            <p class="mt-1 text-xs text-slate-500">Or upload a new file directly</p>
             @error('featured_image') <span class="text-red-400 text-sm">{{ $message }}</span> @enderror
         </div>
 
@@ -129,10 +134,22 @@
 
 @push('scripts')
 <script>
+    // Intercept Trix file selection to open media picker
     document.addEventListener('trix-file-accept', function (event) {
         if (!event.file.accept.match(/^(image|video)\/.*|application\/pdf/)) {
             event.preventDefault();
             alert('Only images, videos and PDFs can be attached.');
+            return;
+        }
+        // For images, open media picker instead of native file dialog
+        if (event.file.accept.match(/^image\//)) {
+            event.preventDefault();
+            var editor = event.target;
+            openMediaPicker(function (item) {
+                if (item && item.url) {
+                    editor.editor.insertHTML('<img src="' + item.url + '" alt="' + (item.alt_text || item.file_name) + '">');
+                }
+            });
         }
     });
 
@@ -154,11 +171,26 @@
         this.dataset.edited = true;
     });
 
-    // Image preview
+    // Featured image via media picker
+    const selectFeaturedBtn = document.getElementById('select-featured-image');
+    const featuredImageIdInput = document.getElementById('featured_image_id');
     const imageInput = document.getElementById('featured_image');
     const imagePreview = document.getElementById('image-preview');
     const previewImg = imagePreview.querySelector('img');
 
+    selectFeaturedBtn.addEventListener('click', function() {
+        openMediaPicker(function (item) {
+            if (item && item.url) {
+                featuredImageIdInput.value = item.id;
+                previewImg.src = item.url;
+                imagePreview.classList.remove('hidden');
+                // Clear any direct file upload since we're using media library
+                imageInput.value = '';
+            }
+        });
+    });
+
+    // Also allow direct file upload preview
     imageInput.addEventListener('change', function() {
         const file = this.files[0];
         if (file) {
@@ -168,6 +200,8 @@
                 imagePreview.classList.remove('hidden');
             }
             reader.readAsDataURL(file);
+            // Clear media library selection
+            featuredImageIdInput.value = '';
         } else {
             imagePreview.classList.add('hidden');
         }

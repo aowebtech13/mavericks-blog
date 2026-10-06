@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Media;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Tag;
@@ -101,6 +102,7 @@ class PostController extends Controller
             'excerpt' => 'nullable|string|max:500',
             'content' => 'required|string',
             'featured_image' => 'nullable|image|max:2048',
+            'featured_image_id' => 'nullable|exists:media,id',
             'status' => 'in:draft,published,archived',
             'visibility' => 'in:public,private,scheduled',
             'published_at' => 'nullable|date',
@@ -118,6 +120,9 @@ class PostController extends Controller
 
         if ($request->hasFile('featured_image')) {
             $validated['featured_image'] = $request->file('featured_image')->store('posts', 'public');
+        } elseif ($request->filled('featured_image_id')) {
+            $media = Media::findOrFail($request->input('featured_image_id'));
+            $validated['featured_image'] = $media->path;
         }
 
         if (($validated['status'] ?? null) === 'published' && !($validated['published_at'] ?? null)) {
@@ -157,6 +162,7 @@ class PostController extends Controller
             'excerpt' => 'nullable|string|max:500',
             'content' => 'required|string',
             'featured_image' => 'nullable|image|max:2048',
+            'featured_image_id' => 'nullable|exists:media,id',
             'status' => 'in:draft,published,archived',
             'visibility' => 'in:public,private,scheduled',
             'published_at' => 'nullable|date',
@@ -173,6 +179,9 @@ class PostController extends Controller
 
         if ($request->hasFile('featured_image')) {
             $validated['featured_image'] = $request->file('featured_image')->store('posts', 'public');
+        } elseif ($request->filled('featured_image_id')) {
+            $media = Media::findOrFail($request->input('featured_image_id'));
+            $validated['featured_image'] = $media->path;
         }
 
         if (($validated['status'] ?? null) === 'published' && !$post->published_at) {
