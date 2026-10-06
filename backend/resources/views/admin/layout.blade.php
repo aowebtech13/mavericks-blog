@@ -242,9 +242,11 @@
         var trixPickerEditor = null;
         var trixPickerTargetFigure = null;
 
-        // Intercept the attachment button click in the capture phase so the
+        // Intercept the attachment button in the capture phase so the
         // media picker opens BEFORE Trix opens its native file dialog.
-        document.addEventListener('click', function (event) {
+        // Trix triggers the file input on mousedown, so we must intercept
+        // mousedown rather than click.
+        document.addEventListener('mousedown', function (event) {
             var btn = event.target.closest('.trix-button--icon-attach');
             if (!btn) return;
 
@@ -648,9 +650,13 @@
 
                         if (xhr.status >= 200 && xhr.status < 300) {
                             try {
-                                var json = JSON.parse(xhr.responseText);
+                                JSON.parse(xhr.responseText);
                             } catch (err) {
-                                alert('Upload succeeded but response was not valid JSON.');
+                                // Close modal and refresh even if JSON parsing fails.
+                                closeMediaPickerUpload();
+                                uploadForm.reset();
+                                document.getElementById('mpFileList').innerHTML = '';
+                                loadMediaPickerItems(1);
                                 return;
                             }
                             closeMediaPickerUpload();
@@ -658,7 +664,7 @@
                             document.getElementById('mpFileList').innerHTML = '';
                             loadMediaPickerItems(1);
                         } else {
-                            var msg = 'Upload failed';
+                            var msg = 'Upload failed (status ' + xhr.status + ')';
                             try {
                                 var errJson = JSON.parse(xhr.responseText);
                                 msg = errJson.message || msg;
@@ -677,6 +683,7 @@
 
                     xhr.open('POST', uploadForm.action);
                     xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
                     xhr.send(formData);
                 });
             }
