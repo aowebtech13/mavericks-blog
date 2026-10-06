@@ -104,6 +104,18 @@
             border-color: #007BFF;
             box-shadow: 0 0 0 1px #007BFF;
         }
+        trix-toolbar .trix-dialog {
+            background: #11141d;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.375rem;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        trix-toolbar .trix-button--dialog {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 0.25rem;
+            padding: 0.25rem 0.75rem;
+        }
 
         trix-editor {
             min-height: 24rem;
@@ -225,78 +237,27 @@
         window.trixCsrfToken = @json(csrf_token());
     </script>
     <script>
-        // Builds the Trix toolbar markup for an editor.
-        function buildTrixToolbar(toolbarId) {
-            var toolbar = document.createElement('trix-toolbar');
-            toolbar.id = toolbarId;
-            toolbar.innerHTML = [
-                '<div class="trix-button-row">',
-                '<div class="trix-button-group">',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-attach" title="Attach a file" data-trix-action="attachFile" tabindex="-1">Attach a file</button>',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-link" title="Add a link" data-trix-action="link" tabindex="-1">Add a link</button>',
-                '<input type="file" accept="image/*,video/*,application/pdf" data-trix-input="attachFile" hidden>',
-                '<input type="url" placeholder="Enter URL..." data-trix-input="link" class="hidden">',
-                '</div>',
-                '<div class="trix-button-group">',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-bold" title="Bold" data-trix-format="bold" tabindex="-1">Bold</button>',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-italic" title="Italic" data-trix-format="italic" tabindex="-1">Italic</button>',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-code" title="Inline code" data-trix-format="code" tabindex="-1">Inline code</button>',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-pre" title="Preformatted" data-trix-format="pre" tabindex="-1">Preformatted</button>',
-                '</div>',
-                '<div class="trix-button-group">',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-heading-1" title="Heading 1" data-trix-format="h1" tabindex="-1">Heading 1</button>',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-heading-2" title="Heading 2" data-trix-format="h2" tabindex="-1">Heading 2</button>',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-heading-3" title="Heading 3" data-trix-format="h3" tabindex="-1">Heading 3</button>',
-                '</div>',
-                '<div class="trix-button-group">',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-strikethrough" title="Strikethrough" data-trix-format="strike" tabindex="-1">Strikethrough</button>',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-bullet-list" title="Bulleted list" data-trix-format="bulletList" tabindex="-1">Bulleted list</button>',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-numbered-list" title="Numbered list" data-trix-format="orderedList" tabindex="-1">Numbered list</button>',
-                '</div>',
-                '<div class="trix-button-group">',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-blockquote" title="Blockquote" data-trix-format="blockquote" tabindex="-1">Blockquote</button>',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-undo" title="Undo" data-trix-command="undo" tabindex="-1">Undo</button>',
-                '<button type="button" class="trix-button trix-button--icon trix-button--icon-redo" title="Redo" data-trix-command="redo" tabindex="-1">Redo</button>',
-                '</div>',
-                '</div>',
-            ].join('');
-
-            return toolbar;
-        }
-
-        // Trix renders attachments as <figure> elements; this returns clean HTML
-        // the public blog can render without any Trix runtime.
-        function buildFileAttachment(file, href) {
-            if (/\.(gif|png|jpe?g|webp|bmp|avif|svg)$/i.test(file)) {
-                return ' <figure class="attachment attachment--preview">' +
-                    '<img src="' + href + '" alt="' + file + '">' +
-                    '<figcaption class="attachment__caption">' + file + '</figcaption>' +
-                    '</figure>';
-            }
-
-            return ' <figure class="attachment attachment--preview">' +
-                '<a href="' + href + '" class="attachment__link" target="_blank" rel="noopener">' + file + '</a>' +
-                '</figure>';
-        }
-
+        // Trix 2 wires a toolbar to an editor through the native `toolbar`
+        // attribute and builds its own toolbar (correct buttons, attributes and
+        // link dialog) when none is supplied. The dark-theme CSS above styles
+        // that toolbar for the admin panel. Uploads are handled through the
+        // `trix-attachment-add` event, which is the Trix 2 replacement for the
+        // removed `uploadHandler` option.
         document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('trix-editor[data-trix-toolbar]').forEach(function (editorElement) {
-                var toolbarId = editorElement.getAttribute('data-trix-toolbar');
-                var toolbar = document.getElementById(toolbarId) || buildTrixToolbar(toolbarId);
+            document.querySelectorAll('trix-editor').forEach(function (editorElement) {
+                editorElement.addEventListener('trix-attachment-add', function (event) {
+                    var attachment = event.attachment;
+                    // Attachments restored from saved HTML have no file to upload.
+                    if (!attachment.file) {
+                        return;
+                    }
 
-                if (!toolbar.parentNode) {
-                    editorElement.parentNode.insertBefore(toolbar, editorElement);
-                }
-
-                var editor = editorElement.editor || new Trix.Editor({ element: editorElement, toolbar: toolbar });
-
-                editor.uploadHandler = function (attachment) {
                     var data = new FormData();
                     // The media endpoint validates an array under `files`.
                     data.append('files[]', attachment.file);
                     data.append('folder', 'posts');
 
-                    return fetch(window.trixUploadUrl, {
+                    fetch(window.trixUploadUrl, {
                         method: 'POST',
                         body: data,
                         headers: { 'X-CSRF-TOKEN': window.trixCsrfToken },
@@ -312,9 +273,16 @@
                         })
                         .then(function (json) {
                             attachment.setUploadProgress(100);
-                            return buildFileAttachment(json.file_name || 'attachment', json.url);
+                            attachment.setAttributes({
+                                url: json.url,
+                                href: json.url
+                            });
+                        })
+                        .catch(function (error) {
+                            alert(error.message || 'Upload failed');
+                            attachment.remove();
                         });
-                };
+                });
             });
         });
     </script>

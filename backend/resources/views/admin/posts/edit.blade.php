@@ -42,7 +42,6 @@
                 input="content_data"
                 class="rich-text"
                 placeholder="Full post content"
-                data-trix-toolbar="content_editor_toolbar"
                 style="min-height: 28rem;"
             ></trix-editor>
             @error('content') <span class="text-red-400 text-sm">{{ $message }}</span> @enderror
