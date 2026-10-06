@@ -260,11 +260,52 @@
             trixPickerEditor = editorEl;
             openMediaPicker(function (item) {
                 if (item && item.url && trixPickerEditor) {
-                    trixPickerEditor.editor.insertHTML('<img src="' + item.url + '" alt="' + (item.alt_text || item.file_name) + '">');
+                    var imgTag = '<img src="' + item.url + '" alt="' + (item.alt_text || item.file_name) + '"';
+                    if (item.selected_width) imgTag += ' width="' + item.selected_width + '"';
+                    if (item.selected_height) imgTag += ' height="' + item.selected_height + '"';
+                    imgTag += '>';
+                    trixPickerEditor.editor.insertHTML(imgTag);
                 }
                 trixPickerEditor = null;
             });
         }, true);
+
+        // Allow clicking an existing image inside Trix to replace it via the
+        // media picker.
+        document.addEventListener('click', function (event) {
+            var figure = event.target.closest('figure.attachment');
+            if (!figure) return;
+
+            var editorEl = figure.closest('trix-editor');
+            if (!editorEl) return;
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            trixPickerEditor = editorEl;
+            openMediaPicker(function (item) {
+                if (item && item.url && trixPickerEditor) {
+                    var attachmentId = figure.getAttribute('data-trix-attachment');
+                    var attachment = trixPickerEditor.editor.getAttachment && trixPickerEditor.editor.getAttachment(attachmentId);
+                    if (attachment) {
+                        var attrs = {
+                            url: item.url,
+                            href: item.url
+                        };
+                        if (item.selected_width) attrs.width = item.selected_width;
+                        if (item.selected_height) attrs.height = item.selected_height;
+                        attachment.setAttributes(attrs);
+                    } else {
+                        var imgTag = '<img src="' + item.url + '" alt="' + (item.alt_text || item.file_name) + '"';
+                        if (item.selected_width) imgTag += ' width="' + item.selected_width + '"';
+                        if (item.selected_height) imgTag += ' height="' + item.selected_height + '"';
+                        imgTag += '>';
+                        trixPickerEditor.editor.insertHTML(imgTag);
+                    }
+                }
+                trixPickerEditor = null;
+            });
+        });
 
         // Trix 2 wires a toolbar to an editor through the native `toolbar`
         // attribute and builds its own toolbar (correct buttons, attributes and
@@ -349,6 +390,16 @@
                             <option value="name">File name</option>
                             <option value="largest">Largest first</option>
                         </select>
+                    </div>
+                    <div class="border-t border-white/10 pt-4">
+                        <label class="mb-1.5 block text-sm font-semibold text-slate-300">Width (px)</label>
+                        <input type="number" id="mpWidth" value="" placeholder="Auto"
+                               class="w-full rounded-lg border border-white/10 bg-night-900 px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:border-accent focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="mb-1.5 block text-sm font-semibold text-slate-300">Height (px)</label>
+                        <input type="number" id="mpHeight" value="" placeholder="Auto"
+                               class="w-full rounded-lg border border-white/10 bg-night-900 px-3 py-2 text-sm text-slate-200 placeholder-slate-500 focus:border-accent focus:outline-none">
                     </div>
                     <button type="button" onclick="openMediaPickerUpload()" class="w-full rounded-lg bg-accent px-4 py-2.5 font-semibold text-white transition hover:bg-accent-purple">
                         ⬆️ Upload New
@@ -520,9 +571,16 @@
         }
 
         function selectMediaPickerItem(item) {
-            if (mediaPickerCallback) {
-                mediaPickerCallback(item);
-            }
+            if (!mediaPickerCallback) return;
+
+            var width = document.getElementById('mpWidth').value;
+            var height = document.getElementById('mpHeight').value;
+
+            // Attach sizing info to the item so callers can use it.
+            item.selected_width = width ? parseInt(width, 10) : null;
+            item.selected_height = height ? parseInt(height, 10) : null;
+
+            mediaPickerCallback(item);
             closeMediaPicker();
         }
 

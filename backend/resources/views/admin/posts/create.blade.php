@@ -128,7 +128,11 @@
             var editor = event.target;
             openMediaPicker(function (item) {
                 if (item && item.url) {
-                    editor.editor.insertHTML('<img src="' + item.url + '" alt="' + (item.alt_text || item.file_name) + '">');
+                    var imgTag = '<img src="' + item.url + '" alt="' + (item.alt_text || item.file_name) + '"';
+                    if (item.selected_width) imgTag += ' width="' + item.selected_width + '"';
+                    if (item.selected_height) imgTag += ' height="' + item.selected_height + '"';
+                    imgTag += '>';
+                    editor.editor.insertHTML(imgTag);
                 }
             });
         }
