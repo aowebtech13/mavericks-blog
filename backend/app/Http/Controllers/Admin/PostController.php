@@ -39,7 +39,7 @@ class PostController extends Controller
         $sort = $request->input('sort', 'latest');
         $direction = $request->input('direction') === 'asc' ? 'asc' : 'desc';
 
-        match ($sort) {
+        $query = match ($sort) {
             'views' => $query->orderBy('views_count', $direction)->orderByDesc('id'),
             'title' => $query->orderBy('title', $direction),
             'oldest' => $query->orderBy('created_at', $direction),

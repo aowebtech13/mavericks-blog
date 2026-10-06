@@ -20,27 +20,89 @@
             color: #fff;
         }
         /* Trix editor — dark theme tuned for the admin panel */
-        .trix-toolbar .trix-button-group {
-            border-color: rgba(255, 255, 255, 0.12);
+        trix-toolbar {
+            display: block;
+            background: #0d1017;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem 0.5rem 0 0;
+            padding: 0.5rem;
+            margin-bottom: -1px;
         }
-        .trix-toolbar .trix-button {
-            border-color: rgba(255, 255, 255, 0.12);
-            color: #cbd5e1;
+        trix-toolbar .trix-button-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+            overflow-x: auto;
         }
-        .trix-toolbar .trix-button:hover,
-        .trix-toolbar .trix-button.trix-active {
-            background-color: rgba(255, 255, 255, 0.08);
+        trix-toolbar .trix-button-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0.375rem;
+            margin-bottom: 0;
+            background: rgba(255, 255, 255, 0.04);
+        }
+        trix-toolbar .trix-button-group:not(:first-child) {
+            margin-left: 0;
+        }
+        trix-toolbar .trix-button {
+            position: relative;
+            color: #e2e8f0;
+            font-size: 0.75em;
+            font-weight: 600;
+            white-space: nowrap;
+            padding: 0 0.5em;
+            margin: 0;
+            outline: none;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+        }
+        trix-toolbar .trix-button:not(:first-child) {
+            border-left: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        /* Trix ships black SVG icons — invert them to bright white for the dark toolbar */
+        trix-toolbar .trix-button--icon::before {
+            filter: brightness(0) invert(1);
+            opacity: 0.85;
+        }
+        trix-toolbar .trix-button--icon.trix-active::before {
+            opacity: 1;
+        }
+        trix-toolbar .trix-button:hover,
+        trix-toolbar .trix-button.trix-active {
+            background-color: rgba(255, 255, 255, 0.1);
             color: #ffffff;
         }
-        .trix-toolbar .trix-button.trix-active {
+        trix-toolbar .trix-button.trix-active {
             background-color: #007BFF;
         }
-        .trix-toolbar .trix-button:disabled {
+        trix-toolbar .trix-button:disabled {
             color: #475569;
             background: none;
         }
-        .trix-toolbar__separator {
+        trix-toolbar .trix-button:disabled::before,
+        trix-toolbar .trix-button--icon:disabled::before {
+            opacity: 0.25;
+        }
+        trix-toolbar__separator {
             border-color: rgba(255, 255, 255, 0.12);
+        }
+        trix-toolbar input[type="url"],
+        trix-toolbar input[type="text"] {
+            background: #0d1017;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0.375rem;
+            color: #e2e8f0;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        trix-toolbar input[type="url"]:focus,
+        trix-toolbar input[type="text"]:focus {
+            outline: none;
+            border-color: #007BFF;
+            box-shadow: 0 0 0 1px #007BFF;
         }
 
         trix-editor {
@@ -52,6 +114,7 @@
             line-height: 1.65;
         }
         trix-editor.rich-text {
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 0 0 0.5rem 0.5rem;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
@@ -167,6 +230,7 @@
             var toolbar = document.createElement('trix-toolbar');
             toolbar.id = toolbarId;
             toolbar.innerHTML = [
+                '<div class="trix-button-row">',
                 '<div class="trix-button-group">',
                 '<button type="button" class="trix-button trix-button--icon trix-button--icon-attach" title="Attach a file" data-trix-action="attachFile" tabindex="-1">Attach a file</button>',
                 '<button type="button" class="trix-button trix-button--icon trix-button--icon-link" title="Add a link" data-trix-action="link" tabindex="-1">Add a link</button>',
@@ -193,6 +257,7 @@
                 '<button type="button" class="trix-button trix-button--icon trix-button--icon-blockquote" title="Blockquote" data-trix-format="blockquote" tabindex="-1">Blockquote</button>',
                 '<button type="button" class="trix-button trix-button--icon trix-button--icon-undo" title="Undo" data-trix-command="undo" tabindex="-1">Undo</button>',
                 '<button type="button" class="trix-button trix-button--icon trix-button--icon-redo" title="Redo" data-trix-command="redo" tabindex="-1">Redo</button>',
+                '</div>',
                 '</div>',
             ].join('');
 
