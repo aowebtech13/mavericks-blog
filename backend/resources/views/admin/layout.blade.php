@@ -370,7 +370,8 @@
             });
         });
     </script>
-
+</head>
+<body class="min-h-screen bg-night-900 font-grotesque text-slate-200">
     {{-- Media Picker Modal --}}
     <div id="mediaPickerModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4">
         <div class="flex max-h-[90vh] w-full max-w-5xl flex-col rounded-xl border border-white/10 bg-night-800">
@@ -478,8 +479,8 @@
     </div>
 
     <script>
-        // ---- Media Picker ----
-        var mediaPickerCallback = null;
+    // ---- Media Picker ----
+    var mediaPickerCallback = null;
         var mediaPickerCurrentPage = 1;
 
         function openMediaPicker(callback) {
@@ -689,9 +690,6 @@
             }
         });
     </script>
-    @stack('scripts')
-</head>
-<body class="min-h-screen bg-night-900 font-grotesque text-slate-200">
     <div class="flex min-h-screen flex-col lg:flex-row">
         <aside class="w-full shrink-0 bg-night-950 lg:w-64 lg:min-h-screen lg:sticky lg:top-0">
             <div class="border-b border-white/10 px-6 py-6">
@@ -786,6 +784,8 @@
             </div>
         </main>
     </div>
+
+    @stack('scripts')
 </body>
 </html>
 
